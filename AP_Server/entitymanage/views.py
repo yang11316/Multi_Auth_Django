@@ -79,23 +79,69 @@ def get_aux_data(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
         
-# 收到进程请求部分密钥请求，发送部分密钥，修改entity的alive状态，并上报as
 
+
+# 发送给process
+
+# 收到进程请求部分密钥请求，发送部分密钥，修改entity的alive状态，并上报as
 def send_partical_key(request):
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
-            json_data = json.loads(json_data).get("entity_pid")
+            json_data = json.loads(json_data).get("entity_data")
             print(json_data)
             entity_instance = EntityInfo.objects.get(entity_pid = json_data["entity_pid"])
             if entity_instance.entity_parcialkey == None:
                 return JsonResponse({"status": "error", "message": "no parcialkey"})
+            # 进程索要部分私钥的时候认为进程为alive
             entity_instance.is_alive = True
-
-            return JsonResponse({"status": "success", "entity_parcialkey": entity_instance.entity_parcialkey})
+            data = {
+                "entity_parcialkey": entity_instance.entity_parcialkey
+            }
+            return JsonResponse({"status": "success","message":data })
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
         
+
+def send_N(request):
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.laods(json_data).get("entity_data")
+            entity_instance = EntityInfo.objects.get(entity_pid = json_data["entity_pid"])
+            if entity_instance == None:
+                return JsonResponse({"status": "error", "message": "no entity_pid"})
+            data={
+                "N":utils.int2hex(acc.N)
+            }
+            return JsonResponse({"status": "success", "message": data})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+
+def send_pid(request):
+    try:
+        json_data = request.body.decode("utf-8")
+        json_data = json.laods(json_data).get("entity_data")
+        
+        entity_ip = request.META.get("REMOTE_ADDR")
+        entity_software_id = json_data["software_id"]
+        entity_instance = EntityInfo.objects.get(
+            entity_ip=entity_ip,
+            software_id=entity_software_id
+        )
+        if entity_instance == None:
+            return JsonResponse({"status": "error", "message": "no entity_pid"})
+        data = {
+            "N":utils.int2hex(acc.N),
+            "pid":entity_instance.entity_pid,
+            "acc_cur":utils.int2hex(acc.acc_cur)
+        }
+        return JsonResponse({"status": "success", "data": data})
+    except Exception as e:
+        return JsonResponse({"status": "error", "message": str(e)})
+
+
+
 
 def post_data(ip: str,port:str, payload: dict):
     header = {"content-type": "application/json"}
