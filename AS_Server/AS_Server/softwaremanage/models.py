@@ -37,8 +37,10 @@ class SoftwareLocation(models.Model):
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 
 
-class RegistSoftwareTable(models.Model):
-    rsoftware_index = models.AutoField(primary_key=True, verbose_name="rsoftware index")
+class RegisterSoftwareTable(models.Model):
+    rsoftware_id = models.CharField(
+        max_length=32, primary_key=True, verbose_name="rsoftware_id"
+    )
     rsoftware_name = models.CharField(max_length=20, verbose_name="rsoftware name")
     rsoftware_path = models.CharField(max_length=50, verbose_name="rsoftware path")
     rsoftware_version = models.CharField(
@@ -51,5 +53,21 @@ class RegistSoftwareTable(models.Model):
         verbose_name="user id",
     )
     rsoftware_desc = models.TextField(verbose_name="rsoftware descryption", null=True)
+    create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
+    update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
+
+
+class RegisterSoftwareLocationTable(models.Model):
+    rlsoftwarelocation_index = models.AutoField(
+        primary_key=True, verbose_name="rsoftware index"
+    )
+    rsoftware_id = models.ForeignKey(
+        to="softwaremanage.RegisterSoftwareTable",
+        to_field="rsoftware_id",
+        on_delete=models.CASCADE,
+        verbose_name="rsoftware id",
+    )
+    node_ip = models.CharField(max_length=15, verbose_name="node ip")
+    entity_ip = models.CharField(max_length=15, verbose_name="entity ip")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")

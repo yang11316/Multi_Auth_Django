@@ -6,6 +6,7 @@
 #include <gmpxx.h>
 #include <string>
 #include <chrono>
+#include <vector>
 
 using chrono_time = std::chrono::_V2::steady_clock::time_point;
 
