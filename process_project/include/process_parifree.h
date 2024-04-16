@@ -12,6 +12,13 @@ struct sign_payload
     std::string X, WIT, wit_hex;
     std::string sig1, sig2;
     std::string time_stamp;
+
+    std::string to_string()
+    {
+        std::stringstream ss;
+        ss << "pid=" << pid << "&msg=" << msg << "&X=" << X << "&WIT=" << WIT << "&wit_hex=" << wit_hex << "&sig1=" << sig1 << "&sig2=" << sig2 << "&time_stamp=" << time_stamp;
+        return ss.str();
+    }
 };
 
 class Process

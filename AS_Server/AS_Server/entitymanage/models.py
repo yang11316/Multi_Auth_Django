@@ -50,3 +50,15 @@ class EnityTable(models.Model):
             "update_time": self.update_time,
             "is_alive": self.is_alive,
         }
+
+
+class KGCParamterTable(models.Model):
+    kgc_id = models.CharField(primary_key=True, max_length=32, verbose_name="kgc id")
+    kgc_s = models.TextField(verbose_name="kgc s")
+    kgc_Ppub = models.TextField(verbose_name="kgc Ppub")
+    kgc_q = models.TextField(verbose_name="kgc q")
+    kgc_acc_G = models.TextField(verbose_name="kgc acc G")
+    kgc_acc_publickey = models.TextField(verbose_name="kgc acc public key")
+    kgc_acc_cur = models.TextField(verbose_name="kgc acc cur")
+    kgc_acc_serectkey0 = models.TextField(verbose_name="kgc acc serect key 0")
+    kgc_acc_serectkey1 = models.TextField(verbose_name="kgc acc serect key 1")

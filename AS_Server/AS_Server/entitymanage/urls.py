@@ -11,4 +11,5 @@ urlpatterns = [
         name="calculate-parcialkey",
     ),
     path("withdrawentity/", views.entity_withdraw, name="withdraw-entity"),
+    path("getaliveentity/", views.get_alive_entity_pid, name="get-alive-entity"),
 ]

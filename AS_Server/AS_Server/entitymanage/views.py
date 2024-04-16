@@ -2,24 +2,68 @@ from django.http import HttpResponse, JsonResponse
 from django.middleware.csrf import get_token
 from commonutils import utils
 from commonutils import accumulator
+from commonutils import kgc
 from .models import *
 from usermanage.models import UserTable
 from softwaremanage.models import SoftwareTable
 from nodemanage.models import NodeTable
 import json, datetime, os
+from fastecdsa import curve, keys
 import requests
 from django.views.decorators.csrf import csrf_exempt
 
 # Create your views here.
 acc = accumulator.Accumulator()
-if os.path.exists("accumulator.json"):
-    acc.setup_from_file("accumulator.json")
+kgc = kgc.KGC()
+# if os.path.exists("accumulator.json"):
+#     acc.setup_from_file("accumulator.json")
 # get calculated pids
+temp_params = KGCParamterTable.objects.get(kgc_id="kgc_id")
+
+acc.public_key = utils.hex2int(temp_params.kgc_acc_publickey)
+acc.G = utils.hex2int(temp_params.kgc_acc_G)
+acc.serect_key = (
+    utils.hex2int(temp_params.kgc_acc_serectkey0),
+    utils.hex2int(temp_params.kgc_acc_serectkey1),
+)
+acc.cur = utils.hex2int(temp_params.kgc_acc_cur)
+kgc.s = utils.hex2int(temp_params.kgc_s)
+kgc.Ppub = keys.get_public_key(kgc.s, kgc.ec_curve)
 
 temp_pids = EnityTable.objects.filter(entity_parcialkey__isnull=False)
 for temp in temp_pids:
     acc.pids.append(temp.entity_pid)
 print(acc.pids)
+
+
+# kgc初始化
+def kgc_paramter_init(request):
+    kgc.set_up()
+    acc.setup()
+    kgc_instance = KGCParamterTable.objects.filter(kgc_id="kgc_id")
+    kgc_instance.kgc_s = kgc.get_s()
+    kgc_instance.kgc_Ppub = kgc.get_Ppub()
+    kgc_instance.kgc_q = kgc.get_q()
+    kgc_instance.kgc_acc_G = acc.get_G()
+    kgc_instance.kgc_acc_publickey = acc.get_publickey()
+    kgc_instance.kgc_acc_cur = acc.get_acc_cur()
+    kgc_instance.kgc_acc_serectkey0 = acc.get_serect_key()
+    kgc_instance.kgc_acc_serectkey1 = acc.get_serect_key()
+    kgc_instance.save()
+    return JsonResponse({"status": "success"})
+
+
+def kgc_paramter_save():
+    kgc_instance = KGCParamterTable.objects.filter(kgc_id="kgc_id")
+    kgc_instance.kgc_s = kgc.get_s()
+    kgc_instance.kgc_Ppub = kgc.get_Ppub()
+    kgc_instance.kgc_q = kgc.get_q()
+    kgc_instance.kgc_acc_G = acc.get_G()
+    kgc_instance.kgc_acc_publickey = acc.get_publickey()
+    kgc_instance.kgc_acc_cur = acc.get_acc_cur()
+    kgc_instance.kgc_acc_serectkey0 = acc.get_serect_key()
+    kgc_instance.kgc_acc_serectkey1 = acc.get_serect_key()
+    kgc_instance.save()
 
 
 def getToken(request):
@@ -90,6 +134,7 @@ def entity_add(request):
                 "add_data": {
                     "entity_pid": entity_instance.entity_pid,
                     "software_id": json_data["software_id"],
+                    "software_hash": software_instance.software_hash,
                     "user_id": json_data["user_id"],
                     "entity_ip": entity_ip,
                 }
@@ -144,6 +189,7 @@ def entity_calculate_parcialkey(request):
                     entity_pid = temp["entity_pid"]
                     acc.add_member(entity_pid)
                 print(acc.pids)
+
                 for temp in json_data:
                     entity_pid = temp["entity_pid"]
                     temp_parcialkey: str = acc.witness_generate_by_pid(entity_pid)
@@ -166,14 +212,18 @@ def entity_calculate_parcialkey(request):
                         "/entitymanage/getparcialkey/",
                         payload=payload,
                     )
+
+                    # ap掉线情况未考虑，后面改
                     if response.json()["status"] != "success":
+                        acc.pids = []
                         return JsonResponse(
                             {"status": "error", "message": response.json()["message"]}
                         )
                     # 将信息保存到as本地数据库
                     entity_instance.save()
-                # 将acc的信息保存
-                acc.save_accumlator_parameters("accumulator.json")
+                # 将kgc的信息保存
+                # acc.save_accumlator_parameters("accumulator.json")
+                kgc_paramter_save()
                 return JsonResponse({"status": "success", "msg": "success"})
 
             else:
@@ -203,10 +253,12 @@ def entity_withdraw(request):
                     "/entitymanage/getwithdrawdata/",
                     payload=payload,
                 )
+                # ap可能掉线，后面改
                 if response.json()["status"] != "success":
                     return JsonResponse(
                         {"status": "error", "message": response.json()["message"]}
                     )
+
                 if entity_instace.entity_parcialkey != None:
                     # 如果entity计算过部分私钥，更新accumulator，并且计算aux，并发送给全体节点
                     aux = acc.remove_member(entity_pid)
@@ -247,13 +299,43 @@ def entity_withdraw(request):
                         tmp.save()
                 # 撤销删除操作完成
                 entity_instace.delete()
-                acc.save_accumlator_parameters("accumulator.json")
+                # acc.save_accumlator_parameters("accumulator.json")
+                kgc_paramter_save()
                 return JsonResponse({"status": "success", "msg": "success"})
             else:
                 return JsonResponse({"status": "error", "msg": "pid not exists"})
 
         except Exception as e:
             return JsonResponse({"status": "error", "msg": str(e)})
+
+
+# 发送公共参数
+def send_public_parameter(request):
+    if NodeTable.objects.get(node_ip=request.META.get("REMOTE_ADDR")) != None:
+        data = {
+            "kgc_id": "kgc_id",
+            "acc_publickey": acc.get_publickey,
+            "acc_cur": acc.get_acc_cur,
+            "kgc_q": kgc.get_q,
+            "kgc_Ppub": kgc.get_Ppub,
+        }
+        return JsonResponse({"status": "success", "data": data})
+
+
+# 从ap获取存活实体的pid
+@csrf_exempt
+def get_alive_entity_pid(request):
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data).get("entity_data")
+            entity_pid = json_data["entity_pid"]
+            entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
+            entity_instance.is_alive = True
+            entity_instance.save()
+            return JsonResponse({"status": "success", "msg": "success"})
+        except Exception as e:
+            print(e)
 
 
 def post_to_ap(node_ip: str, node_port: int, path: str, payload: dict):

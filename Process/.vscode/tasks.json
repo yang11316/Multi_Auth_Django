@@ -11,7 +11,6 @@
                 "-std=c++11",    //C++版本， 可不加
                 "-g",
                 "${file}",
-                "kgc_parifree.cpp",
                 "process_parifree.cpp",
                 "crypto_utils.cpp",
                 "utils.cpp",

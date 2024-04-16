@@ -157,11 +157,6 @@ namespace crypto_utils
         char *point_hex = EC_POINT_point2hex(ec_group, point, POINT_CONVERSION_COMPRESSED, nullptr);
         std::string point_hex_str(point_hex);
         OPENSSL_free(point_hex);
-        for (int i = 0; i < point_hex_str.size(); i++)
-        {
-            point_hex_str[i] = tolower(point_hex_str[i]);
-        }
-
         return point_hex_str;
     }
 
@@ -170,11 +165,6 @@ namespace crypto_utils
         char *bn_hex = BN_bn2hex(bn);
         std::string bn_hex_str(bn_hex);
         OPENSSL_free(bn_hex);
-        // 将bn_hex_str转换成小写
-        for (int i = 0; i < bn_hex_str.size(); i++)
-        {
-            bn_hex_str[i] = tolower(bn_hex_str[i]);
-        }
         return bn_hex_str;
     }
 
@@ -246,5 +236,4 @@ namespace crypto_utils
 
         return ss.str();
     }
-
 }

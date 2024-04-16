@@ -56,24 +56,14 @@ void Process::init(const std::string &entity_pid, const std::string &acc_publick
     this->is_init = true;
 }
 
-bool Process::verify_member(const mpz_class &entity_pid, const mpz_class &wit_hex, const mpz_class &h1)
+bool Process::verify_member(const mpz_class &entity_pid, const mpz_class &entity_witness, const mpz_class &h1)
 {
     mpz_class rhs;
     mpz_class acc_hex;
-    mpz_powm(rhs.get_mpz_t(), wit_hex.get_mpz_t(), entity_pid.get_mpz_t(),
+    mpz_powm(rhs.get_mpz_t(), entity_witness.get_mpz_t(), entity_pid.get_mpz_t(),
              this->acc_publickey.get_mpz_t());
     mpz_powm(acc_hex.get_mpz_t(), this->acc_cur.get_mpz_t(), h1.get_mpz_t(),
              this->acc_publickey.get_mpz_t());
-
-    std::cout << std::endl;
-    std::cout << "acc_hex: " << entity_pid.get_str(16) << std::endl;
-    std::cout << "wit_hex: " << wit_hex.get_str(16) << std::endl;
-    std::cout << "h1: " << h1.get_str(16) << std::endl;
-    std::cout << "acc_publickey: " << this->acc_publickey.get_str(16) << std::endl;
-    std::cout << "acc_cur: " << this->acc_cur.get_str(16) << std::endl;
-    std::cout << "rhs: " << rhs.get_str(16) << std::endl;
-    std::cout << "acc_hex: " << acc_hex.get_str(16) << std::endl;
-
     return acc_hex == rhs;
 }
 
@@ -92,9 +82,8 @@ bool Process::generate_full_key()
     try
     {
         // sk = (x,wit)
-        // BIGNUM *x = BN_new();
-        // BN_rand_range(x, this->q);
-        BIGNUM *x = crypto_utils::hex2bn("111");
+        BIGNUM *x = BN_new();
+        BN_rand_range(x, this->q);
         this->x = x;
 
         BIGNUM *wit = crypto_utils::hex2bn(this->acc_witness.get_str(16));
@@ -110,8 +99,6 @@ bool Process::generate_full_key()
 
         // h1(pid,WIT,X)
         BIGNUM *h1_str = crypto_utils::string2hash2bn(this->pid + crypto_utils::point2hex(this->ec_group, WIT) + crypto_utils::point2hex(this->ec_group, X));
-        std::cout << "h1_str: " << crypto_utils::point2hex(this->ec_group, WIT) + crypto_utils::point2hex(this->ec_group, X) << std::endl;
-        std::cout << "h1: " << crypto_utils::bn2hex(h1_str) << std::endl;
         mpz_class mpz_h1 = mpz_class(crypto_utils::bn2hex(h1_str), 16);
         mpz_class tmp = crypto_utils::quick_pow(this->acc_witness, mpz_h1, this->acc_publickey);
         BIGNUM *wit_hash = crypto_utils::hex2bn(tmp.get_str(16));
@@ -119,9 +106,6 @@ bool Process::generate_full_key()
         this->X = X;
         this->WIT = WIT;
         this->wit_hash = wit_hash;
-
-        std::cout << "generate WIT: " << crypto_utils::point2hex(this->ec_group, WIT) << std::endl;
-        std::cout << "generate X: " << crypto_utils::point2hex(this->ec_group, X) << std::endl;
 
         BN_free(h1_str);
         this->is_fullkey = true;
@@ -184,10 +168,6 @@ sign_payload Process::sign(const std::string &msg)
         crypto_utils::point2hex(this->ec_group, Y),
         crypto_utils::bn2hex(w),
         ti};
-
-    std::cout << "sign payload WIT: " << payload.WIT << std::endl;
-    std::cout << "sign payload X: " << payload.X << std::endl;
-
     BN_free(tmp);
     BN_free(w);
     BN_free(h4);
@@ -216,7 +196,6 @@ bool Process::verify_sign(const sign_payload &payload)
 
     // h1 = hash(pid,WIT,X)
     BIGNUM *h1 = crypto_utils::string2hash2bn(payload.pid + payload.WIT + payload.X);
-    std::cout << "verify:" << std::endl;
 
     // 首先进行累加器验证
     mpz_class entity_pid = mpz_class(payload.pid, 16);
@@ -294,7 +273,6 @@ bool Process::verify_sign(const sign_payload &payload)
 
 void Process::update_key(const std::string &aux)
 {
-    std::cout << "update key......" << std::endl;
     mpz_class aux_mpz = mpz_class(aux, 16);
     // update witness
     this->update_witness(aux_mpz);

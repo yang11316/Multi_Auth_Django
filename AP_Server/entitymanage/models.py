@@ -8,6 +8,7 @@ class EntityInfo(models.Model):
     software_id = models.CharField(
         max_length=32,  verbose_name="software_id"
     )
+    software_hash = models.CharField(max_length=32, verbose_name="software hash")
     user_id = models.CharField(max_length=32, verbose_name="user id")
     entity_parcialkey = models.TextField(verbose_name="entity parcial key", null=True)
     entity_porecessid = models.CharField(
@@ -33,4 +34,10 @@ class EntityInfo(models.Model):
            "update_time": self.update_time,
            "is_alive": self.is_alive
        }
-    
+
+class PublicParamtersTable(models.Model):
+    kgc_id = models.CharField(max_length=32, primary_key=True,verbose_name="kgc_id")
+    acc_publickey = models.TextField(verbose_name="acc_publickey")
+    acc_cur = models.TextField(verbose_name="acc_cur")
+    kgc_q = models.TextField(verbose_name="kgc_q")
+    kgc_Ppub = models.TextField(verbose_name="kgc_PpublicKey")

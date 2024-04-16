@@ -12,7 +12,6 @@
 #include <string>
 #include <iomanip>
 #include <sstream>
-#include <algorithm>
 namespace crypto_utils
 {
 
@@ -68,5 +67,4 @@ namespace crypto_utils
 
     // 求md5值
     std::string get_md5(const std::string &str);
-
 }
