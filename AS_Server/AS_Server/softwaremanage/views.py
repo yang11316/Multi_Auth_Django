@@ -32,7 +32,7 @@ def registsoftware_add(request):
             json_data = json.loads(json_data)
 
             # 获取数据
-            rsoftware_instace = RegisterTable()
+            rsoftware_instace = RegisterSoftwareTable()
             rsoftware_instace.rsoftware_id = calculate_str_hash(
                 json_data["rsoftware_name"] + json_data["rsoftware_version"]
             )
@@ -42,6 +42,8 @@ def registsoftware_add(request):
             rsoftware_instace.rsoftware_desc = json_data["rsoftware_desc"]
             user_id = json_data["user_id"]
             user_instance = UserTable.objects.get(user_id=user_id)
+            if(user_instance == None):
+                return JsonResponse({"status": "add error failed", "message": "user not exist"})
             rsoftware_instace.user_id = user_instance
             rsoftware_instace.save()
 
@@ -57,47 +59,54 @@ def registsoftware_add(request):
         except Exception as e:
             return JsonResponse({"status": "add error failed", "message": str(e)})
 
-
-def registsoftware_query(request):
+def registsoftware_query_all(request):
     if request.method == "POST":
         try:
-            json_data = request.POST.get("json_data")
-            field = json_data.get("field")
-            value = json_data.get("value")
-            query_instance = RegisterTable.objects.filter(**{field: value})
+            query_instace = RegisterSoftwareTable.objects.all()
             data = {
-                "num": query_instance.count(),
-                "data": [temp.get_data() for temp in query_instance],
+                "num": query_instace.count(),
+                "data": [temp.get_data() for temp in query_instace],
             }
             return JsonResponse({"status": "success", "message": data})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
-
-def registsoftwarelocation_query(request):
+def registsoftware_query_by_id(request):
     if request.method == "POST":
         try:
-            json_data = request.POST.get("json_data")
-            field = json_data.get("field")
-            value = json_data.get("value")
-            query_instance = RegisterSoftwareLocationTable.objects.filter(
-                **{field: value}
+            json_data = request.POST.get("query_data")
+            json_data = json.loads(json_data)
+            rsoftware_id = json_data["rsoftware_id"]
+            query_instance = RegisterSoftwareTable.objects.filter(
+                rsoftware_id=rsoftware_id
             )
-            data = {
-                "num": query_instance.count(),
-                "data": [temp.get_data() for temp in query_instance],
-            }
+            if query_instance.count() == 0:
+                return JsonResponse({"status": "error", "message": "not exist"})
+            data = query_instance.get_data()
             return JsonResponse({"status": "success", "message": data})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
+def registsoftwarelocation_query_by_id(request):
+    if request.method == "POST":
+        try:
+            json_data = request.POST.get("query_data")
+            json_data = json.loads(json_data)
+            rsoftware_id=json_data["rsoftware_id"]
+            query_instance = RegisterSoftwareLocationTable.objects.filter(rsoftware_id=rsoftware_id)
+            if query_instance.count() == 0:
+                return JsonResponse({"status": "error", "message": "rsoftware_id not exist"})
+            data = {
+                "num": query_instance.count(),
+                "data": [temp.get_data() for temp in query_instance]
+            }
+            return JsonResponse({"status": "success", "message": data})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
 
 def registsoftwarelocation_query_all(request):
     if request.method == "POST":
         try:
-            json_data = request.POST.get("json_data")
-            field = json_data.get("field")
-            value = json_data.get("value")
             query_instance = RegisterSoftwareLocationTable.objects.all()
             data = {
                 "num": query_instance.count(),
@@ -107,39 +116,52 @@ def registsoftwarelocation_query_all(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
+# registsoftware update 后续补充
+"""
+registsoftware_update:
+"""
 
+# 根据rsoftware_id 添加软件，同时根据rsoftwarelocation表中的信息部署到entity表中，后续补充
 def software_add(request):
     if request.method == "POST":
-        # json_data:  add_data:{"software_id":"","software_name":"","rsoftware_path":"","software_version":"","user_id":"","software_desc":""}
+        # json_data:  add_data:{"software_id":""}
         try:
             json_data = request.POST.get("add_data")
             json_data = json.loads(json_data)
-            rsoftware_path = json_data["rsoftware_path"]
-            if SoftwareTable.objects.get(software_id=json_data["software_id"]):
+            rsoftware_id = json_data["rsoftware_id"]
+            rsoftware_instance = RegisterSoftwareTable.objects.get(
+                rsoftware_id=rsoftware_id
+            )
+            if not rsoftware_instance:
                 return JsonResponse(
-                    {"status": "error", "message": "software_id already exist"}
+                    {"status": "error", "message": "rsoftware_id not exist"}
                 )
             software_instace = SoftwareTable()
-            software_instace.software_id = json_data["software_id"]
-            software_instace.software_version = json_data["software_version"]
-            software_instace.software_name = json_data["software_name"]
-            software_instace.software_hash = calculate_file_hash(rsoftware_path)
-            software_instace.software_desc = json_data["software_desc"]
-            user_id = json_data["user_id"]
-            user_instace = UserTable.objects.get(user_id=user_id)
-            software_instace.user_id = user_instace
+            software_instace.software_id = rsoftware_id
+            software_instace.software_version = rsoftware_instance.rsoftware_version
+            software_instace.software_name = rsoftware_instance.rsoftware_name
+            # 应该加上一个路经检测，后期加
+            software_instace.software_hash = calculate_file_hash(rsoftware_instance.rsoftware_path)
+            software_instace.software_desc = rsoftware_instance.rsoftware_desc
+            software_instace.user_id = rsoftware_instance.user_id
             software_instace.save()
+            """
+            将rsoftwarelocation表中的信息部署到entity表中，后续补充
+            
+            """
+
+
+            #删除rsoftwarelocation表和rsoftware中的信息 
+            
+
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
 
-def software_query(request):
+def software_query_all(request):
     if request.method == "POST":
         try:
-            json_data = request.POST.get("json_data")
-            field = json_data.get("field")
-            value = json_data.get("value")
-            query_instance = RegisterTable.objects.filter(**{field: value})
+            query_instance = SoftwareTable.objects.all()
             data = {
                 "num": query_instance.count(),
                 "data": [temp.get_data() for temp in query_instance],
@@ -147,3 +169,36 @@ def software_query(request):
             return JsonResponse({"status": "success", "message": data})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
+
+def software_query_by_id(request):
+    if request.method == "POST":
+        try:
+            json_data = request.POST.get("query_data")
+            json_data = json.loads(json_data)
+            software_id = json_data["software_id"]
+            query_instance = SoftwareTable.objects.get(software_id=software_id)
+            if not query_instance:
+                return JsonResponse({"status": "error", "message": "software_id not exist"})
+            data = query_instance.get_data()
+            return JsonResponse({"status": "success", "message": data})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+
+# 删除software,同时需要撤销相关entity，后续补充
+def software_delete(request):
+    if request.method == "POST":
+        try:
+            json_data = request.POST.get("delete_data")
+            json_data = json.loads(json_data)
+            software_id = json_data["software_id"]
+            software_instance = SoftwareTable.objects.get(software_id=software_id)
+            if not software_instance:
+                return JsonResponse({"status": "error", "message": "software_id not exist"})
+            """
+            撤销已部署的相关实体
+            """
+            software_instance.delete()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+

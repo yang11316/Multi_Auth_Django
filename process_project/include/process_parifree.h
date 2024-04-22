@@ -53,12 +53,6 @@ public:
 
     void init(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &entity_witness, const std::string &kgc_P, int nid = NID_secp256k1);
     void init(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid = NID_secp256k1);
-    // 密码学累加器验证
-    bool verify_member(const mpz_class &entity_pid, const mpz_class &entity_witness, const mpz_class &h1);
-    // 证据值更新
-    void update_witness(const mpz_class &aux);
-    // 累加值更新
-    void update_accumulator(const mpz_class &aux);
 
     // 生成完整密钥
     bool generate_full_key();
@@ -76,4 +70,10 @@ private:
     // 私钥
     BIGNUM *x;
     BIGNUM *wit;
+    // 密码学累加器验证
+    bool verify_member(const mpz_class &entity_pid, const mpz_class &entity_witness, const mpz_class &h1);
+    // 证据值更新
+    void update_witness(const mpz_class &aux);
+    // 累加值更新
+    void update_accumulator(const mpz_class &aux);
 };

@@ -38,6 +38,7 @@ int main()
     // p2->update_key(new_entity_pid);
 
     std::cout << crypto_utils::point2hex(p1->ec_group, p1->WIT) << std::endl;
+
     sign_payload payload = p1->sign(msg);
     if (p2->verify_sign(payload))
     {
@@ -47,25 +48,4 @@ int main()
     {
         std::cout << "msg verify failed" << std::endl;
     }
-
-    /*
-
-    payload.wit_hex = "6ba8fc8c7facd4ef3a2659ee926dc3d24fd08d1b517d8547190295c34879ded7892c9e6ac854053282b81980d9cdf2f9d5ef6019f9db723a384a02e651dadf58ea1b822b6e48ccc041d26db1845ef7cc652cebe808fc551fd94a03069511771bd68f40fc9a5ec2de1761882610101f5370cc14f09df6d5bf0dd2c07b206f5ad1";
-    payload.WIT = "02103FCB47650EDF1E68DA1A04C3E7FBA73D3C32A4ECAE5DB746A49DE5FBAC0996";
-    payload.X = "0264e1b1969f9102977691a40431b0b672055dcf31163897d996434420e6c95dc9";
-    payload.time_stamp = "1713174266887";
-    payload.sig2 = "0c1bc8118bbd17799c08078255b5e78c100943ce6a4ee22a6d9d6a8229dd05a9";
-    payload.sig1 = "0278fb5a971c97d58e8c314fed04873387cd56c7f2803b45cc3363ad7a3cdde20c";
-    payload.msg = "hello";
-    payload.pid = "f074b296668195b44f917aed12735ca7";
-
-    if (p2->verify_sign(payload))
-    {
-        std::cout << "msg verify sucessfully" << std::endl;
-    }
-    else
-    {
-        std::cout << "msg verify failed" << std::endl;
-    }
-    */
 }

@@ -35,3 +35,12 @@ class UserTable(models.Model):
     user_email = models.EmailField(verbose_name="user email", null=True)
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
+
+    def get_data(self):
+        return {
+            "user_id": self.user_id,
+            "user_name": self.user_name,
+            "user_row": self.user_row,
+            "user_phone": self.user_phone,
+            "user_email": self.user_email,
+        }

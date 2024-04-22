@@ -38,19 +38,23 @@ print(acc.pids)
 
 # kgc初始化
 def kgc_paramter_init(request):
-    kgc.set_up()
-    acc.setup()
-    kgc_instance = KGCParamterTable.objects.filter(kgc_id="kgc_id")
-    kgc_instance.kgc_s = kgc.get_s()
-    kgc_instance.kgc_Ppub = kgc.get_Ppub()
-    kgc_instance.kgc_q = kgc.get_q()
-    kgc_instance.kgc_acc_G = acc.get_G()
-    kgc_instance.kgc_acc_publickey = acc.get_publickey()
-    kgc_instance.kgc_acc_cur = acc.get_acc_cur()
-    kgc_instance.kgc_acc_serectkey0 = acc.get_serect_key()
-    kgc_instance.kgc_acc_serectkey1 = acc.get_serect_key()
-    kgc_instance.save()
-    return JsonResponse({"status": "success"})
+    if request.method == "POST":
+        try:
+            kgc.set_up()
+            acc.setup()
+            kgc_instance = KGCParamterTable.objects.filter(kgc_id="kgc_id")
+            kgc_instance.kgc_s = kgc.get_s()
+            kgc_instance.kgc_Ppub = kgc.get_Ppub()
+            kgc_instance.kgc_q = kgc.get_q()
+            kgc_instance.kgc_acc_G = acc.get_G()
+            kgc_instance.kgc_acc_publickey = acc.get_publickey()
+            kgc_instance.kgc_acc_cur = acc.get_acc_cur()
+            kgc_instance.kgc_acc_serectkey0 = acc.get_serect_key()
+            kgc_instance.kgc_acc_serectkey1 = acc.get_serect_key()
+            kgc_instance.save()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
 
 
 def kgc_paramter_save():
@@ -73,7 +77,7 @@ def getToken(request):
     )
 
 
-def entity_alive_check(request):
+def entity_query_alive(request):
     """
     return alive nodes
     """
@@ -83,7 +87,7 @@ def entity_alive_check(request):
 
             data = {
                 "num": query_instance.count(),
-                "data": [temp.get_by_isallive() for temp in query_instance],
+                "data": [temp.get_data() for temp in query_instance],
             }
             return JsonResponse({"status": "success", "message": data})
         except Exception as e:
@@ -119,7 +123,7 @@ def entity_add(request):
                 != 0
             ):
                 return JsonResponse(
-                    {"status": "error", "msg": "entity_ip and software_id is exist"}
+                    {"status": "error", "message": "entity_ip and software_id is exist"}
                 )
 
             entity_instance.entity_pid = utils.calculate_pid(sowftware_hash, entity_ip)
@@ -130,6 +134,7 @@ def entity_add(request):
             entity_instance.create_time = datetime.datetime.now()
             entity_instance.update_time = datetime.datetime.now()
 
+            # 发送对应的ap，如果部署ap围在线就退出
             payload = {
                 "add_data": {
                     "entity_pid": entity_instance.entity_pid,
@@ -158,20 +163,30 @@ def entity_add(request):
             return JsonResponse({"status": "error", "message": str(e)})
 
 
-def entity_query(request):
+@csrf_exempt
+def entity_query_pid(request):
     if request.method == "POST":
         try:
             json_data = request.POST.get("query_data")
             json_data = json.loads(json_data)
-            field = json_data.get("field")
-            value = json_data.get("value")
-            query_instance = EnityTable.objects.filter(**{field: value})
+            entity_pid = json_data["entity_pid"]
+            query_instance = EnityTable.objects.get(entity_pid=entity_pid)
+            data = query_instance.get_data()
+            return JsonResponse({"status": "success", "message": data})
+
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+
+
+def entity_query_all(request):
+    if request.method == "POST":
+        try:
+            query_instance = EnityTable.objects.all()
             data = {
                 "num": query_instance.count(),
                 "data": [temp.get_data() for temp in query_instance],
             }
             return JsonResponse({"status": "success", "message": data})
-
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
@@ -224,11 +239,11 @@ def entity_calculate_parcialkey(request):
                 # 将kgc的信息保存
                 # acc.save_accumlator_parameters("accumulator.json")
                 kgc_paramter_save()
-                return JsonResponse({"status": "success", "msg": "success"})
+                return JsonResponse({"status": "success"})
 
             else:
                 print("待完善")
-                return JsonResponse({"status": "success", "msg": "wait add"})
+                return JsonResponse({"status": "success", "message": "wait add"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
@@ -242,6 +257,7 @@ def entity_withdraw(request):
             json_data = json.loads(json_data)
             entity_pid = json_data.get("entity_pid")
             entity_instace = EnityTable.objects.get(entity_pid=entity_pid)
+
             if entity_instace != None:
                 # 向对应的ap发送删除请求
                 node_ip = entity_instace.node_id.node_ip
@@ -301,17 +317,20 @@ def entity_withdraw(request):
                 entity_instace.delete()
                 # acc.save_accumlator_parameters("accumulator.json")
                 kgc_paramter_save()
-                return JsonResponse({"status": "success", "msg": "success"})
+                return JsonResponse({"status": "success"})
             else:
-                return JsonResponse({"status": "error", "msg": "pid not exists"})
+                return JsonResponse({"status": "error", "message": "pid not exists"})
 
         except Exception as e:
-            return JsonResponse({"status": "error", "msg": str(e)})
+            return JsonResponse({"status": "error", "message": str(e)})
 
 
 # 发送公共参数
 def send_public_parameter(request):
-    if NodeTable.objects.get(node_ip=request.META.get("REMOTE_ADDR")) != None:
+    if (
+        NodeTable.objects.get(node_ip=request.META.get("REMOTE_ADDR")) != None
+        and request.method == "POST"
+    ):
         data = {
             "kgc_id": "kgc_id",
             "acc_publickey": acc.get_publickey,
@@ -319,7 +338,7 @@ def send_public_parameter(request):
             "kgc_q": kgc.get_q,
             "kgc_Ppub": kgc.get_Ppub,
         }
-        return JsonResponse({"status": "success", "data": data})
+        return JsonResponse({"status": "success", "message": data})
 
 
 # 从ap获取存活实体的pid
@@ -333,9 +352,10 @@ def get_alive_entity_pid(request):
             entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
             entity_instance.is_alive = True
             entity_instance.save()
-            return JsonResponse({"status": "success", "msg": "success"})
+            return JsonResponse({"status": "success"})
         except Exception as e:
             print(e)
+            return JsonResponse({"status": "error", "message": "error"})
 
 
 def post_to_ap(node_ip: str, node_port: int, path: str, payload: dict):

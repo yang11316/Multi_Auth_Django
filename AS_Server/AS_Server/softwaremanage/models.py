@@ -20,7 +20,18 @@ class SoftwareTable(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 
+    def get_data(self):
+        return {
+            "software_id": self.software_id,
+            "user_id": self.user_id.user_id,
+            "software_version": self.software_version,
+            "software_name": self.software_name,
+            "software_hash": self.software_hash,
+            "software_desc": self.software_desc,
+        }
 
+
+# 暂时无用
 class SoftwareLocation(models.Model):
     softwarelocation_index = models.AutoField(
         primary_key=True, verbose_name="software index"
@@ -56,6 +67,17 @@ class RegisterSoftwareTable(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 
+    def get_data(self):
+        return {
+            "rsoftware_id": self.rsoftware_id,
+            "rsoftware_name": self.rsoftware_name,
+            "rsoftware_path": self.rsoftware_path,
+            "rsoftware_version": self.rsoftware_version,
+            "user_id": self.user_id.user_id,
+            "rsoftware_desc": self.rsoftware_desc,
+            "create_time": self.create_time,
+        }
+
 
 class RegisterSoftwareLocationTable(models.Model):
     rlsoftwarelocation_index = models.AutoField(
@@ -67,7 +89,15 @@ class RegisterSoftwareLocationTable(models.Model):
         on_delete=models.CASCADE,
         verbose_name="rsoftware id",
     )
-    node_ip = models.CharField(max_length=15, verbose_name="node ip")
-    entity_ip = models.CharField(max_length=15, verbose_name="entity ip")
+    node_ip = models.IPAddressField(verbose_name="node ip")
+    entity_ip = models.IPAddressField(verbose_name="entity ip")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
+
+    def get_data(self):
+        return {
+            "rsoftware_id": self.rsoftware_id.rsoftware_id,
+            "node_ip": self.node_ip,
+            "entity_ip": self.entity_ip,
+            "create_time": self.create_time,
+        }

@@ -39,8 +39,10 @@ def get_public_paramters(request):
             pubparamter_instance.kgc_q = json_data.get("kgc_q")
             pubparamter_instance.kgc_Ppub = json_data.get("kgc_Ppub")
             pubparamter_instance.save()
+            return JsonResponse({"status": "success"})
         except Exception as e:
             print(e)
+            return JsonResponse({"status": "error", "message": str(e)})
 
 def save_kgc_paramters():
     paramters_instance = PublicParamtersTable.objects.get(kgc_id="kgc_id")
