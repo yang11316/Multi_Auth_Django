@@ -21,8 +21,6 @@ class SimpleMiddleware(MiddlewareMixin):
                     token = request.COOKIES["token"]
                 else:
                     token = request.headers["X-Token"]
-                print(request.headers)
-                print(token)
                 if UserTable.objects.get(user_id=token) == None:
                     return JsonResponse({"status": "error", "message": "not login"})
 

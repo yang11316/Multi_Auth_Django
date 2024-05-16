@@ -17,6 +17,8 @@ class NodeTable(models.Model):
             "node_ip": self.node_ip,
             "node_port": self.node_port,
             "node_desc": self.node_desc,
+            "create_time": self.create_time,
+            "update_time": self.update_time,
         }
 
 

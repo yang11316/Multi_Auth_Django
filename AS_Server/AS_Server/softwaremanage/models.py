@@ -28,6 +28,8 @@ class SoftwareTable(models.Model):
             "software_name": self.software_name,
             "software_hash": self.software_hash,
             "software_desc": self.software_desc,
+            "create_time": self.create_time,
+            "update_time": self.update_time,
         }
 
 

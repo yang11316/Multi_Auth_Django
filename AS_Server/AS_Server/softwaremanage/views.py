@@ -57,6 +57,7 @@ def registsoftware_add(request):
                 rsoftwarelocation_instace.node_ip = tmp["node_ip"]
                 rsoftwarelocation_instace.entity_ip = tmp["entity_ip"]
                 rsoftwarelocation_instace.save()
+            return JsonResponse({"status": "success"})
 
         except Exception as e:
             return JsonResponse({"status": "add error failed", "message": str(e)})
@@ -144,13 +145,18 @@ def software_update(request):
         try:
             json_data = json.loads(request.body.decode("utf-8"))
             software_id = json_data["software_id"]
-            software_name = json_data["software_name"]
-            software_version = json_data["software_version"]
-            software_desc = json_data["software_desc"]
+
             software_instance = SoftwareTable.objects.get(software_id=software_id)
-            software_instance.software_name = software_name
-            software_instance.software_version = software_version
-            software_instance.software_desc = software_desc
+            if software_instance == None:
+                return JsonResponse({"status": "error", "message": "software not exist"})
+            if "software_name" in json_data:
+                software_instance.software_name = json_data["software_name"]
+            if "software_version" in json_data:
+                software_instance.software_version = json_data["software_version"]
+
+            if "software_desc" in json_data:
+                software_instance.software_desc = json_data["software_desc"]
+
             software_instance.save()
             return JsonResponse({"status": "success"})
         except Exception as e:

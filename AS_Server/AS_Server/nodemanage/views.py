@@ -2,6 +2,7 @@ from django.http import JsonResponse
 from .models import NodeTable
 import datetime, json
 from commonutils.utils import *
+from django.utils import timezone
 
 
 # Create your views here.
@@ -21,7 +22,7 @@ def node_update(request):
             # update_instance.node_ip = node_ip
             # update_instance.node_port = node_port
             update_instance.node_desc = node_desc
-            update_instance.update_time = datetime.now()
+            update_instance.update_time = timezone.now()
             update_instance.save()
             return JsonResponse({"status": "success"})
         except Exception as e:

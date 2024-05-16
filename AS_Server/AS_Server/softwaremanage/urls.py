@@ -34,5 +34,5 @@ urlpatterns = [
         views.approve_software_register,
         name="approve_software_register",
     ),
-    path("update_software/", views.software_update, name="update_software"),
+    path("update-software/", views.software_update, name="update_software"),
 ]

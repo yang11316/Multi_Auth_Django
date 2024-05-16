@@ -32,13 +32,9 @@ def user_login(request):
                 csrf_token = get_token(request)
                 user_role = user_instance.user_row
                 if user_role == "admin":
-                    payload = {
-                        "token": user_id
-                    }
+                    payload = {"token": user_id}
                 else:
-                    payload = {
-                        "token": user_id
-                    }
+                    payload = {"token": user_id}
                 return JsonResponse({"status": "success", "data": payload})
 
         except Exception as e:
@@ -101,7 +97,8 @@ def approve_register(request):
             json_data = json.loads(request.body.decode("utf-8"))
             user_id = json_data["user_id"]
             approve_bool = json_data["is_approved"]
-            if approve_bool == "true":
+            print(approve_bool)
+            if approve_bool:
                 approve_instance = RegisterTable.objects.get(user_id=user_id)
                 user_instance = UserTable()
 
@@ -114,6 +111,7 @@ def approve_register(request):
                 user_instance.create_time = timezone.now()
                 user_instance.update_time = user_instance.create_time
                 user_instance.save()
+                approve_instance.delete()
 
             else:
                 approve_instance = RegisterTable.objects.get(user_id=user_id)
@@ -144,13 +142,20 @@ def user_delete(request):
 def user_update(request):
     if request.method == "POST":
         try:
-            json_data = request.POST.get("update_form")
-            json_data = json.loads(json_data)
+            json_data = json.loads(request.body.decode("utf-8"))
+            print(json_data)
             user_id = json_data["user_id"]
             update_instance = UserTable.objects.get(user_id=user_id)
             if update_instance != None:
-                for key, value in json_data.items():
-                    setattr(update_instance, key, value)
+                if "user_email" in json_data:
+                    update_instance.user_email = json_data["user_email"]
+                if "user_phone" in json_data:
+                    update_instance.user_phone = json_data["user_phone"]
+                if "user_name" in json_data:
+                    update_instance.user_name = json_data["user_name"]
+                if "user_row" in json_data:
+                    update_instance.user_row = json_data["user_row"]
+
                 update_instance.update_time = timezone.now()
                 update_instance.save()
                 return JsonResponse({"status": "success"})
@@ -158,6 +163,7 @@ def user_update(request):
                 return JsonResponse({"status": "error", "message": "user not exist"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
+
 
 @csrf_exempt
 def user_info(request):

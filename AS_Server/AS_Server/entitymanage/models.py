@@ -48,9 +48,10 @@ class EnityTable(models.Model):
             "node_id": self.node_id.node_id,
             "entity_parcialkey": self.entity_parcialkey,
             "entity_porecessid": self.entity_porecessid,
-            "entity_port": self.entity_port,
             "entity_ip": self.entity_ip,
             "is_alive": self.is_alive,
+            "create_time": self.create_time,
+            "update_time": self.update_time,
         }
 
 

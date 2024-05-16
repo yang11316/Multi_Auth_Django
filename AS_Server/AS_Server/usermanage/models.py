@@ -25,6 +25,16 @@ class RegisterTable(models.Model):
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 
+    def get_data(self):
+        return {
+            "user_id": self.user_id,
+            "user_name": self.user_name,
+            "user_phone": self.user_phone,
+            "user_email": self.user_email,
+            "create_time": self.create_time,
+            "update_time": self.update_time,
+        }
+
 
 class UserTable(models.Model):
     user_id = models.CharField(max_length=32, primary_key=True, verbose_name="user id")
@@ -43,4 +53,6 @@ class UserTable(models.Model):
             "user_row": self.user_row,
             "user_phone": self.user_phone,
             "user_email": self.user_email,
+            "create_time": self.create_time,
+            "update_time": self.update_time,
         }
