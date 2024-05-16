@@ -27,11 +27,15 @@ class EnityTable(models.Model):
     entity_porecessid = models.CharField(
         max_length=20, verbose_name="entity process id", null=True
     )
-    entity_port = models.IntegerField(
-        verbose_name="entity port",
+    entity_listening_port = models.IntegerField(
+        verbose_name="entity listening port",
         null=True,
     )
-    entity_ip = models.IPAddressField(verbose_name="entity ip")
+    entity_sending_port = models.IntegerField(
+        verbose_name="entity sending port",
+        null=True,
+    )
+    entity_ip = models.GenericIPAddressField(verbose_name="entity ip")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
     is_alive = models.BooleanField(default=False, verbose_name="entity alive")

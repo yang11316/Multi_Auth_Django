@@ -38,7 +38,7 @@ def hex2int(hex: str) -> int:
 
 def int2hex(num: int) -> str:
     """conver int to hex string"""
-    return hex(num)[2:].tolower()
+    return hex(num)[2:].lower()
 
 
 def get_bites(num: int, bits: int) -> str:

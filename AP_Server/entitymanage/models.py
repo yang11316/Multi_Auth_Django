@@ -14,7 +14,8 @@ class EntityInfo(models.Model):
     entity_porecessid = models.CharField(
         max_length=20, verbose_name="entity process id", null=True
     )
-    entity_port = models.IntegerField(verbose_name="entity port", null=True)
+    entity_listening_port = models.IntegerField(verbose_name="entity listening port", null=True)
+    entity_sending_port = models.IntegerField(verbose_name="entity sending port", null=True)
     entity_ip = models.CharField(max_length=15, verbose_name="entity ip")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
@@ -28,7 +29,8 @@ class EntityInfo(models.Model):
             "user_id": self.user_id,
             "entity_parcialkey": self.entity_parcialkey,
             "entity_porecessid": self.entity_porecessid,
-            "entity_port": self.entity_port,
+            "entity_listening_port": self.entity_listening_port,
+            "entity_sending_port":self.entity_sending_port,
             "entity_ip": self.entity_ip,
             "create_time": self.create_time,
            "update_time": self.update_time,

@@ -61,6 +61,12 @@ class Accumulator:
     def get_acc_cur(self):
         return int2hex(self.acc_cur)
 
+    def get_serect_key_0(self):
+        return int2hex(self.serect_key[0])
+
+    def get_serect_key_1(self):
+        return int2hex(self.serect_key[1])
+
     def add_member(self, pid: str) -> None:
         """add member to accumulator"""
         self.pids.append(pid)
@@ -69,6 +75,14 @@ class Accumulator:
         """
         wait for update
         """
+
+    def get_new_aux(self, pids: List[str]) -> str:
+        aux: int = 1
+        euler_pk: int = (self.serect_key[0] - 1) * (self.serect_key[1] - 1)
+        for tmp_pid in pids:
+            aux *= hex2int(tmp_pid)
+            aux = gmpy2.powmod(aux, 1, euler_pk)
+        return int2hex(aux)
 
     def witness_generate_by_pid(self, pid: str) -> str:
         """generate witness by pid"""
@@ -98,7 +112,6 @@ class Accumulator:
         euler_pk: int = (self.serect_key[0] - 1) * (self.serect_key[1] - 1)
         aux: int = gmpy2.invert(hex2int(pid), euler_pk)
         self.acc_cur = gmpy2.powmod(self.acc_cur, aux, self.public_key)
-
         self.pids.remove(pid)
         return int2hex(aux)
 
@@ -145,4 +158,5 @@ class Accumulator:
 if __name__ == "__main__":
     acc = Accumulator()
     acc.setup_from_file("./accumulator.json")
-    print(int2hex(acc.acc_cur))
+    pids = [7, 11111111111111111111111]
+    print(acc.get_new_aux(pids))

@@ -89,8 +89,8 @@ class RegisterSoftwareLocationTable(models.Model):
         on_delete=models.CASCADE,
         verbose_name="rsoftware id",
     )
-    node_ip = models.IPAddressField(verbose_name="node ip")
-    entity_ip = models.IPAddressField(verbose_name="entity ip")
+    node_ip = models.GenericIPAddressField(verbose_name="node ip")
+    entity_ip = models.GenericIPAddressField(verbose_name="entity ip")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 

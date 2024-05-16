@@ -2,14 +2,16 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("addentity/", views.entity_add, name="entity-add"),
-    path("getToken/", views.getToken, name="get-token"),
-    path("queryentity/", views.entity_query, name="entity-query"),
+    path("entity-query-alive/", views.entity_query_alive, name="entity-query-alive"),
+    path("add-entity/", views.entity_add, name="entity-add"),
+    # path("getToken/", views.getToken, name="get-token"),
+    path("query-entity/", views.entity_query_pid, name="entity-query"),
+    path("query-entity-all/", views.entity_query_all, name="entity-query-all"),
     path(
-        "calculateparticalkey/",
+        "calculate-particalkey/",
         views.entity_calculate_parcialkey,
         name="calculate-parcialkey",
     ),
-    path("withdrawentity/", views.entity_withdraw, name="withdraw-entity"),
-    path("getaliveentity/", views.get_alive_entity_pid, name="get-alive-entity"),
+    path("withdraw-entity/", views.entity_withdraw, name="withdraw-entity"),
+    path("get-alive-entity/", views.get_alive_entity_pid, name="get-alive-entity"),
 ]

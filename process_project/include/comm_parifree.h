@@ -181,7 +181,10 @@ void deal_httpmsg(std::string &recv_data, int client_socket)
     // 如果长度是1则为发布的aux消息
     if (params.size() == 1)
     {
+        std::cout << "get aux:" << params["aux"] << std::endl;
         process.update_key(params["aux"]);
+        std::cout << "partical key update" << std::endl;
+        std::cout << "accumulator:" << process.acc_cur.get_str(16) << std::endl;
     }
     else if (params.size() == 4)
     {
@@ -380,10 +383,10 @@ void send_sign_msg(const std::string &msg, const std::string &send_ip, const uns
     return;
 }
 
-void send_http_msg(const std::string &entity_pid, const std::string &send_ip, const unsigned short send_port, const unsigned short listening_port, const unsigned short sending_port, const std::string &local_ip)
+void send_http_msg(const int processid, const std::string &send_ip, const unsigned short send_port, const unsigned short listening_port, const unsigned short sending_port, const std::string &local_ip)
 {
 
-    std::string post_data = "entity_pid=" + entity_pid + "&port=" + std::to_string(listening_port);
+    std::string post_data = "processid=" + std::to_string(processid) + "&listening_port=" + std::to_string(listening_port) + "&sending_port=" + std::to_string(sending_port);
     std::string post_request =
         "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1\r\n"
         "Host: " +
@@ -406,4 +409,10 @@ void send_http_msg(const std::string &entity_pid, const std::string &send_ip, co
     }
 
     return;
+}
+
+// 获取当前进程PID
+pid_t get_current_pid()
+{
+    return getpid();
 }

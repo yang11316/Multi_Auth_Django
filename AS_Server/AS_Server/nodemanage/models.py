@@ -4,9 +4,10 @@ from django.db import models
 # Create your models here.
 class NodeTable(models.Model):
     node_id = models.CharField(max_length=32, primary_key=True, verbose_name="node id")
-    node_ip = models.IPAddressField(verbose_name="node ip")
+    node_ip = models.GenericIPAddressField(verbose_name="node ip")
     node_port = models.IntegerField(verbose_name="node port")
     node_desc = models.TextField(verbose_name="node descryption", null=True)
+    node_is_alive = models.BooleanField(default=False, verbose_name="node alive")
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 

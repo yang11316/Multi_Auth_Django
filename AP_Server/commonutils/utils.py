@@ -3,8 +3,7 @@ from fastecdsa import point
 from gmpy2 import next_prime
 import secrets
 import time
-
-
+import os
 def calculate_pid(file_hash: str, pc_ip: str) -> str:
     """calculate pid"""
     tmp_hash = hashes.Hash(hashes.MD5())
@@ -81,6 +80,14 @@ def get_duration(start: float, end: float) -> float:
     return end - start
 
 
+def get_process_path(pid:int):
+    try:
+        process_path=os.path.join("/proc",str(pid))
+        exe_link = os.path.realpath(os.path.join(process_path, "exe"))
+        
+        return exe_link
+    except FileExistsError:
+        return None
 if __name__ == "__main__":
     import os
 

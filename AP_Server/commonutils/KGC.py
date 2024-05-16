@@ -15,5 +15,5 @@ class KGC:
         self.kgc_q:int = None
 
     def update_witness(self,aux:str,witness:str)->str:
-        new_witness:int = gmpy2.powmod(hex2int(witness),hex2int(aux),self.N)
+        new_witness:int = gmpy2.powmod(hex2int(witness),hex2int(aux),self.acc_publickey)
         return int2hex(new_witness)

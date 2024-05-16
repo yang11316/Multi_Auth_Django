@@ -41,17 +41,20 @@ INSTALLED_APPS = [
     "nodemanage.apps.NodemanageConfig",
     "softwaremanage.apps.SoftwaremanageConfig",
     "entitymanage.apps.EntitymanageConfig",
+    "corsheaders",
     "commonutils",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
-    "django.middleware.csrf.CsrfViewMiddleware",
+    # "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "usermanage.mymiddleware.SimpleMiddleware",
 ]
 
 ROOT_URLCONF = "AS_Server.urls"
@@ -135,3 +138,48 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# 在cors域中允许的请求头
+# CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_ALL_ORIGINS = True
+# # 增加跨域忽略
+# CORS_ALLOW_CREDENTIALS = True
+# CORS_ORIGIN_ALLOW_ALL = True
+# 允许所有方法
+# CORS_ALLOW_METHODS = "*"
+# # 允许所有请求头
+# CORS_ALLOW_HEADERS = "*"
+
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:9528",  # 替换成自己的前端url
+]
+CORS_ORIGIN_WHITELIST = [
+    "https://localhost:9528",
+    "http://localhost:9528",
+]
+CORS_ALLOW_METHODS = (
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+    "VIEW",
+)
+CORS_ALLOW_HEADERS = (
+    "accept",
+    "accept-encoding",
+    "authorization",
+    "content-type",
+    "dnt",
+    "origin",
+    "user-agent",
+    "x-token",
+    "X-Token",
+    "x-csrftoken",
+    "x-requested-with",
+    "X-CSRFToken",
+)
