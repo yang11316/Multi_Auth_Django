@@ -8,8 +8,14 @@ bool verify_member(const mpz_class &entity_pid, const mpz_class &entity_witness,
 {
     mpz_class rhs;
     mpz_class acc_hex;
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
     mpz_powm(rhs.get_mpz_t(), entity_witness.get_mpz_t(), entity_pid.get_mpz_t(),
              acc_publickey.get_mpz_t());
+    gettimeofday(&end, NULL);
+    long time_use = 1000000 * (end.tv_sec - start.tv_sec) + end.tv_usec - start.tv_usec;
+    printf("time use: %ldus\n", time_use);
+
     mpz_powm(acc_hex.get_mpz_t(), acc_cur.get_mpz_t(), h1.get_mpz_t(),
              acc_publickey.get_mpz_t());
     return acc_hex == rhs;

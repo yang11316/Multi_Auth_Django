@@ -16,8 +16,8 @@ def send_csrf_token(request):
 def user_login(request):
     if request.method == "POST":
         try:
-
             # json_data = request.POST.get("login_form")
+            print(request.META.get("REMOTE_ADDR"))
             json_data = json.loads(request.body.decode("utf-8"))
             user_name = json_data["username"]
             user_pwd = json_data["password"]
@@ -29,7 +29,7 @@ def user_login(request):
                 return JsonResponse({"status": "error", "message": "密码错误"})
             else:
                 user_id = user_instance.user_id
-                csrf_token = get_token(request)
+                # csrf_token = get_token(request)
                 user_role = user_instance.user_row
                 if user_role == "admin":
                     payload = {"token": user_id}
@@ -172,6 +172,7 @@ def user_info(request):
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data)
             user_id = json_data["user_id"]
+            print(user_id)
             user_instance = UserTable.objects.get(user_id=user_id)
             if user_instance == None:
                 return JsonResponse({"status": "success", "message": "user not exist"})

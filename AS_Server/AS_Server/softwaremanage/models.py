@@ -15,7 +15,7 @@ class SoftwareTable(models.Model):
     )
     software_version = models.CharField(max_length=50, verbose_name="software version")
     software_name = models.CharField(max_length=20, verbose_name="software name")
-    software_hash = models.CharField(max_length=16, verbose_name="software hash")
+    software_hash = models.CharField(max_length=32, verbose_name="software hash")
     software_desc = models.TextField(verbose_name="software descryption", null=True)
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")

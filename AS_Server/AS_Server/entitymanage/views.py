@@ -30,6 +30,7 @@ acc.acc_cur = utils.hex2int(temp_params.kgc_acc_cur)
 kgc.s = utils.hex2int(temp_params.kgc_s)
 kgc.Ppub = keys.get_public_key(kgc.s, kgc.ec_curve)
 
+
 temp_pids = EnityTable.objects.filter(entity_parcialkey__isnull=False)
 for temp in temp_pids:
     acc.pids.append(temp.entity_pid)
@@ -145,6 +146,7 @@ def entity_add(request):
 
             entity_instance.entity_pid = utils.calculate_pid(sowftware_hash, entity_ip)
             entity_instance.software_id = software_instance
+            entity_instance.software_name = software_instance.software_name
             entity_instance.node_id = node_instance
             entity_instance.user_id = user_instance
             entity_instance.entity_ip = entity_ip
@@ -218,28 +220,30 @@ def entity_query_all(request):
 
 
 # 计算实体的部分私钥
-@csrf_exempt
 def entity_calculate_parcialkey(request):
     if request.method == "POST":
         try:
             # json_data = request.POST.get("calculate_data")
-            json_data = json.loads(json_data.body.decode("utf-8"))
-            json_data = json_data["entity_pid"]
-
+            json_data = json.loads(request.body.decode("utf-8"))
+            print(json_data)
+            entity_pid = json_data["entity_pid"]
+            print(entity_pid)
+            json_data = [entity_pid]
             # 判断json——data是否存在于数据库中，如果都存在于就执行，否则返回错误
-            for entity_pid in json_data:
-                if EnityTable.objects.filter(entity_pid=entity_pid).count() == 0:
-                    return JsonResponse(
-                        {"status": "error", "message": "entity_pid is not exist"}
-                    )
+            if EnityTable.objects.filter(entity_pid=entity_pid).count() == 0:
+                return JsonResponse(
+                    {"status": "error", "message": "entity_pid is not exist"}
+                )
 
             if len(acc.pids) == 0:
+
                 # 系统内没有计算的证据值
                 for entity_pid in json_data:
                     # 先加入到pids中，再分别计算witness，避免witness重复更新
                     acc.add_member(entity_pid)
                 print(acc.pids)
 
+                # acc.add_member(entity_pid)
                 not_send_list = []
                 for entity_pid in json_data:
                     temp_parcialkey: str = acc.witness_generate_by_pid(entity_pid)
@@ -282,7 +286,7 @@ def entity_calculate_parcialkey(request):
                     entity_instance.save()
                 # 将kgc的信息保存
                 kgc_paramter_save()
-
+                print("test")
                 if len(not_send_list) != 0:
                     return JsonResponse(
                         {"status": "sucess", "message": "{}".format(not_send_list)}
@@ -290,9 +294,20 @@ def entity_calculate_parcialkey(request):
                 return JsonResponse({"status": "success"})
 
             else:
+
                 for entity_pid in json_data:
                     # 先加入到pids中，再分别计算witness，避免witness重复更新
+                    if entity_pid in acc.pids:
+                        return JsonResponse(
+                            {
+                                "status": "error",
+                                "message": "entity_pid is already exist",
+                            }
+                        )
+
                     acc.add_member(entity_pid)
+
+                # acc.add_member(entity_pid)
                 print(acc.pids)
                 print(json_data)
                 # 计算聚合后的aux
@@ -371,6 +386,7 @@ def entity_calculate_parcialkey(request):
                             {"status": "error", "message": response.json()["message"]}
                         )
                     entity_instance.save()
+
                 kgc_paramter_save()
                 if len(not_send_list) != 0:
                     return JsonResponse(
@@ -459,6 +475,7 @@ def entity_withdraw(request):
                 return JsonResponse({"status": "error", "message": "pid not exists"})
 
         except Exception as e:
+            print(e)
             return JsonResponse({"status": "error", "message": str(e)})
 
 
@@ -470,10 +487,10 @@ def send_public_parameter(request):
             return JsonResponse({"status": "error", "message": "node not exists"})
         data = {
             "kgc_id": "kgc_id",
-            "acc_publickey": acc.get_publickey,
-            "acc_cur": acc.get_acc_cur,
-            "kgc_q": kgc.get_q,
-            "kgc_Ppub": kgc.get_Ppub,
+            "acc_publickey": acc.get_publickey(),
+            "acc_cur": acc.get_acc_cur(),
+            "kgc_q": kgc.get_q(),
+            "kgc_Ppub": kgc.get_Ppub(),
         }
         node_entity.node_is_alive = True
         node_entity.save()
@@ -504,7 +521,7 @@ def get_alive_entity_pid(request):
 
 
 def post_to_ap(node_ip: str, node_port: int, path: str, payload: dict):
-    header = {"content-type": "application/json"}
+    header = {"content-type": "application/json", "Connection": "close"}
     url = "http://" + node_ip + ":" + str(node_port) + path
     data = json.dumps(payload)
     try:

@@ -14,13 +14,14 @@ class SimpleMiddleware(MiddlewareMixin):
         if (
             request.path != "/usermanage/user-login/"
             and request.path != "/usermanage/user-register/"
-            and request.path != "/entitymanage/getaliveentity/"
+            and request.path != "/entitymanage/get-alive-entity/"
         ):
             try:
                 if "token" in request.COOKIES:
                     token = request.COOKIES["token"]
                 else:
                     token = request.headers["X-Token"]
+
                 if UserTable.objects.get(user_id=token) == None:
                     return JsonResponse({"status": "error", "message": "not login"})
 

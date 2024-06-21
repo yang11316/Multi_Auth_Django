@@ -27,4 +27,5 @@ class KGC:
 if __name__ == "__main__":
     kgc = KGC()
     kgc.set_up()
+    print(kgc.get_s())
     print(kgc.get_Ppub())

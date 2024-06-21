@@ -141,6 +141,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # 在cors域中允许的请求头
 # CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ALLOW_CREDENTIALS = True
 # CORS_ALLOW_ALL_ORIGINS = True
 # # 增加跨域忽略
 # CORS_ALLOW_CREDENTIALS = True
@@ -153,12 +154,15 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ALLOW_CREDENTIALS = True
 
+
 CSRF_TRUSTED_ORIGINS = [
     "http://localhost:9528",  # 替换成自己的前端url
 ]
 CORS_ORIGIN_WHITELIST = [
     "https://localhost:9528",
     "http://localhost:9528",
+    "http://192.168.3.17:9528",
+    "https://192.168.3.17:9528",
 ]
 CORS_ALLOW_METHODS = (
     "DELETE",

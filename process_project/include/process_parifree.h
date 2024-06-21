@@ -5,6 +5,7 @@
 #pragma once
 #include "crypto_utils.h"
 #include <iostream>
+#include <sys/time.h>
 struct sign_payload
 {
     std::string pid;
@@ -40,7 +41,6 @@ public:
     EC_POINT *X;
     EC_POINT *WIT;
     BIGNUM *wit_hash;
-
     // 判断是否初始化
     bool is_init = false;
     // 判断是否生成完整公私钥

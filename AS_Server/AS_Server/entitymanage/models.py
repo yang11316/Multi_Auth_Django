@@ -5,6 +5,7 @@ from django.db import models
 class EnityTable(models.Model):
     entity_index = models.AutoField(primary_key=True, verbose_name="entity index")
     entity_pid = models.CharField(max_length=32, verbose_name="entity pid")
+    software_name = models.CharField(max_length=20, verbose_name="software name")
     software_id = models.ForeignKey(
         to="softwaremanage.SoftwareTable",
         to_field="software_id",
@@ -44,6 +45,7 @@ class EnityTable(models.Model):
         return {
             "entity_pid": self.entity_pid,
             "software_id": self.software_id.software_id,
+            "software_name": self.software_name,
             "user_id": self.user_id.user_id,
             "node_id": self.node_id.node_id,
             "entity_parcialkey": self.entity_parcialkey,

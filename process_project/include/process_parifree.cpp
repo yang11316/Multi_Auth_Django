@@ -62,9 +62,12 @@ bool Process::verify_member(const mpz_class &entity_pid, const mpz_class &entity
     mpz_class acc_hex;
     mpz_powm(rhs.get_mpz_t(), entity_witness.get_mpz_t(), entity_pid.get_mpz_t(),
              this->acc_publickey.get_mpz_t());
+
     mpz_powm(acc_hex.get_mpz_t(), this->acc_cur.get_mpz_t(), h1.get_mpz_t(),
              this->acc_publickey.get_mpz_t());
-    return acc_hex == rhs;
+    std::cout << "acc:" << this->acc_cur.get_str(16) << std::endl;
+
+        return acc_hex == rhs;
 }
 
 void Process::update_witness(const mpz_class &aux)
@@ -120,6 +123,9 @@ bool Process::generate_full_key()
 
 sign_payload Process::sign(const std::string &msg)
 {
+    struct timeval begtime, endtime;
+    gettimeofday(&begtime, NULL);
+
     BN_CTX *bn_ctx = BN_CTX_new();
 
     // timestamp ti
@@ -176,11 +182,17 @@ sign_payload Process::sign(const std::string &msg)
     BN_free(y);
     EC_POINT_free(Y);
     BN_CTX_free(bn_ctx);
+    gettimeofday(&endtime, NULL);
+
+    long timeuse = 1000000 * (endtime.tv_sec - begtime.tv_sec) + endtime.tv_usec - begtime.tv_usec;
+    printf("sign time: %ld us\n", timeuse);
     return payload;
 }
 
 bool Process::verify_sign(const sign_payload &payload)
 {
+    struct timeval begtime, acc_time, cls_time;
+
     BN_CTX *bn_ctx = BN_CTX_new();
     // u = hash(m,PID,PK,t,Y)
     std::string u_str = payload.msg + payload.pid + payload.X + payload.WIT + payload.wit_hex + payload.time_stamp + payload.sig1;
@@ -202,6 +214,8 @@ bool Process::verify_sign(const sign_payload &payload)
     mpz_class h1_mpz = mpz_class(crypto_utils::bn2hex(h1), 16);
     mpz_class wit_hex = mpz_class(payload.wit_hex, 16);
 
+    // 累加器验证
+    gettimeofday(&begtime, NULL);
     if (!this->verify_member(entity_pid, wit_hex, h1_mpz))
     {
         std::cout << "[INVALID]accumulator wrong" << std::endl;
@@ -212,13 +226,13 @@ bool Process::verify_sign(const sign_payload &payload)
         BN_CTX_free(bn_ctx);
         return false;
     }
-
+    gettimeofday(&acc_time, NULL);
     // 进行签名验证
     // w*P == u*Y + h3*X + h4*WIT
-
     // w*P
     BIGNUM *w = crypto_utils::hex2bn(payload.sig2);
     EC_POINT *lhs = EC_POINT_new(this->ec_group);
+
     EC_POINT_mul(this->ec_group, lhs, w, nullptr, nullptr, bn_ctx);
 
     // u*Y + h3*X + h4*WIT
@@ -227,13 +241,22 @@ bool Process::verify_sign(const sign_payload &payload)
     EC_POINT *Y = crypto_utils::hex2point(this->ec_group, payload.sig1);
     EC_POINT *X = crypto_utils::hex2point(this->ec_group, payload.X);
     EC_POINT *WIT = crypto_utils::hex2point(this->ec_group, payload.WIT);
-
     EC_POINT_mul(this->ec_group, rhs, nullptr, Y, u, bn_ctx);
     EC_POINT_mul(this->ec_group, tmp_rhs, nullptr, X, h3, bn_ctx);
+
     // u*Y + h3*X
+
     EC_POINT_add(this->ec_group, rhs, rhs, tmp_rhs, bn_ctx);
     EC_POINT_mul(this->ec_group, tmp_rhs, nullptr, WIT, h4, bn_ctx);
     EC_POINT_add(this->ec_group, rhs, rhs, tmp_rhs, bn_ctx);
+
+    gettimeofday(&cls_time, NULL);
+    // long acc_timeuse = 1000000 * (acc_time.tv_sec - begtime.tv_sec) + acc_time.tv_usec - begtime.tv_usec;
+    // long cls_timeuse = 1000000 * (cls_time.tv_sec - acc_time.tv_sec) + cls_time.tv_usec - acc_time.tv_usec;
+    long verify_timeuse = 1000000 * (cls_time.tv_sec - begtime.tv_sec) + cls_time.tv_usec - begtime.tv_usec;
+    // printf("acc verify time: %ld us\n", acc_timeuse);
+    // printf("cls verify time: %ld us\n", cls_timeuse);
+    printf("verify time: %ld us\n", verify_timeuse);
 
     if (EC_POINT_cmp(this->ec_group, lhs, rhs, nullptr) != 0)
     {
@@ -273,6 +296,10 @@ bool Process::verify_sign(const sign_payload &payload)
 
 void Process::update_key(const std::string &aux)
 {
+
+    struct timeval begtime, endtime;
+    gettimeofday(&begtime, NULL);
+
     mpz_class aux_mpz = mpz_class(aux, 16);
     // update witness
     this->update_witness(aux_mpz);
@@ -300,4 +327,8 @@ void Process::update_key(const std::string &aux)
     BN_free(this->wit_hash);
     this->WIT = WIT_new;
     this->wit_hash = wit_hash_new;
+
+    gettimeofday(&endtime, NULL);
+    long timeuse = 1000000 * (endtime.tv_sec - begtime.tv_sec) + endtime.tv_usec - begtime.tv_usec;
+    printf("update time: %ld ms\n", timeuse / 1000);
 }

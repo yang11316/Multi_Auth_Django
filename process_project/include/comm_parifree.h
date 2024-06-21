@@ -149,7 +149,7 @@ bool socket_send(const std::string &message, const std::string &send_ip, const u
         std::cerr << "Send failed" << std::endl;
         return false;
     }
-    std::cout << strlen(message.data()) << std::endl;
+    // std::cout << strlen(message.data()) << std::endl;
     std::cout << "Message sent" << std::endl;
 
     // 读取服务器返回的数据
@@ -170,18 +170,15 @@ void deal_httpmsg(std::string &recv_data, int client_socket)
     std::unordered_map<std::string, std::string>
         params = parse_form_data(recv_data);
     // 输出解析结果
-    std::cout << "Received HTTP parameters:" << std::endl;
+    std::cout << "====================Received AP Message====================" << std::endl;
     std::cout << params.size() << " parameters:" << std::endl;
     for (const auto &pair : params)
     {
         std::cout << pair.first << ": " << pair.second << std::endl;
     }
-    std::cout << "receive end" << std::endl;
-
     // 如果长度是1则为发布的aux消息
     if (params.size() == 1)
     {
-        std::cout << "get aux:" << params["aux"] << std::endl;
         process.update_key(params["aux"]);
         std::cout << "partical key update" << std::endl;
         std::cout << "accumulator:" << process.acc_cur.get_str(16) << std::endl;
@@ -225,6 +222,7 @@ void deal_httpmsg(std::string &recv_data, int client_socket)
             process.generate_full_key();
         }
     }
+    std::cout << "===========================================================" << std::endl;
     const char *response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n";
     send(client_socket, response, strlen(response), 0);
 }
@@ -235,11 +233,14 @@ void deal_socketmsg(std::string &recv_data, int client_socket)
         // 输出来端信息
         struct sockaddr_in peer_addr;
         socklen_t peer_addr_len = sizeof(peer_addr);
+        std::cout << std::endl;
+        std::cout << "====================Received AE Message====================" << std::endl;
         if (getpeername(client_socket, (struct sockaddr *)&peer_addr, &peer_addr_len) == 0)
         {
             char peer_ip[INET_ADDRSTRLEN];
             inet_ntop(AF_INET, &peer_addr.sin_addr, peer_ip, INET_ADDRSTRLEN);
             int peer_port = ntohs(peer_addr.sin_port);
+
             std::cout << "Connection from: " << peer_ip << ":" << peer_port << std::endl;
         }
 
@@ -259,19 +260,19 @@ void deal_socketmsg(std::string &recv_data, int client_socket)
         recv_payload.wit_hex = payload_map["wit_hex"];
         recv_payload.X = payload_map["X"];
 
-        std::string msg_str = "pid=" + recv_payload.pid + "&msg=" + recv_payload.msg + "&sig1=" + recv_payload.sig1 + "&sig2=" + recv_payload.sig2 + "&time_stamp=" + recv_payload.time_stamp + "&WIT=" + recv_payload.WIT + "&wit_hex=" + recv_payload.wit_hex + "&X=" + recv_payload.X;
-        std::cout << msg_str << std::endl;
         if (process.verify_sign(recv_payload))
         {
             std::cout << "verify success, message: " << recv_payload.msg << std::endl;
-            const char *message = "success";
+            const char *message = "verify success";
             send(client_socket, message, strlen(message), 0);
         }
         else
         {
-            const char *message = "fail";
+            const char *message = "verify failed";
             send(client_socket, message, strlen(message), 0);
         }
+
+        std::cout << "=======================================================" << std::endl;
     }
     else
     {
@@ -293,7 +294,9 @@ void handle_client(int client_socket)
 
     std::string recv_data(buffer.data(), bytes_received);
     // 输出接收到的数据
-    std::cout << "Received data from client: " << recv_data << std::endl;
+    // std::cout << "====================Received data from client====================" << std::endl;
+    // std::cout << recv_data << std::endl;
+    // std::cout << "================================================================" << std::endl;
 
     if (recv_data.find("POST /") == 0)
     {
@@ -359,10 +362,12 @@ void linstening_connection(int listening_port)
 
 void send_sign_msg(const std::string &msg, const std::string &send_ip, const unsigned short send_port, const unsigned short sending_port)
 {
-    std::cout << process.acc_publickey.get_str(16) << std::endl;
+    // std::cout << process.acc_publickey.get_str(16) << std::endl;
+    std::cout << std::endl;
+    std::cout << "====================Send Sign Message====================" << std::endl;
     if (!process.is_fullkey)
     {
-        std::cout << "not generate full key" << std::endl;
+        std::cout << "error: not generate full key" << std::endl;
         return;
     }
     // 对消息进行签名
@@ -373,19 +378,20 @@ void send_sign_msg(const std::string &msg, const std::string &send_ip, const uns
     if (socket_send(message, send_ip, send_port, sending_port))
     {
         std::cout << "send message: " << message << std::endl;
-        std::cout << "send success" << std::endl;
+        std::cout << "send sign message success" << std::endl;
     }
     else
     {
         std::cout << "send fail" << std::endl;
     }
-
+    std::cout << "=======================================================" << std::endl;
     return;
 }
 
 void send_http_msg(const int processid, const std::string &send_ip, const unsigned short send_port, const unsigned short listening_port, const unsigned short sending_port, const std::string &local_ip)
 {
-
+    std::cout << std::endl;
+    std::cout << "====================Send HTTP Message====================" << std::endl;
     std::string post_data = "processid=" + std::to_string(processid) + "&listening_port=" + std::to_string(listening_port) + "&sending_port=" + std::to_string(sending_port);
     std::string post_request =
         "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1\r\n"
@@ -397,17 +403,17 @@ void send_http_msg(const int processid, const std::string &send_ip, const unsign
         std::to_string(post_data.size()) + "\r\n"
                                            "\r\n" +
         post_data;
-    std::cout << post_request << std::endl;
+    // std::cout << post_request << std::endl;
     const char *message = post_request.c_str();
     if (socket_send(message, send_ip, send_port, sending_port))
     {
-        std::cout << "http send success" << std::endl;
+        std::cout << "parameters request http message send success" << std::endl;
     }
     else
     {
-        std::cout << "http send fail" << std::endl;
+        std::cout << "parameters request http message send fail" << std::endl;
     }
-
+    std::cout << "=======================================================" << std::endl;
     return;
 }
 

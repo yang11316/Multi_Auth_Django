@@ -3,8 +3,11 @@ from django.shortcuts import render
 from commonutils.utils import *
 from usermanage.models import *
 from .models import *
+from commonutils import utils
 from entitymanage.models import EnityTable
 from nodemanage.models import NodeTable
+from django.utils import timezone
+import requests
 import json
 
 
@@ -32,14 +35,15 @@ def registsoftware_add(request):
         try:
             # json_data = request.POST.get("add_data")
             json_data = json.loads(request.body.decode("utf-8"))
-
             # 获取数据
             rsoftware_instace = RegisterSoftwareTable()
             rsoftware_instace.rsoftware_id = calculate_str_hash(
                 json_data["rsoftware_name"] + json_data["rsoftware_version"]
             )
             rsoftware_instace.rsoftware_name = json_data["rsoftware_name"]
-            rsoftware_instace.rsoftware_path = json_data["rsoftware_path"]
+            rsoftware_instace.rsoftware_path = (
+                "/home/default/file_upload/" + json_data["rsoftware_name"]
+            )
             rsoftware_instace.rsoftware_version = json_data["rsoftware_version"]
             rsoftware_instace.rsoftware_desc = json_data["rsoftware_desc"]
             user_id = json_data["user_id"]
@@ -47,19 +51,25 @@ def registsoftware_add(request):
             if(user_instance == None):
                 return JsonResponse({"status": "add error failed", "message": "user not exist"})
             rsoftware_instace.user_id = user_instance
+            rsoftware_instace.create_time = timezone.now()
             rsoftware_instace.save()
 
             # 保存注册的location信息
             location_data = json_data["location_data"]
             for tmp in location_data:
+                if(RegisterSoftwareLocationTable.objects.filter(entity_ip = tmp["entity_ip"],rsoftware_id = rsoftware_instace.rsoftware_id).exists()):
+                    continue
                 rsoftwarelocation_instace = RegisterSoftwareLocationTable()
                 rsoftwarelocation_instace.rsoftware_id = rsoftware_instace
-                rsoftwarelocation_instace.node_ip = tmp["node_ip"]
+                # rsoftwarelocation_instace.node_ip = tmp["node_ip"]
+                rsoftwarelocation_instace.node_ip = tmp["entity_ip"]
                 rsoftwarelocation_instace.entity_ip = tmp["entity_ip"]
+                rsoftwarelocation_instace.create_time = timezone.now()
                 rsoftwarelocation_instace.save()
             return JsonResponse({"status": "success"})
 
         except Exception as e:
+            print(e)
             return JsonResponse({"status": "add error failed", "message": str(e)})
 
 def registsoftware_query_all(request):
@@ -266,33 +276,69 @@ def approve_software_register(request):
         try:
             json_data = json.loads(request.body.decode("utf-8"))
             rsoftware_id = json_data["rsoftware_id"]
-            is_approve = json_data["is_approve"]
-            if is_approve == "true":
+            is_approve = json_data["is_approved"]
+            if is_approve:
                 rsoftware_instance = RegisterSoftwareTable.objects.get(rsoftware_id=rsoftware_id)
                 software_instance = SoftwareTable()
                 software_instance.software_id = rsoftware_instance.rsoftware_id
                 software_instance.software_version = rsoftware_instance.rsoftware_version
                 software_instance.software_name = rsoftware_instance.rsoftware_name
                 # 应该加上一个路经检测，后期加
+
                 software_instance.software_hash = calculate_file_hash(
                     rsoftware_instance.rsoftware_path
                 )
                 software_instance.software_desc = rsoftware_instance.rsoftware_desc
                 software_instance.user_id = rsoftware_instance.user_id
-                software_instance.save()
+
                 """
                 将rsoftwarelocation表中的信息部署到entity表中            
                 """
                 for rlsoftwarelocation_instance in RegisterSoftwareLocationTable.objects.filter(rsoftware_id=rsoftware_id):
                     entity_instance = EnityTable()
+                    node_instace = NodeTable.objects.get(
+                        node_ip=rlsoftwarelocation_instance.node_ip
+                    )
                     entity_instance.software_id = software_instance
                     entity_instance.user_id = software_instance.user_id
                     entity_instance.node_id = NodeTable.objects.get(
                         node_ip=rlsoftwarelocation_instance.node_ip
                     )
+                    entity_instance.software_name = software_instance.software_name
                     entity_instance.entity_ip = rlsoftwarelocation_instance.entity_ip
-                    entity_instance.save()
+                    entity_instance.entity_pid = utils.calculate_pid(
+                        software_instance.software_hash,
+                        rlsoftwarelocation_instance.entity_ip,
+                    )
+                    entity_instance.create_time = timezone.now()
+                    entity_instance.update_time = timezone.now()
+                    # 发送对应的ap，如果部署ap围在线就退出
+                    payload = {
+                        "add_data": {
+                            "entity_pid": entity_instance.entity_pid,
+                            "software_id": software_instance.software_id,
+                            "software_hash": software_instance.software_hash,
+                            "user_id": software_instance.user_id.user_id,
+                            "entity_ip": rlsoftwarelocation_instance.entity_ip,
+                        }
+                    }
+                    response = post_to_ap(
+                        node_instace.node_ip,
+                        node_instace.node_port,
+                        "/entitymanage/addentity/",
+                        payload=payload,
+                    )
+                    # print(response.json())
+                    if response.json()["status"] == "success":
+                        software_instance.save()
+                        entity_instance.save()
+                    else:
+                        return JsonResponse(
+                            {"status": "error", "message": response.json()["message"]}
+                        )
+
                 # 删除rsoftwarelocation表和rsoftware中的信息
+
                 rsoftwarelocation_instace = RegisterSoftwareLocationTable.objects.filter(
                     rsoftware_id=rsoftware_id
                 )
@@ -306,6 +352,23 @@ def approve_software_register(request):
                     rlsoftwarelocation_instance.delete()
 
                 rsoftware_instance.delete()
-                return JsonResponse({"status": "success"})
+            return JsonResponse({"status": "success"})
         except Exception as e:
+            print(e)
             return JsonResponse({"status": "error", "message": str(e)})
+
+
+def post_to_ap(node_ip: str, node_port: int, path: str, payload: dict):
+    header = {"content-type": "application/json", "Connection": "close"}
+    url = "http://" + node_ip + ":" + str(node_port) + path
+    data = json.dumps(payload)
+    try:
+        res = requests.post(url, data=data, headers=header)
+        print(res.status_code)
+        return res
+    except Exception as e:
+        node_instance = NodeTable.objects.get(node_ip=node_ip)
+        node_instance.node_is_alive = False
+        node_instance.save()
+        print(e)
+        return None

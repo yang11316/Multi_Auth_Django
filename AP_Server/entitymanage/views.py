@@ -59,7 +59,7 @@ def get_entity_data(request):
         try:
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("add_data")
-            print(json_data)
+            print("get entity data:"+json_data["entity_pid"])
             EntityInfo.objects.create(
                 entity_pid=json_data["entity_pid"],
                 software_id=json_data["software_id"],
@@ -97,7 +97,7 @@ def get_withdraw_data(request):
         try:
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("withdraw_data")
-            print(json_data["entity_pid"])
+            print("withdrew entity pid:"+json_data["entity_pid"])
             entity_instance = EntityInfo.objects.get(entity_pid = json_data["entity_pid"])
             entity_instance.delete()
             return JsonResponse({"status": "success"})
@@ -111,7 +111,7 @@ def get_aux_data(request):
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("aux_data")
             aux_data = json_data["aux"]
-            print(aux_data)
+            print("get aux data:"+aux_data)
             # 更新本地acc_cur
             kgc.acc_cur=utils.hex2int(kgc.update_witness(aux_data,utils.int2hex(kgc.acc_cur)))
             save_kgc_paramters()
@@ -122,6 +122,7 @@ def get_aux_data(request):
                 entity_instance.save()
             # 将aux分别发送给alive进程
             for entity in EntityInfo.objects.filter(is_alive=True):
+                
                 entity_ip = entity.entity_ip
                 entity_listening_port = str(entity.entity_listening_port)
                 data={"aux":aux_data}
@@ -147,12 +148,12 @@ def send_particalkey_and_pid(request):
             entity_path = utils.get_process_path(int(entity_processid))
             entity_hash = utils.calculate_file_hash(entity_path)
             print(process_ip,entity_listening_port,entity_sending_port,entity_processid,entity_path,entity_hash)
-            entity_instance = EntityInfo.objects.get(software_hash=entity_hash)
+            entity_instance = EntityInfo.objects.filter(software_hash=entity_hash)[0]
 
             # 不存在注册的进程就返回空的http请求
             if entity_instance == None :    
                 print("not entity")            
-                return HttpResponse("not entity")
+                return HttpResponse("error")
             # 发送pid和公共参数
             if entity_instance.entity_parcialkey == None:
                 print("send without parcialkey")
@@ -185,7 +186,7 @@ def send_particalkey_and_pid(request):
                     "entity_processid":entity_instance.entity_porecessid
                     }
                 }
-                post_data(AS_ip,AS_port,"/entitymanage/getaliveentity/",post_as_data)
+                post_data(AS_ip,AS_port,"/entitymanage/get-alive-entity/",post_as_data)
                 entity_instance.is_alive = True
                 entity_instance.entity_porecessid = entity_processid
                 entity_instance.entity_listening_port = entity_listening_port
@@ -197,13 +198,13 @@ def send_particalkey_and_pid(request):
             time.sleep(1)
             return HttpResponse("ok")
         except Exception as e:
-            print("error")
+            print("hash error")
             return HttpResponse("error")
         
         
 def post_data(ip: str,port:int, path: str,payload: dict):
     try:
-        header = {"content-type": "application/json"}
+        header = {"content-type": "application/json","Connection":"close"}
         data = json.dumps(payload)
         url = "http://"+ip+":"+str(port)+path
         print(url)
@@ -214,9 +215,10 @@ def post_data(ip: str,port:int, path: str,payload: dict):
 
 def post_data_to_process(ip: str,port:str, path: str,payload: dict):
     try:
+        header = {"Connection":"close"}
         url = "http://"+ip+":"+port+path
         print(url)
-        res=requests.post(url, data=payload)
+        res=requests.post(url, data=payload,headers=header)
         print(res.text)
     except Exception as e:
         print(e)

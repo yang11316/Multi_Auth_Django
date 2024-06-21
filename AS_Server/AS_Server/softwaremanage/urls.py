@@ -30,7 +30,7 @@ urlpatterns = [
     ),
     path("software-delete/", views.software_delete, name="software_delete"),
     path(
-        "approve-software-register",
+        "approve-software-register/",
         views.approve_software_register,
         name="approve_software_register",
     ),

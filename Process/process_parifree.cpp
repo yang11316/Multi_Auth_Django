@@ -66,7 +66,7 @@ bool Process::verify_member(const mpz_class &entity_pid, const mpz_class &wit_he
              this->acc_publickey.get_mpz_t());
 
     std::cout << std::endl;
-    std::cout << "acc_hex: " << entity_pid.get_str(16) << std::endl;
+    std::cout << "acc_hex: " << acc_hex.get_str(16) << std::endl;
     std::cout << "wit_hex: " << wit_hex.get_str(16) << std::endl;
     std::cout << "h1: " << h1.get_str(16) << std::endl;
     std::cout << "acc_publickey: " << this->acc_publickey.get_str(16) << std::endl;
@@ -158,7 +158,12 @@ sign_payload Process::sign(const std::string &msg)
 
     // h4 = hash(m,pid,Pub,t)
     std::string h4_str = msg + this->pid + crypto_utils::point2hex(this->ec_group, this->Pub) + ti;
+    struct timeval hash_start, hash_end;
+    gettimeofday(&hash_start, NULL);
     BIGNUM *h4 = crypto_utils::string2hash2bn(h4_str);
+    gettimeofday(&hash_end, NULL);
+    long hash_time = 1000000 * (hash_end.tv_sec - hash_start.tv_sec) + hash_end.tv_usec - hash_start.tv_usec;
+    printf("hash time use: %ldus\n", hash_time);
 
     // w = u*y + h3*x + h4*wit
 
@@ -166,7 +171,13 @@ sign_payload Process::sign(const std::string &msg)
     BIGNUM *tmp = BN_new();
 
     // u*y
+    struct timeval start, end;
+    gettimeofday(&start, NULL);
     BN_mod_mul(tmp, u, y, this->q, bn_ctx);
+    gettimeofday(&end, NULL);
+    long time_use = 1000000 * (end.tv_sec - start.tv_sec) + end.tv_usec - start.tv_usec;
+    printf("mod mul time use: %ld\n", time_use);
+
     // h3*x
     BN_mod_mul(w, h3, this->x, this->q, bn_ctx);
     // u*y + h3*x
