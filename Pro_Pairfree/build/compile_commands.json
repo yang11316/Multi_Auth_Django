@@ -1,0 +1,42 @@
+[
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/cls_lib.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/crypto_utils.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/data_buffer.cpp.o -c /home/default/Mycode/Pro_Pairfree/data_buffer.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/data_buffer.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/process_parifree.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/server_socket.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/tcp_socket.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/cls.dir/utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/utils.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/utils.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process.dir/test.cpp.o -c /home/default/Mycode/Pro_Pairfree/test.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/test.cpp"
+}
+]

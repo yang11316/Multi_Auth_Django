@@ -75,5 +75,6 @@
         "socket.h": "c",
         "epoll.h": "c"
     },
-    "C_Cpp.errorSquiggles": "enabled"
+    "C_Cpp.errorSquiggles": "enabled",
+    "cmake.sourceDirectory": "/home/default/Mycode/process_project/include"
 }

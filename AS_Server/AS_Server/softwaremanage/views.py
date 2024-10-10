@@ -284,7 +284,6 @@ def approve_software_register(request):
                 software_instance.software_version = rsoftware_instance.rsoftware_version
                 software_instance.software_name = rsoftware_instance.rsoftware_name
                 # 应该加上一个路经检测，后期加
-
                 software_instance.software_hash = calculate_file_hash(
                     rsoftware_instance.rsoftware_path
                 )

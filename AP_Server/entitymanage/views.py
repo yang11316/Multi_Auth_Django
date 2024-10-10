@@ -1,14 +1,16 @@
 from django.http import JsonResponse,HttpResponse
 from django.shortcuts import render
+from django.conf import settings
 import json
 from .models import *
 import requests
 from django.views.decorators.csrf import csrf_exempt
 import time
-
 from commonutils import KGC
 from commonutils import utils
-
+import psutil
+from apscheduler.schedulers.background import BackgroundScheduler
+from django_apscheduler.jobstores import DjangoJobStore,register_events,register_job
 
 # Create your views here.
 
@@ -21,8 +23,72 @@ kgc.kgc_q = utils.hex2int(paramters_instance.kgc_q)
 kgc.kgc_Ppub = utils.hex2int(paramters_instance.kgc_Ppub)
 
 
-AS_ip = "192.168.3.17"
-AS_port = 8000
+AS_ip = settings.AS_IP
+AS_port = settings.AS_PORT
+
+scheduler = BackgroundScheduler(timezone='Asia/Shanghai')
+scheduler.add_jobstore(DjangoJobStore(),"default")
+
+# def check_process_alive(processid:int):
+#     try:
+#         return psutil.pid_exists(processid)
+
+#     except Exception as e:
+#         return False
+
+# bug fix: 修复活跃实体同步不到的问题，在调用时强转
+def check_process_alive(processid):
+    try:
+        return psutil.pid_exists(processid)
+
+    except Exception as e:
+        print(e)
+        return False
+def post_data(ip: str,port:int, path: str,payload: dict):
+    try:
+        header = {"content-type": "application/json","Connection":"close"}
+        data = json.dumps(payload)
+        url = "http://"+ip+":"+str(port)+path
+        print(url)
+        res = requests.post(url, data=data, headers=header)
+        print(res.text)
+    except Exception as e:
+        print(e)
+
+def post_data_to_process(ip: str,port:str, path: str,payload: dict):
+    try:
+        header = {"Connection":"close"}
+        url = "http://"+ip+":"+port+path
+        print(url)
+        res=requests.post(url, data=payload,headers=header)
+        print(res.text)
+
+    except Exception as e:
+        print(e)   
+
+@register_job(scheduler,'interval',seconds=60,id='check_entity_alive',replace_existing=True)
+def schedluer_job():
+    entity_instance = EntityInfo.objects.filter(is_alive=True)
+    entity_pid_list=[]
+    for entity in entity_instance:
+        if not check_process_alive(int(entity.entity_porecessid)):
+            entity.is_alive = False
+            entity.entity_porecessid = ""
+            entity.entity_listening_port = 0
+            entity.entity_sending_port = 0
+            entity_pid_list.append(entity.entity_pid)
+            entity.save()
+    print(entity_pid_list)
+    if(len(entity_pid_list)!=0):
+        data={
+            "entity_data":{
+                "entity_pid":entity_pid_list
+            }  
+        }
+        post_data(AS_ip,AS_port,"/entitymanage/get-down-entity/",data)
+scheduler.start()
+
+
 
 """与AS交互"""
 # 获取传来的公共参数
@@ -195,30 +261,9 @@ def send_particalkey_and_pid(request):
                 time.sleep(1)
                 print("send parcialkey")
                 post_data_to_process(process_ip,entity_listening_port,"",data)
-            time.sleep(1)
             return HttpResponse("ok")
         except Exception as e:
             print("hash error")
             return HttpResponse("error")
         
         
-def post_data(ip: str,port:int, path: str,payload: dict):
-    try:
-        header = {"content-type": "application/json","Connection":"close"}
-        data = json.dumps(payload)
-        url = "http://"+ip+":"+str(port)+path
-        print(url)
-        res = requests.post(url, data=data, headers=header)
-        print(res.text)
-    except Exception as e:
-        print(e)
-
-def post_data_to_process(ip: str,port:str, path: str,payload: dict):
-    try:
-        header = {"Connection":"close"}
-        url = "http://"+ip+":"+port+path
-        print(url)
-        res=requests.post(url, data=payload,headers=header)
-        print(res.text)
-    except Exception as e:
-        print(e)

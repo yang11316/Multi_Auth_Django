@@ -107,6 +107,8 @@ def approve_register(request):
                 user_instance.user_pwd = approve_instance.user_pwd
                 user_instance.user_phone = approve_instance.user_phone
                 user_instance.user_email = approve_instance.user_email
+                # bug fix：注册用户角色权限为空
+                user_instance.user_row = "editor"
 
                 user_instance.create_time = timezone.now()
                 user_instance.update_time = user_instance.create_time

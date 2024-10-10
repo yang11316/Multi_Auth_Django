@@ -1,0 +1,5 @@
+/home/default/Mycode/build/CMakeFiles/Process.dir
+/home/default/Mycode/build/CMakeFiles/CryptoTest.dir
+/home/default/Mycode/build/CMakeFiles/test.dir
+/home/default/Mycode/build/CMakeFiles/edit_cache.dir
+/home/default/Mycode/build/CMakeFiles/rebuild_cache.dir

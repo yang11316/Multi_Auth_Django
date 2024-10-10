@@ -80,13 +80,27 @@ def get_duration(start: float, end: float) -> float:
     return end - start
 
 
+def get_os():
+    if os.name =='nt':
+        return "windows"
+    elif os.name =='posix':
+        return "linux"
+    else:
+        return "unknown"
+
 def get_process_path(pid:int):
     try:
-        process_path=os.path.join("/proc",str(pid))
-        exe_link = os.path.realpath(os.path.join(process_path, "exe"))
-        
-        return exe_link
-    except FileExistsError:
+        # 判断当前系统
+        if(get_os()=="windows"):
+            import psutil
+            process = psutil.Process(pid)
+            return process.exe()
+        elif(get_os()=="linux"):
+            process_path=os.path.join("/proc",str(pid))
+            exe_link = os.path.realpath(os.path.join(process_path, "exe"))    
+            return exe_link
+    except Exception as e:
+        print(e)
         return None
 if __name__ == "__main__":
     import os

@@ -1,0 +1,7 @@
+{
+    "ip":"0.0.0.0",
+    "listening_port":9997,
+    "sending_port":9996,
+    "ap_ip":"127.0.0.1",
+    "ap_port":9000
+}

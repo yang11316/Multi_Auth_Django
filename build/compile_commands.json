@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/default/Mycode/build",
+  "command": "/usr/bin/g++  -I/usr/local/openssl/include -g -std=gnu++11 -o CMakeFiles/Process.dir/test.cpp.o -c /home/default/Mycode/process_project/test.cpp",
+  "file": "/home/default/Mycode/process_project/test.cpp"
+},
+{
+  "directory": "/home/default/Mycode/build",
+  "command": "/usr/bin/g++  -I/usr/local/openssl/include -g -std=gnu++11 -o CMakeFiles/Process.dir/process_parifree.cpp.o -c /home/default/Mycode/process_project/process_parifree.cpp",
+  "file": "/home/default/Mycode/process_project/process_parifree.cpp"
+},
+{
+  "directory": "/home/default/Mycode/build",
+  "command": "/usr/bin/g++  -I/usr/local/openssl/include -g -std=gnu++11 -o CMakeFiles/Process.dir/crypto_utils.cpp.o -c /home/default/Mycode/process_project/crypto_utils.cpp",
+  "file": "/home/default/Mycode/process_project/crypto_utils.cpp"
+},
+{
+  "directory": "/home/default/Mycode/build",
+  "command": "/usr/bin/g++  -I/usr/local/openssl/include -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/crypto_test.cpp.o -c /home/default/Mycode/process_project/crypto_test.cpp",
+  "file": "/home/default/Mycode/process_project/crypto_test.cpp"
+},
+{
+  "directory": "/home/default/Mycode/build",
+  "command": "/usr/bin/g++  -I/usr/local/openssl/include -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/process_parifree.cpp.o -c /home/default/Mycode/process_project/process_parifree.cpp",
+  "file": "/home/default/Mycode/process_project/process_parifree.cpp"
+},
+{
+  "directory": "/home/default/Mycode/build",
+  "command": "/usr/bin/g++  -I/usr/local/openssl/include -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o -c /home/default/Mycode/process_project/crypto_utils.cpp",
+  "file": "/home/default/Mycode/process_project/crypto_utils.cpp"
+}
+]

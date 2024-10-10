@@ -225,9 +225,7 @@ def entity_calculate_parcialkey(request):
         try:
             # json_data = request.POST.get("calculate_data")
             json_data = json.loads(request.body.decode("utf-8"))
-            print(json_data)
             entity_pid = json_data["entity_pid"]
-            print(entity_pid)
             json_data = [entity_pid]
             # 判断json——data是否存在于数据库中，如果都存在于就执行，否则返回错误
             if EnityTable.objects.filter(entity_pid=entity_pid).count() == 0:
@@ -294,7 +292,6 @@ def entity_calculate_parcialkey(request):
                 return JsonResponse({"status": "success"})
 
             else:
-
                 for entity_pid in json_data:
                     # 先加入到pids中，再分别计算witness，避免witness重复更新
                     if entity_pid in acc.pids:
@@ -514,6 +511,27 @@ def get_alive_entity_pid(request):
             entity_instance.entity_sending_port = entity_sending_port
             entity_instance.entity_porecessid = entity_processid
             entity_instance.save()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            print(e)
+            return JsonResponse({"status": "error", "message": str(e)})
+
+
+@csrf_exempt
+def get_down_entity_pid(request):
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data).get("entity_data")
+            entity_pid_list = json_data["entity_pid"]
+            print(entity_pid_list)
+            for entity_pid in entity_pid_list:
+                entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
+                entity_instance.is_alive = False
+                entity_instance.entity_listening_port = 0
+                entity_instance.entity_sending_port = 0
+                entity_instance.entity_porecessid = ""
+                entity_instance.save()
             return JsonResponse({"status": "success"})
         except Exception as e:
             print(e)

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Site BuildName="(empty)"
+	BuildStamp="20240927-0352-Experimental"
+	Name="(empty)"
+	Generator="ctest-3.22.1"
+	CompilerName=""
+	CompilerVersion=""
+	OSName="Linux"
+	Hostname="default-virtual-machine"
+	OSRelease="6.8.0-40-generic"
+	OSVersion="#40~22.04.3-Ubuntu SMP PREEMPT_DYNAMIC Tue Jul 30 17:30:19 UTC 2"
+	OSPlatform="x86_64"
+	Is64Bits="1"
+	VendorString="GenuineIntel"
+	VendorID="Intel Corporation"
+	FamilyID="6"
+	ModelID="62"
+	ProcessorCacheSize="25600"
+	NumberOfLogicalCPU="6"
+	NumberOfPhysicalCPU="6"
+	TotalVirtualMemory="2047"
+	TotalPhysicalMemory="7940"
+	LogicalProcessorsPerPhysical="1"
+	ProcessorClockFrequency="2800"
+	>
+	<Testing>
+		<StartDateTime>Sep 27 15:07 CST</StartDateTime>
+		<StartTestTime>1727420871</StartTestTime>
+		<TestList>
+			<Test>./CryptoTest</Test>
+		</TestList>
+		<Test Status="passed">
+			<Name>CryptoTest</Name>
+			<Path>.</Path>
+			<FullName>./CryptoTest</FullName>
+			<FullCommandLine>/home/default/Mycode/build/CryptoTest</FullCommandLine>
+			<Results>
+				<NamedMeasurement type="numeric/double" name="Execution Time">
+					<Value>0.627953</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="numeric/double" name="Processors">
+					<Value>1</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Completion Status">
+					<Value>Completed</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Command Line">
+					<Value>/home/default/Mycode/build/CryptoTest</Value>
+				</NamedMeasurement>
+				<NamedMeasurement type="text/string" name="Environment">
+					<Value>GTEST_OUTPUT=json:/home/default/Mycode/build/gtest_results.json
+#CTEST_RESOURCE_GROUP_COUNT=</Value>
+				</NamedMeasurement>
+				<Measurement>
+					<Value encoding="base64" compression="gzip">eJydVD9Lw0AU3/Mp3liHhia2i+AkVougUlKX0iFtXpuDy125P7XdHAQFnS0IDk4uboLgB0r1Y3hNJZRCk7NvuXt3vz/cD951D/PqQVszRtgI/H1QKJWEoeAJ1LMGpCZmdZ1uNa8enFDeD+kKgGxCBGcJMgNGVdXjDbDnrcu2GFGBaZ0utDvnkFUvP3WbZKq0wD/Eqi7OtiCgUoNE7pVL+eVafrHYacgiii021iqIBdej+DgZq9kRZ1IJPVBcbLEoJ9oYX4WUROsitsZFRKh4pcZNTekuvgU8m/dehkKRcCfnYur/wraM1kY0D8QuNhvJgCTYkeik9y/p20P6+NSoLd5fv59v06+P9OXu52a+mH8eQKMBWm64uq7rBDGCWE4RH4Iy+2yauVZL9+tQmruETzACSdgAgZhJnw4QI7kCx4Yacxot2V7Nr0N/lv0Tv1zlclc=</Value>
+				</Measurement>
+			</Results>
+		</Test>
+		<EndDateTime>Sep 27 15:07 CST</EndDateTime>
+		<EndTestTime>1727420871</EndTestTime>
+		<ElapsedMinutes>0</ElapsedMinutes>
+	</Testing>
+</Site>

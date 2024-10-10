@@ -15,6 +15,7 @@ class SimpleMiddleware(MiddlewareMixin):
             request.path != "/usermanage/user-login/"
             and request.path != "/usermanage/user-register/"
             and request.path != "/entitymanage/get-alive-entity/"
+            and request.path != "/entitymanage/get-down-entity/"
         ):
             try:
                 if "token" in request.COOKIES:

@@ -1,0 +1,2 @@
+/usr/bin/ar qc ../static/liblibcls.a CMakeFiles/libcls.dir/cls_lib.cpp.o CMakeFiles/libcls.dir/crypto_utils.cpp.o CMakeFiles/libcls.dir/data_buffer.cpp.o CMakeFiles/libcls.dir/process_parifree.cpp.o CMakeFiles/libcls.dir/server_socket.cpp.o CMakeFiles/libcls.dir/tcp_socket.cpp.o CMakeFiles/libcls.dir/utils.cpp.o
+/usr/bin/ranlib ../static/liblibcls.a
