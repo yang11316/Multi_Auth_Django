@@ -4,44 +4,42 @@
 
 #include "server_socket.h"
 #include "process_parifree.h"
-#include "data_buffer.h"
-#include <queue>
-#include <mutex>
-#include <condition_variable>
 #include <unordered_map>
-#include <string>
+#include "json/json.h"
+#include <fstream>
 #include <thread>
-using namespace std;
+#include <sys/select.h>
 
 class CLS_LIB
 {
 private:
-    unsigned int sending_port;
-    unsigned int listening_port;
+    uint16_t sending_port;
+    uint16_t listening_port;
     std::string ip;
     std::string ap_ip;
-    unsigned int ap_port;
-
+    uint16_t ap_port;
+    Process_manager *m_process_manager = nullptr;
     TcpServer *m_server = nullptr;
-    Process *m_process = nullptr;
     TcpSocket *m_socket = nullptr;
 
-    // 两个缓冲区：http参数缓冲区，socket缓冲区
-    DataBuffer http_queue;
-
 public:
-    CLS_LIB(string json_file);
+    CLS_LIB(std::string json_file);
+    CLS_LIB(const std::string &ip, const uint16_t &listening_port, const uint16_t &sending_port, const std::string &ap_ip, const uint16_t &ap_port);
+    // 禁止拷贝
+    CLS_LIB(const CLS_LIB &) = delete;
+    CLS_LIB &operator=(const CLS_LIB &) = delete;
+    ~CLS_LIB();
+
     // 启动服务器
     void startListening();
     bool init();
-    string sign(string msg);
-    bool verify(string sig);
-
-    ~CLS_LIB();
+    std::string sign(const std::string &msg);
+    bool verify(const std::string &sig);
+    bool open_port(std::vector<uint16_t> &port);
+    bool delete_key(const std::string &pid);
+    int get_key_size();
 
 private:
-    void deal_socketmsg(TcpSocket *sock);
-
     // 接收消息，并放入不同的缓冲区
     void client_deal(int connfd);
     // 获取当前进程号

@@ -1,11 +1,8 @@
 #include "cls_lib.h"
-#include "json/json.h"
-#include <iostream>
-#include <fstream>
 
-CLS_LIB::CLS_LIB(string jsonFile)
+CLS_LIB::CLS_LIB(std::string jsonFile)
 {
-    ifstream ifs(jsonFile);
+    std::ifstream ifs(jsonFile);
     Json::Reader reader;
     Json::Value root;
     reader.parse(ifs, root);
@@ -14,14 +11,23 @@ CLS_LIB::CLS_LIB(string jsonFile)
     this->sending_port = root["sending_port"].asUInt();
     this->ap_ip = root["ap_ip"].asString();
     this->ap_port = root["ap_port"].asUInt();
-    this->m_process = new Process();
+    this->m_process_manager = new Process_manager;
+}
+CLS_LIB::CLS_LIB(const std::string &ip, const uint16_t &listening_port, const uint16_t &sending_port, const std::string &ap_ip, const uint16_t &ap_port)
+{
+    this->ip = ip;
+    this->listening_port = listening_port;
+    this->sending_port = sending_port;
+    this->ap_ip = ap_ip;
+    this->ap_port = ap_port;
+    this->m_process_manager = new Process_manager;
 }
 
 bool CLS_LIB::init()
 {
 
     // 发送http请求
-    std::cout << "connect to AP" << endl;
+    std::cout << "connect to AP" << std::endl;
     this->m_socket = new TcpSocket();
     m_socket->setSendingPort(sending_port);
     m_socket->bind();
@@ -31,44 +37,69 @@ bool CLS_LIB::init()
         perror("connect to ap failed");
         return false;
     }
-    m_socket->sendHttpmsg(get_current_pid(), ip, listening_port);
-    m_socket->disConnect();
 
-    // 检测缓冲区内是否有数据,有则读取，没有则等待
-    string http_msg = http_queue.popData();
-    std::unordered_map<std::string, std::string> tmp_params = parse_from_http(http_msg);
-    std::cout << http_msg << endl;
-    this->m_process->init(tmp_params["pid"], tmp_params["acc_publickey"], tmp_params["acc_cur"], tmp_params["entity_parcialkey"], tmp_params["kgc_Ppub"]);
-    if (!this->m_process->generate_full_key())
+    std::string post_data = "{\"process_id\":" + std::to_string(get_current_pid()) + ",\"listening_port\":" + std::to_string(listening_port) + ",\"sending_port\":" + std::to_string(sending_port) + "}";
+    std::string path = "/entitymanage/sendparticalkeyandpid/";
+    m_socket->sendHttpmsg(post_data, path, ip);
+    std::string recv_msg = m_socket->recvHTTPmsg();
+    if (recv_msg == "error")
     {
-        cout << "generate full key failed" << endl;
+        m_socket->disConnect();
         return false;
     }
+    Json::Reader reader;
+    Json::Value root;
+    Json::Value value;
+    // 使用jsoncpp解析json数据
+    if (reader.parse(recv_msg, root))
+    {
+        value = root["entity_data"];
+        for (auto val : value)
+        {
+            std::string pid = val["pid"].asCString();
+            std::string parcial_key = val["entity_parcialkey"].asCString();
+            std::string acc_publickey = val["acc_publickey"].asCString();
+            std::string acc_cur = val["acc_cur"].asCString();
+            std::string kgc_Ppub = val["kgc_Ppub"].asCString();
+            Process tmp_process(pid, acc_publickey, acc_cur, parcial_key, kgc_Ppub);
+            if (tmp_process.generate_full_key())
+            {
+                std::cout << "generate full key success with pid:" << pid << std::endl;
+                this->m_process_manager->push_back(tmp_process);
+            }
+            else
+            {
+                std::cout << "[Error] generate full key failed with parcialkey: " << pid << std::endl;
+            }
+        }
+    }
+
+    m_socket->disConnect();
     return true;
 }
 
-string CLS_LIB::sign(string msg)
+std ::string CLS_LIB::sign(const std::string &msg)
 {
-    if (this->m_process->is_fullkey)
+    if (this->m_process_manager->get_size() > 0)
     {
-        std::cout << std::endl;
-        std::cout << "====================Send Sign Message====================" << std::endl;
-        sign_payload payload = this->m_process->sign(msg);
-        std::cout << payload.to_string() << std::endl;
+        // std::cout << "====================Send Sign Message====================" << std::endl;
+        sign_payload payload = this->m_process_manager->get_process().sign(msg);
+        // std::cout << payload.to_string() << std::endl;
         std::string msg_str = "pid=" + payload.pid + "&msg=" + payload.msg + "&sig1=" + payload.sig1 + "&sig2=" + payload.sig2 + "&time_stamp=" + payload.time_stamp + "&WIT=" + payload.WIT + "&wit_hex=" + payload.wit_hex + "&X=" + payload.X;
         return msg_str;
     }
     else
     {
-        cout << "not generate full key" << endl;
+        std::cout << "[ERROR] parcial key not enough" << std::endl;
         return {};
     }
 }
 
-bool CLS_LIB::verify(string sig)
+bool CLS_LIB::verify(const std::string &sig)
 {
-    if (this->m_process->is_fullkey)
+    if (this->m_process_manager->get_size() > 0)
     {
+        Process tmp_process = this->m_process_manager->get_process();
         std::unordered_map<std::string, std::string> payload_map = parse_form_socket(sig);
         sign_payload recv_payload;
         recv_payload.pid = payload_map["pid"];
@@ -79,11 +110,12 @@ bool CLS_LIB::verify(string sig)
         recv_payload.WIT = payload_map["WIT"];
         recv_payload.wit_hex = payload_map["wit_hex"];
         recv_payload.X = payload_map["X"];
-        return this->m_process->verify_sign(recv_payload);
+
+        return tmp_process.verify_sign(recv_payload);
     }
     else
     {
-        cout << "not generate full key" << endl;
+        std::cout << "[ERROR] parcial key not enough" << std::endl;
         return false;
     }
 }
@@ -99,6 +131,15 @@ void CLS_LIB::startListening()
     m_server = new TcpServer(ip, listening_port);
     // 设置监听
     int ret = m_server->setListen();
+    int m_fd = m_server->getSocket();
+    // 使用select监听
+    fd_set read_fd;
+    FD_ZERO(&read_fd);
+    fd_set tmp_set;
+    FD_ZERO(&tmp_set);
+    // 将套接字放入文件描述集合终
+    FD_SET(m_fd, &read_fd);
+    int max_sd = m_fd;
     while (1)
     {
         int client_socket = m_server->acceptConn(0);
@@ -120,32 +161,39 @@ void CLS_LIB::client_deal(int connfd)
     // if (tmp_flag == "POST")
     // {
     // cout << "receive http request" << endl;
-    string recv_msg = new_socket->recvmsg(0, 0);
-    // cout << "receive http message:" << recv_msg << endl;
+    std::string recv_msg = new_socket->recvmsg(0, 0);
+    std::cout << "receive http message:" << recv_msg << std::endl;
     std::unordered_map<std::string, std::string> tmp_params = parse_from_http(recv_msg);
     // cout << tmp_params.size() << endl;
 
     // 更新消息
     if (tmp_params.size() == 1)
     {
-        if (this->m_process->is_init)
+        if (this->m_process_manager->get_size() > 0)
         {
-            this->m_process->update_key(tmp_params["aux"]);
+            this->m_process_manager->update_process(tmp_params["aux"]);
             std::cout << "partical key update" << std::endl;
-            std::cout << "accumulator:" << m_process->acc_cur.get_str(16) << std::endl;
+            std::cout << "accumulator:" << m_process_manager->get_process().acc_cur.get_str(16) << std::endl;
         }
     }
-    // 参数消息
+    // 参数消息 暂时无用
     else if (tmp_params.size() == 5)
     {
-        this->http_queue.pushData(recv_msg);
+        Process tmp_process(tmp_params["pid"], tmp_params["acc_publickey"], tmp_params["acc_cur"], tmp_params["entity_parcialkey"], tmp_params["kgc_Ppub"]);
+        //
+        if (tmp_process.generate_full_key())
+        {
+            std::cout << "generate full key success" << std::endl;
+            this->m_process_manager->push_back(tmp_process);
+        }
+        else
+        {
+            std::cout << "[Error] generate full key failed with parcialkey: " << tmp_params["entity_parcialkey"] << std::endl;
+        }
     }
-    string response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n";
+    std::string response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n";
     new_socket->sendMsg(response);
-    // }
     new_socket->disConnect();
-    delete new_socket;
-    new_socket = nullptr;
     return;
 }
 
@@ -223,10 +271,6 @@ std::unordered_map<std::string, std::string> CLS_LIB::parse_form_socket(const st
         {
             std::string key = pair.substr(0, equal_pos);
             std::string value = pair.substr(equal_pos + 1);
-
-            // URL 解码
-            // 这里省略了 URL 解码的步骤，你可以根据需要实现
-
             // 存储键值对
             result[key] = value;
         }
@@ -236,30 +280,45 @@ std::unordered_map<std::string, std::string> CLS_LIB::parse_form_socket(const st
     return result;
 }
 
-void CLS_LIB::deal_socketmsg(TcpSocket *sock)
+bool CLS_LIB::open_port(std::vector<uint16_t> &port)
 {
-    string recv_msg = sock->recvSockmsg();
-    // 首先判断认证类是否生成公私钥
-    if (m_process != nullptr && m_process->is_fullkey)
+    // 发送http请求
+    std::cout << "connect to AP" << std::endl;
+    this->m_socket = new TcpSocket();
+    m_socket->setSendingPort(sending_port);
+    m_socket->bind();
+    if (m_socket->connectToHost(ap_ip, ap_port, 0) < 0)
     {
-        std::cout << std::endl;
-        std::cout << "====================Received AE Message====================" << std::endl;
-        // 输出来端信息
-        struct sockaddr_in peer_addr;
-        socklen_t peer_addr_len = sizeof(peer_addr);
-        if (getpeername(sock->getSocket(), (struct sockaddr *)&peer_addr, &peer_addr_len) == 0)
-        {
-            char peer_ip[INET_ADDRSTRLEN];
-            inet_ntop(AF_INET, &peer_addr.sin_addr, peer_ip, INET_ADDRSTRLEN);
-            int peer_port = ntohs(peer_addr.sin_port);
-            std::cout << "Connection from: " << peer_ip << ":" << peer_port << std::endl;
-        }
+        perror("connect to ap failed");
+        return false;
     }
-    else
+    int processid = this->get_current_pid();
+    std::string post_data = "{\"process_id\":" + std::to_string(get_current_pid()) + ",\"open_port\":[";
+    for (auto i : port)
     {
-        const char *message = "key not generate";
-        sock->sendSockmsg(message);
-        cout << "key not generate" << endl;
-        return;
+        post_data += std::to_string(i) + ",";
     }
+    post_data.pop_back();
+    post_data += "]}";
+    std::string path = "/entitymanage/getopenport/";
+    m_socket->sendHttpmsg(post_data, path, ip);
+    if (m_socket->recvHTTPmsg(0) == "success")
+    {
+        return true;
+    }
+    return false;
+}
+
+bool CLS_LIB::delete_key(const std::string &pid)
+{
+    if (this->m_process_manager->delete_process(pid))
+    {
+        return true;
+    }
+    return false;
+}
+
+int CLS_LIB::get_key_size()
+{
+    return this->m_process_manager->get_size();
 }

@@ -119,8 +119,6 @@ def entity_add(request):
     """
     if request.method == "POST":
         try:
-            # json_data = request.POST.get("add_data")
-            # json_data = json.loads(json_data)
             json_data = json.loads(request.body.decode("utf-8"))
             entity_instance = EnityTable()
             user_instance = UserTable.objects.get(user_id=json_data["user_id"])

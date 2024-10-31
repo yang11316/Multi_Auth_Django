@@ -1,5 +1,5 @@
 from cryptography.hazmat.primitives import hashes
-from fastecdsa import point
+# from fastecdsa import point
 from gmpy2 import next_prime
 import secrets
 import time
@@ -50,9 +50,9 @@ def get_bits_length(num: int) -> int:
     return len(get_bites(num, 128))
 
 
-def point2hex(p: point.Point) -> str:
-    """convert point to hex string"""
-    return str(p.x) + str(p.y)
+# def point2hex(p: point.Point) -> str:
+#     """convert point to hex string"""
+#     return str(p.x) + str(p.y)
 
 
 def get_time_stamp() -> str:

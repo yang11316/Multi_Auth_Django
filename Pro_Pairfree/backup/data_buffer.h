@@ -4,14 +4,14 @@
 #include <mutex>
 #include <condition_variable>
 #include <unistd.h>
+#include <string>
 
 struct DataInfo
 {
-    const char *data;
+    std::string data;
     int len;
     DataInfo()
     {
-        data = nullptr;
         len = 0;
     }
 };

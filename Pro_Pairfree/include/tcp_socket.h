@@ -36,7 +36,7 @@ public:
     // 绑定发送端口
     void bind();
     // 链接服务器
-    int connectToHost(std::string ip, unsigned short port, int timeout = TIMEOUT);
+    int connectToHost(std::string ip, uint16_t port, int timeout = TIMEOUT);
 
     // 发送没有格式要求的数据
     int sendMsg(std::string data, int timeout = TIMEOUT);
@@ -45,21 +45,23 @@ public:
     int sendSockmsg(std::string data, int timeout = TIMEOUT);
 
     // 发送Http数据
-    int sendHttpmsg(const int processid, const std::string &ip, const unsigned short &listening_port, int timeout = TIMEOUT);
+    int sendHttpmsg(std::string post_data, std::string path, const std::string &ip, int timeout = TIMEOUT);
 
     // 接收数据
     std::string recvSockmsg(int timeout = TIMEOUT);
     // 接收指定长度数据，n字节
     std::string recvmsg(int recv_len = 0, int timeout = TIMEOUT);
 
+    std::string recvHTTPmsg(int timeout = TIMEOUT);
+
     // 断开连接
     void disConnect();
 
     int getSocket();
-    void setSendingPort(unsigned short port);
+    void setSendingPort(uint16_t port);
 
 private:
-    //    设置IO为非阻塞模式
+    // 设置IO为非阻塞模式
     int setNonBlock(int fd);
     // 设置IO为阻塞模式
     int setBlock(int fd);
@@ -69,14 +71,14 @@ private:
     int writeTimeout(unsigned int wait_seconds);
     // 带连接超时的connect函数
     int connectTimeout(struct sockaddr_in *addr, unsigned int wait_seconds);
-    //    每次从缓冲区读n个字符
+    // 每次从缓冲区读n个字符
     int readn(void *buf, int count);
     // 每次往缓冲区写入n个字符
     int writen(const void *buf, int count);
 
 private:
     int m_socket;
-    unsigned short sending_port;
+    uint16_t sending_port;
 };
 
 #endif // TCP_SOCKET_H

@@ -13,8 +13,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/cls.dir/tcp_socket.cpp.o.d"
   "CMakeFiles/cls.dir/utils.cpp.o"
   "CMakeFiles/cls.dir/utils.cpp.o.d"
-  "static/libcls.a"
-  "static/libcls.pdb"
+  "lib/libcls.pdb"
+  "lib/libcls.so"
 )
 
 # Per-language clean rules from dependency scanning.

@@ -11,7 +11,7 @@ DataBuffer::~DataBuffer()
 void DataBuffer::pushData(const std::string data)
 {
     DataInfo info;
-    info.data = data.c_str();
+    info.data = data;
     info.len = data.length();
     std::lock_guard<std::mutex> lock(m_mutex);
     data_queue.push(info);
@@ -27,5 +27,5 @@ std::string DataBuffer::popData()
     }
     DataInfo info = data_queue.front();
     data_queue.pop();
-    return std::string(info.data, info.len);
+    return info.data;
 }

@@ -332,3 +332,70 @@ void Process::update_key(const std::string &aux)
     this->WIT = WIT_new;
     this->wit_hash = wit_hash_new;
 }
+/*
+    class Process_manager
+    将process进行封装
+*/
+void Process_manager::push_back(Process &tmp_process)
+{
+
+    this->process_vec.push_back(tmp_process);
+    this->size++;
+}
+
+Process &Process_manager::get_process()
+{
+    used_index = (used_index + 1) % this->size;
+    return this->process_vec[used_index];
+}
+
+Process &Process_manager::get_process(const std::string &pid)
+{
+    for (auto tmp : this->process_vec)
+    {
+        if (tmp.pid == pid)
+        {
+            return tmp;
+        }
+    }
+    std::cout << "[ERROR] no such process" << std::endl;
+    Process tmp = Process();
+    return tmp;
+}
+
+bool Process_manager::delete_process(const std::string &pid)
+{
+    for (int i = 0; i < this->size; i++)
+    {
+        if (this->process_vec[i].pid == pid)
+        {
+            this->process_vec.erase(this->process_vec.begin() + i);
+            this->size--;
+            return true;
+        }
+    }
+    std::cout << "delete process not find " << std::endl;
+    return false;
+}
+
+bool Process_manager::update_process(const std::string &aux)
+{
+    try
+    {
+        for (auto tmp_process : this->process_vec)
+        {
+            tmp_process.update_key(aux);
+        }
+        return true;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        return false;
+    }
+}
+
+int Process_manager::get_size()
+{
+    return this->size;
+}

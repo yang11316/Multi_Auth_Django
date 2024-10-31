@@ -1,5 +1,5 @@
 #include "cls_lib.h"
-
+using namespace std;
 void worker_thread(int fd, CLS_LIB *cls)
 {
     TcpSocket tmp_sock(fd);

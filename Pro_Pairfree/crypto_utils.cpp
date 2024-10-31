@@ -1,5 +1,5 @@
 #include "crypto_utils.h"
-#include "utils.h"
+
 namespace crypto_utils
 {
     mpz_class ex_gcd(mpz_class a, mpz_class b, mpz_class &x, mpz_class &y)

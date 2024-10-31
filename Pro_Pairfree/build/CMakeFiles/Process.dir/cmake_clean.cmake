@@ -1,8 +1,20 @@
 file(REMOVE_RECURSE
   "../bin/Process"
   "../bin/Process.pdb"
-  "CMakeFiles/Process.dir/test.cpp.o"
-  "CMakeFiles/Process.dir/test.cpp.o.d"
+  "CMakeFiles/Process.dir/cls_lib.cpp.o"
+  "CMakeFiles/Process.dir/cls_lib.cpp.o.d"
+  "CMakeFiles/Process.dir/crypto_utils.cpp.o"
+  "CMakeFiles/Process.dir/crypto_utils.cpp.o.d"
+  "CMakeFiles/Process.dir/open_port_test.cpp.o"
+  "CMakeFiles/Process.dir/open_port_test.cpp.o.d"
+  "CMakeFiles/Process.dir/process_parifree.cpp.o"
+  "CMakeFiles/Process.dir/process_parifree.cpp.o.d"
+  "CMakeFiles/Process.dir/server_socket.cpp.o"
+  "CMakeFiles/Process.dir/server_socket.cpp.o.d"
+  "CMakeFiles/Process.dir/tcp_socket.cpp.o"
+  "CMakeFiles/Process.dir/tcp_socket.cpp.o.d"
+  "CMakeFiles/Process.dir/utils.cpp.o"
+  "CMakeFiles/Process.dir/utils.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

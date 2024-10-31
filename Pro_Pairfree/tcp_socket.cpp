@@ -26,7 +26,7 @@ void TcpSocket::bind()
     local_addr.sin_port = htons(sending_port);      // 绑定的端口号
 }
 
-int TcpSocket::connectToHost(std::string ip, unsigned short port, int timeout)
+int TcpSocket::connectToHost(std::string ip, uint16_t port, int timeout)
 {
     int ret = 0;
     if (port < 0 || port > 65535 || timeout < 0)
@@ -227,16 +227,16 @@ int TcpSocket::sendSockmsg(std::string data, int timeout)
     return ret;
 }
 
-int TcpSocket::sendHttpmsg(const int processid, const std::string &ip, const unsigned short &listening_port, int timeout)
+int TcpSocket::sendHttpmsg(std::string post_data, std::string path, const std::string &ip, int timeout)
 {
     // 构造http报文
-    std::string post_data = "processid=" + std::to_string(processid) + "&listening_port=" + std::to_string(listening_port) + "&sending_port=" + std::to_string(sending_port);
+
     std::string post_request =
-        "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1\r\n"
-        "Host: " +
+        "POST " + path + " HTTP/1.1\r\n"
+                         "Host: " +
         ip +
         "\r\n"
-        "Content-Type: application/x-www-form-urlencoded\r\n"
+        "Content-Type: text/plain;charset=utf-8\r\n"
         "Content-Length: " +
         std::to_string(post_data.size()) + "\r\n"
                                            "\r\n" +
@@ -328,7 +328,7 @@ std::string TcpSocket::recvSockmsg(int timeout)
     }
     int n = ntohl(netdatalen);
     // 根据包头中记录的数据大小申请内存, 接收数据
-    char *tmpBuf = (char *)malloc(n + 1);
+    char *tmpBuf = (char *)malloc(n);
     if (tmpBuf == NULL)
     {
         ret = MallocError;
@@ -347,7 +347,7 @@ std::string TcpSocket::recvSockmsg(int timeout)
         return {};
     }
     tmpBuf[n] = '\0'; // 多分配一个字节内容，兼容可见字符串 字符串的真实长度仍然为n
-    std::string data = std::string(tmpBuf, n + 1);
+    std::string data = std::string(tmpBuf, n);
     // 释放内存
     free(tmpBuf);
 
@@ -374,20 +374,21 @@ std::string TcpSocket::recvmsg(int recv_len, int timeout)
     // 读取全部数据
     if (recv_len == 0)
     {
-        int buffer_size = 1500;
+        int buffer_size = 4096;
         char buffer[buffer_size];
         ret = read(m_socket, buffer, buffer_size);
+        std::cout << "recv ret:" << ret << std::endl;
         if (ret == -1)
         {
             perror("read() err");
         }
 
-        std::string data = std::string(buffer, ret + 1);
+        std::string data = std::string(buffer, ret);
 
         return data;
     }
 
-    char *tmpBuf = (char *)malloc(recv_len + 1);
+    char *tmpBuf = (char *)malloc(recv_len);
     ret = this->readn(tmpBuf, recv_len);
     if (ret == -1)
     {
@@ -397,9 +398,69 @@ std::string TcpSocket::recvmsg(int recv_len, int timeout)
     {
         perror("readn() err");
     }
-    std::string data = std::string(tmpBuf, recv_len + 1);
+    std::string data = std::string(tmpBuf, ret);
     free(tmpBuf);
     return data;
+}
+
+std::string TcpSocket::recvHTTPmsg(int timeout)
+{
+    int ret = this->readTimeout(timeout);
+    if (ret != 0)
+    {
+        if (ret == -1 || errno == ETIMEDOUT)
+        {
+            printf("readTimeout(timeout) err: TimeoutError \n");
+            return {};
+        }
+        else
+        {
+            printf("readTimeout(timeout) err: %d \n", ret);
+            return {};
+        }
+    }
+
+    std::string response;
+    char buffer[4096];
+    int bytesReceived;
+    // 循环读取直到获取完整的响应
+    while ((bytesReceived = recv(m_socket, buffer, sizeof(buffer) - 1, 0)) > 0)
+    {
+        buffer[bytesReceived] = '\0'; // 确保字符串结束
+        response += buffer;
+
+        // 检查是否已经读取到完整的HTTP头部
+        if (response.find("\r\n\r\n") != std::string::npos)
+        {
+            break; // 找到头部结束标志
+        }
+    }
+    // 提取内容长度
+    size_t contentLength = 0;
+    size_t headerEndPos = response.find("\r\n\r\n");
+
+    if (headerEndPos != std::string::npos)
+    {
+        std::string headers = response.substr(0, headerEndPos);
+        size_t pos = headers.find("Content-Length:");
+
+        if (pos != std::string::npos)
+        {
+            size_t start = headers.find_first_not_of(" \t", pos + 15); // 跳过 "Content-Length: "
+            size_t end = headers.find_first_of("\r\n", start);
+            contentLength = std::stoul(headers.substr(start, end - start));
+        }
+
+        // 读取主体
+        response.erase(0, headerEndPos + 4); // 移除头部
+        while (response.size() < contentLength)
+        {
+            bytesReceived = recv(m_socket, buffer, sizeof(buffer) - 1, 0);
+            buffer[bytesReceived] = '\0';
+            response += buffer;
+        }
+    }
+    return response;
 }
 
 int TcpSocket::readTimeout(unsigned int wait_seconds)
@@ -450,7 +511,7 @@ int TcpSocket::getSocket()
     return m_socket;
 }
 
-void TcpSocket::setSendingPort(unsigned short port)
+void TcpSocket::setSendingPort(uint16_t port)
 {
     this->sending_port = port;
 }

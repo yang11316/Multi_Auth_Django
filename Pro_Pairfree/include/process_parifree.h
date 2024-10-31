@@ -8,6 +8,7 @@
 #include "crypto_utils.h"
 #include <iostream>
 #include <sys/time.h>
+#include <memory>
 struct sign_payload
 {
     std::string pid;
@@ -78,6 +79,25 @@ private:
     void update_witness(const mpz_class &aux);
     // 累加值更新
     void update_accumulator(const mpz_class &aux);
+};
+
+class Process_manager
+{
+private:
+    int size = 0;
+    int used_index = 0;
+    std::vector<Process> process_vec;
+
+public:
+    Process_manager() = default;
+    void push_back(Process &tmp_process);
+    Process &get_process();
+    Process &get_process(const std::string &pid);
+    bool delete_process(const std::string &pid);
+    bool update_process(const std::string &aux);
+    int get_size();
+    Process_manager(const Process_manager &) = delete;
+    Process_manager &operator=(const Process_manager &) = delete;
 };
 
 #endif

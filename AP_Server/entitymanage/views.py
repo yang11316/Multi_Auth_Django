@@ -205,65 +205,82 @@ def get_aux_data(request):
 def send_particalkey_and_pid(request):
     if request.method == "POST":
         try:
-            entity_processid = request.POST.get("processid")
-            entity_listening_port = request.POST.get("listening_port")
-            entity_sending_port=request.POST.get("sending_port")
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data)        
+            entity_processid = json_data["process_id"]
+            entity_listening_port = json_data["listening_port"]
+            entity_sending_port=json_data["sending_port"]
             # json_data = json.loads(json_data)
             process_ip:str = request.META.get("REMOTE_ADDR")
             
             entity_path = utils.get_process_path(int(entity_processid))
             entity_hash = utils.calculate_file_hash(entity_path)
             print(process_ip,entity_listening_port,entity_sending_port,entity_processid,entity_path,entity_hash)
-            entity_instance = EntityInfo.objects.filter(software_hash=entity_hash)[0]
+            in_entityinfo = EntityInfo.objects.filter(software_hash=entity_hash).exists()
 
             # 不存在注册的进程就返回空的http请求
-            if entity_instance == None :    
+            if not in_entityinfo :    
                 print("not entity")            
                 return HttpResponse("error")
             # 发送pid和公共参数
-            if entity_instance.entity_parcialkey == None:
-                print("send without parcialkey")
-                data = {
-                    "acc_publickey":utils.int2hex(kgc.acc_publickey),
-                    "pid":entity_instance.entity_pid,
-                    "acc_cur":utils.int2hex(kgc.acc_cur),
-                    "kgc_Ppub":utils.int2hex(kgc.kgc_Ppub),
+
+            ret_data=[]
+            entity_instance = EntityInfo.objects.filter(software_hash=entity_hash)
+            for entity in entity_instance:
+                if entity.entity_parcialkey != None:
+                    ret_data.append({
+                        "acc_publickey":utils.int2hex(kgc.acc_publickey),
+                        "pid":entity.entity_pid,
+                        "acc_cur":utils.int2hex(kgc.acc_cur),
+                        "kgc_Ppub":utils.int2hex(kgc.kgc_Ppub),
+                        "entity_parcialkey": entity.entity_parcialkey
+                    })   
+                    entity.is_alive = True
+                    entity.entity_porecessid = entity_processid
+                    entity.entity_listening_port = entity_listening_port
+                    entity.entity_sending_port = entity_sending_port
+                    entity.save() 
+                    # 存活实体上报给as
+                    post_as_data = {"entity_data":{
+                        "entity_pid": entity.entity_pid,
+                        "entity_sending_port":entity_sending_port,
+                        "entity_listening_port":entity_listening_port,
+                        "entity_processid":entity.entity_porecessid
+                        }
                     }
-                
-                time.sleep(1)
-                post_data_to_process(process_ip,entity_listening_port,"",data)
-                
-            # 进程索要部分私钥的时候认为进程为alive
-            else:
-                print("send with parcialkey")
-                data = {
-                    "acc_publickey":utils.int2hex(kgc.acc_publickey),
-                    "pid":entity_instance.entity_pid,
-                    "acc_cur":utils.int2hex(kgc.acc_cur),
-                    "kgc_Ppub":utils.int2hex(kgc.kgc_Ppub),
-                    "entity_parcialkey": entity_instance.entity_parcialkey
-                }
-                
-                # 存活实体上报给as
-                post_as_data = {"entity_data":{
-                    "entity_pid": entity_instance.entity_pid,
-                    "entity_sending_port":entity_sending_port,
-                    "entity_listening_port":entity_listening_port,
-                    "entity_processid":entity_instance.entity_porecessid
-                    }
-                }
-                post_data(AS_ip,AS_port,"/entitymanage/get-alive-entity/",post_as_data)
-                entity_instance.is_alive = True
-                entity_instance.entity_porecessid = entity_processid
-                entity_instance.entity_listening_port = entity_listening_port
-                entity_instance.entity_sending_port = entity_sending_port
-                entity_instance.save()
-                time.sleep(1)
-                print("send parcialkey")
-                post_data_to_process(process_ip,entity_listening_port,"",data)
-            return HttpResponse("ok")
+                    post_data(AS_ip,AS_port,"/entitymanage/get-alive-entity/",post_as_data)
+                    
+            # print("send parcialkey")
+            # post_data_to_process(process_ip,entity_listening_port,"",data)
+            response_data = {"entity_data":ret_data}
+            return JsonResponse(response_data)
         except Exception as e:
-            print("hash error")
+            print(e)
             return HttpResponse("error")
         
-        
+@csrf_exempt
+def get_open_port(request):
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data)
+            print(json_data)
+            open_port = json_data["open_port"]
+            process_id = json_data["process_id"]
+            
+            # 判断数据库中是否存在这个进程
+            entity_path = utils.get_process_path(int(process_id))
+            print(entity_path)
+            entity_hash = utils.calculate_file_hash(entity_path)
+            print(entity_hash)
+            entity_instance = EntityInfo.objects.filter(software_hash=entity_hash).exists()
+            # 不存在注册的进程就返回空的http请求
+            if not entity_instance :    
+                print("not such entity")            
+                return HttpResponse("error")
+            # 进行打开端口的操作
+            print(open_port)
+            return HttpResponse("success")
+        except Exception as e:
+            print(e)
+            return HttpResponse("error")

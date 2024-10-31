@@ -1,2 +1,1 @@
-/usr/bin/ar qc static/libcls.a CMakeFiles/cls.dir/cls_lib.cpp.o CMakeFiles/cls.dir/crypto_utils.cpp.o CMakeFiles/cls.dir/data_buffer.cpp.o CMakeFiles/cls.dir/process_parifree.cpp.o CMakeFiles/cls.dir/server_socket.cpp.o CMakeFiles/cls.dir/tcp_socket.cpp.o CMakeFiles/cls.dir/utils.cpp.o
-/usr/bin/ranlib static/libcls.a
+/usr/bin/c++ -fPIC -shared -Wl,-soname,libcls.so -o lib/libcls.so CMakeFiles/cls.dir/cls_lib.cpp.o CMakeFiles/cls.dir/crypto_utils.cpp.o CMakeFiles/cls.dir/data_buffer.cpp.o CMakeFiles/cls.dir/process_parifree.cpp.o CMakeFiles/cls.dir/server_socket.cpp.o CMakeFiles/cls.dir/tcp_socket.cpp.o CMakeFiles/cls.dir/utils.cpp.o 

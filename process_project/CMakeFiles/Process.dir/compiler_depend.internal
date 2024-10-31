@@ -277,7 +277,6 @@ CMakeFiles/Process.dir/crypto_utils.cpp.o
  /usr/include/c++/11/chrono
  /usr/include/c++/11/ratio
  /usr/include/c++/11/bits/parse_numbers.h
- /usr/local/include/gmssl/sm3.h
 
 CMakeFiles/Process.dir/process_parifree.cpp.o
  /home/default/Mycode/process_project/process_parifree.cpp

@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "../static/libcls.a"
-  "../static/libcls.pdb"
+  "../lib/libcls.pdb"
+  "../lib/libcls.so"
   "CMakeFiles/cls.dir/cls_lib.cpp.o"
   "CMakeFiles/cls.dir/cls_lib.cpp.o.d"
   "CMakeFiles/cls.dir/crypto_utils.cpp.o"

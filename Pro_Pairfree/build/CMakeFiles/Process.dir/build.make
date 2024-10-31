@@ -69,34 +69,129 @@ include CMakeFiles/Process.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/Process.dir/flags.make
 
-CMakeFiles/Process.dir/test.cpp.o: CMakeFiles/Process.dir/flags.make
-CMakeFiles/Process.dir/test.cpp.o: ../test.cpp
-CMakeFiles/Process.dir/test.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Process.dir/test.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/test.cpp.o -MF CMakeFiles/Process.dir/test.cpp.o.d -o CMakeFiles/Process.dir/test.cpp.o -c /home/default/Mycode/Pro_Pairfree/test.cpp
+CMakeFiles/Process.dir/cls_lib.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/cls_lib.cpp.o: ../cls_lib.cpp
+CMakeFiles/Process.dir/cls_lib.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Process.dir/cls_lib.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/cls_lib.cpp.o -MF CMakeFiles/Process.dir/cls_lib.cpp.o.d -o CMakeFiles/Process.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp
 
-CMakeFiles/Process.dir/test.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/test.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/test.cpp > CMakeFiles/Process.dir/test.cpp.i
+CMakeFiles/Process.dir/cls_lib.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/cls_lib.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/cls_lib.cpp > CMakeFiles/Process.dir/cls_lib.cpp.i
 
-CMakeFiles/Process.dir/test.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/test.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/test.cpp -o CMakeFiles/Process.dir/test.cpp.s
+CMakeFiles/Process.dir/cls_lib.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/cls_lib.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/cls_lib.cpp -o CMakeFiles/Process.dir/cls_lib.cpp.s
+
+CMakeFiles/Process.dir/crypto_utils.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/crypto_utils.cpp.o: ../crypto_utils.cpp
+CMakeFiles/Process.dir/crypto_utils.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Process.dir/crypto_utils.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/crypto_utils.cpp.o -MF CMakeFiles/Process.dir/crypto_utils.cpp.o.d -o CMakeFiles/Process.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp
+
+CMakeFiles/Process.dir/crypto_utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/crypto_utils.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp > CMakeFiles/Process.dir/crypto_utils.cpp.i
+
+CMakeFiles/Process.dir/crypto_utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/crypto_utils.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp -o CMakeFiles/Process.dir/crypto_utils.cpp.s
+
+CMakeFiles/Process.dir/open_port_test.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/open_port_test.cpp.o: ../open_port_test.cpp
+CMakeFiles/Process.dir/open_port_test.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Process.dir/open_port_test.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/open_port_test.cpp.o -MF CMakeFiles/Process.dir/open_port_test.cpp.o.d -o CMakeFiles/Process.dir/open_port_test.cpp.o -c /home/default/Mycode/Pro_Pairfree/open_port_test.cpp
+
+CMakeFiles/Process.dir/open_port_test.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/open_port_test.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/open_port_test.cpp > CMakeFiles/Process.dir/open_port_test.cpp.i
+
+CMakeFiles/Process.dir/open_port_test.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/open_port_test.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/open_port_test.cpp -o CMakeFiles/Process.dir/open_port_test.cpp.s
+
+CMakeFiles/Process.dir/process_parifree.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/process_parifree.cpp.o: ../process_parifree.cpp
+CMakeFiles/Process.dir/process_parifree.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Process.dir/process_parifree.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/process_parifree.cpp.o -MF CMakeFiles/Process.dir/process_parifree.cpp.o.d -o CMakeFiles/Process.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp
+
+CMakeFiles/Process.dir/process_parifree.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/process_parifree.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/process_parifree.cpp > CMakeFiles/Process.dir/process_parifree.cpp.i
+
+CMakeFiles/Process.dir/process_parifree.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/process_parifree.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/process_parifree.cpp -o CMakeFiles/Process.dir/process_parifree.cpp.s
+
+CMakeFiles/Process.dir/server_socket.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/server_socket.cpp.o: ../server_socket.cpp
+CMakeFiles/Process.dir/server_socket.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Process.dir/server_socket.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/server_socket.cpp.o -MF CMakeFiles/Process.dir/server_socket.cpp.o.d -o CMakeFiles/Process.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp
+
+CMakeFiles/Process.dir/server_socket.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/server_socket.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/server_socket.cpp > CMakeFiles/Process.dir/server_socket.cpp.i
+
+CMakeFiles/Process.dir/server_socket.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/server_socket.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/server_socket.cpp -o CMakeFiles/Process.dir/server_socket.cpp.s
+
+CMakeFiles/Process.dir/tcp_socket.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/tcp_socket.cpp.o: ../tcp_socket.cpp
+CMakeFiles/Process.dir/tcp_socket.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Process.dir/tcp_socket.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/tcp_socket.cpp.o -MF CMakeFiles/Process.dir/tcp_socket.cpp.o.d -o CMakeFiles/Process.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp
+
+CMakeFiles/Process.dir/tcp_socket.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/tcp_socket.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp > CMakeFiles/Process.dir/tcp_socket.cpp.i
+
+CMakeFiles/Process.dir/tcp_socket.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/tcp_socket.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp -o CMakeFiles/Process.dir/tcp_socket.cpp.s
+
+CMakeFiles/Process.dir/utils.cpp.o: CMakeFiles/Process.dir/flags.make
+CMakeFiles/Process.dir/utils.cpp.o: ../utils.cpp
+CMakeFiles/Process.dir/utils.cpp.o: CMakeFiles/Process.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Process.dir/utils.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/Process.dir/utils.cpp.o -MF CMakeFiles/Process.dir/utils.cpp.o.d -o CMakeFiles/Process.dir/utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/utils.cpp
+
+CMakeFiles/Process.dir/utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Process.dir/utils.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/utils.cpp > CMakeFiles/Process.dir/utils.cpp.i
+
+CMakeFiles/Process.dir/utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Process.dir/utils.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/utils.cpp -o CMakeFiles/Process.dir/utils.cpp.s
 
 # Object files for target Process
 Process_OBJECTS = \
-"CMakeFiles/Process.dir/test.cpp.o"
+"CMakeFiles/Process.dir/cls_lib.cpp.o" \
+"CMakeFiles/Process.dir/crypto_utils.cpp.o" \
+"CMakeFiles/Process.dir/open_port_test.cpp.o" \
+"CMakeFiles/Process.dir/process_parifree.cpp.o" \
+"CMakeFiles/Process.dir/server_socket.cpp.o" \
+"CMakeFiles/Process.dir/tcp_socket.cpp.o" \
+"CMakeFiles/Process.dir/utils.cpp.o"
 
 # External object files for target Process
 Process_EXTERNAL_OBJECTS =
 
-../bin/Process: CMakeFiles/Process.dir/test.cpp.o
+../bin/Process: CMakeFiles/Process.dir/cls_lib.cpp.o
+../bin/Process: CMakeFiles/Process.dir/crypto_utils.cpp.o
+../bin/Process: CMakeFiles/Process.dir/open_port_test.cpp.o
+../bin/Process: CMakeFiles/Process.dir/process_parifree.cpp.o
+../bin/Process: CMakeFiles/Process.dir/server_socket.cpp.o
+../bin/Process: CMakeFiles/Process.dir/tcp_socket.cpp.o
+../bin/Process: CMakeFiles/Process.dir/utils.cpp.o
 ../bin/Process: CMakeFiles/Process.dir/build.make
-../bin/Process: ../lib/libcls.so
 ../bin/Process: /usr/local/openssl/lib64/libssl.a
 ../bin/Process: /usr/local/openssl/lib64/libcrypto.a
 ../bin/Process: CMakeFiles/Process.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking CXX executable ../bin/Process"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ../bin/Process"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Process.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

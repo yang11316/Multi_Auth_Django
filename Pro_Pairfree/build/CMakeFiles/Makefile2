@@ -63,7 +63,6 @@ CMAKE_BINARY_DIR = /home/default/Mycode/Pro_Pairfree/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all: CMakeFiles/cls.dir/all
 all: CMakeFiles/Process.dir/all
 .PHONY : all
 
@@ -72,35 +71,8 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean: CMakeFiles/cls.dir/clean
 clean: CMakeFiles/Process.dir/clean
 .PHONY : clean
-
-#=============================================================================
-# Target rules for target CMakeFiles/cls.dir
-
-# All Build rule for target.
-CMakeFiles/cls.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cls.dir/build.make CMakeFiles/cls.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cls.dir/build.make CMakeFiles/cls.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=3,4,5,6,7,8,9,10 "Built target cls"
-.PHONY : CMakeFiles/cls.dir/all
-
-# Build rule for subdir invocation for target.
-CMakeFiles/cls.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/build/CMakeFiles 8
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/cls.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/build/CMakeFiles 0
-.PHONY : CMakeFiles/cls.dir/rule
-
-# Convenience name for target.
-cls: CMakeFiles/cls.dir/rule
-.PHONY : cls
-
-# clean rule for target.
-CMakeFiles/cls.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/cls.dir/build.make CMakeFiles/cls.dir/clean
-.PHONY : CMakeFiles/cls.dir/clean
 
 #=============================================================================
 # Target rules for target CMakeFiles/Process.dir
@@ -109,12 +81,12 @@ CMakeFiles/cls.dir/clean:
 CMakeFiles/Process.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process.dir/build.make CMakeFiles/Process.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process.dir/build.make CMakeFiles/Process.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=1,2 "Built target Process"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target Process"
 .PHONY : CMakeFiles/Process.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Process.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/build/CMakeFiles 2
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/build/CMakeFiles 8
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Process.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/build/CMakeFiles 0
 .PHONY : CMakeFiles/Process.dir/rule

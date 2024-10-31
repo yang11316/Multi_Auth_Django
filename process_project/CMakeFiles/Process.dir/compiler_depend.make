@@ -275,8 +275,7 @@ CMakeFiles/Process.dir/crypto_utils.cpp.o: crypto_utils.cpp \
   utils.h \
   /usr/include/c++/11/chrono \
   /usr/include/c++/11/ratio \
-  /usr/include/c++/11/bits/parse_numbers.h \
-  /usr/local/include/gmssl/sm3.h
+  /usr/include/c++/11/bits/parse_numbers.h
 
 CMakeFiles/Process.dir/process_parifree.cpp.o: process_parifree.cpp \
   /usr/include/stdc-predef.h \
@@ -917,8 +916,6 @@ comm_parifree.h:
 process_parifree.h:
 
 process_parifree.cpp:
-
-/usr/local/include/gmssl/sm3.h:
 
 /usr/include/c++/11/bits/parse_numbers.h:
 
