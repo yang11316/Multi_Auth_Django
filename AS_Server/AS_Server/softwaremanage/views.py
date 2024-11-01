@@ -305,6 +305,7 @@ def software_delete(request):
             return JsonResponse({"status": "error", "message": str(e)})
 
 
+# 批准软件注册，计算pid
 def approve_software_register(request):
     if request.method == "POST":
         try:
@@ -354,6 +355,7 @@ def approve_software_register(request):
                     entity_instance.create_time = timezone.now()
                     entity_instance.update_time = timezone.now()
                     # 发送对应的ap，如果部署ap围在线就退出
+                    """
                     payload = {
                         "add_data": {
                             "entity_pid": entity_instance.entity_pid,
@@ -377,6 +379,9 @@ def approve_software_register(request):
                         return JsonResponse(
                             {"status": "error", "message": response.json()["message"]}
                         )
+                    """
+                    software_instance.save()
+                    entity_instance.save()
 
                 # 删除rsoftwarelocation表和rsoftware中的信息
 

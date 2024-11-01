@@ -138,6 +138,58 @@ def get_entity_data(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
+
+@csrf_exempt
+def get_entity(request):
+    if request.method=="POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            # print(json_data)
+            json_data = json.loads(json_data)
+            software_id = json_data["software_id"]
+            software_hash = json_data["software_hash"]
+            user_id = json_data["user_id"]
+            entity_ipaddr = json_data["entity_ip"]
+            acc_cur = json_data["acc_cur"]
+            aux_data = json_data["aux"]
+            entity_pair=json_data["entity_pair"]
+            kgc.acc_cur = utils.hex2int(acc_cur)
+            save_kgc_paramters()
+            print("update now")
+            # 更新现有的进程的部分私钥
+            for entity_instance in EntityInfo.objects.filter(entity_parcialkey__isnull=False):
+                entity_instance.entity_parcialkey = kgc.update_witness(aux_data,entity_instance.entity_parcialkey)
+                entity_instance.save()
+            # 将aux分别发送给alive进程    
+            for entity in EntityInfo.objects.filter(is_alive=True): 
+                entity_ip = entity.entity_ip
+                entity_listening_port = str(entity.entity_listening_port)
+                data={"aux":aux_data}
+                post_data_to_process(entity_ip,entity_listening_port,"",data)
+            # 创建新的entity
+            print(entity_pair)
+            for tmp_pair in entity_pair:
+                if(EntityInfo.objects.filter(entity_pid=tmp_pair["entity_pid"]).exists()):
+                    entity_instance = EntityInfo.objects.get(entity_pid=tmp_pair["entity_pid"])
+                    entity_instance.entity_parcialkey = tmp_pair["entity_parcialkey"]
+                    entity_instance.software_hash = software_hash
+                    entity_instance.software_id = software_id
+                    entity_instance.user_id = user_id
+                    entity_instance.entity_ip = entity_ipaddr
+                    entity_instance.save()
+                    continue
+                entity_instance = EntityInfo()
+                entity_instance.entity_pid = tmp_pair["entity_pid"]
+                entity_instance.software_hash = software_hash
+                entity_instance.software_id = software_id
+                entity_instance.user_id = user_id
+                entity_instance.entity_ip = entity_ipaddr
+                entity_instance.entity_parcialkey = tmp_pair["entity_parcialkey"]
+                entity_instance.save()
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)})
+
 # 接收as发来的部分私钥{"patcialkey_data":{"entity_pid":"","entity_porecessid":""}}
 @csrf_exempt
 def get_parcial_key(request):
@@ -187,8 +239,7 @@ def get_aux_data(request):
                 entity_instance.entity_parcialkey = kgc.update_witness(aux_data,entity_instance.entity_parcialkey)
                 entity_instance.save()
             # 将aux分别发送给alive进程
-            for entity in EntityInfo.objects.filter(is_alive=True):
-                
+            for entity in EntityInfo.objects.filter(is_alive=True): 
                 entity_ip = entity.entity_ip
                 entity_listening_port = str(entity.entity_listening_port)
                 data={"aux":aux_data}

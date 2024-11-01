@@ -11,12 +11,14 @@ except ImportError:
 class SimpleMiddleware(MiddlewareMixin):
     def process_request(self, request):
         print(request.path)
-        if (
-            request.path != "/usermanage/user-login/"
-            and request.path != "/usermanage/user-register/"
-            and request.path != "/entitymanage/get-alive-entity/"
-            and request.path != "/entitymanage/get-down-entity/"
-        ):
+        path = [
+            "/usermanage/user-login/",
+            "/usermanage/user-register/",
+            "/entitymanage/get-alive-entity/",
+            "/entitymanage/get-down-entity/",
+            "/entitymanage/calculate-particalkey/",
+        ]
+        if request.path not in path:
             try:
                 if "token" in request.COOKIES:
                     token = request.COOKIES["token"]

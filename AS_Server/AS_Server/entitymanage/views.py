@@ -11,6 +11,7 @@ import json, datetime, os
 from fastecdsa import keys
 import requests
 from django.views.decorators.csrf import csrf_exempt
+from copy import deepcopy
 
 # Create your views here.
 acc = accumulator.Accumulator()
@@ -111,7 +112,7 @@ def entity_query_alive(request):
             return JsonResponse({"status": "error", "message": str(e)})
 
 
-# 创建实体
+# 测试使用
 @csrf_exempt
 def entity_add(request):
     """
@@ -220,119 +221,87 @@ def entity_query_all(request):
 # 计算实体的部分私钥
 def entity_calculate_parcialkey(request):
     if request.method == "POST":
+        # 深拷贝一份acc，以便还原
+        global acc
+        print(acc.pids)
+        tmp_acc = deepcopy(acc)
         try:
-            # json_data = request.POST.get("calculate_data")
             json_data = json.loads(request.body.decode("utf-8"))
             entity_pid = json_data["entity_pid"]
-            json_data = [entity_pid]
-            # 判断json——data是否存在于数据库中，如果都存在于就执行，否则返回错误
-            if EnityTable.objects.filter(entity_pid=entity_pid).count() == 0:
+            count = json_data["count"]
+            # print(entity_pid)
+            # 判断json——data是否存在于数据库中，如果都存在就执行，否则返回错误
+            if not EnityTable.objects.filter(entity_pid=entity_pid).exists():
                 return JsonResponse(
                     {"status": "error", "message": "entity_pid is not exist"}
                 )
+            # 判断节点是否已经下发过密钥
+            entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
+            # 判断要下发的节点是否存活
+            if not entity_instance.node_id.node_is_alive:
+                return JsonResponse({"status": "error", "message": "node is not alive"})
+            if entity_instance.entity_parcialkey != None:
+                return JsonResponse(
+                    {"status": "error", "message": "entity_parcialkey is exist"}
+                )
 
-            if len(acc.pids) == 0:
-
+            # print("build start")
+            # 批量建立pid 未save
+            entity_instance_list = [entity_instance]
+            for i in range(1, count):
+                tmp_instance = EnityTable()
+                tmp_instance.entity_pid = utils.calculate_pid(
+                    entity_instance.software_id.software_hash, entity_instance.entity_ip
+                )
+                tmp_instance.software_id = entity_instance.software_id
+                tmp_instance.software_name = entity_instance.software_name
+                tmp_instance.node_id = entity_instance.node_id
+                tmp_instance.user_id = entity_instance.user_id
+                tmp_instance.entity_ip = entity_instance.entity_ip
+                entity_instance_list.append(tmp_instance)
+            # print("calculate start")
+            # 计算parcialkey
+            entity_pair = []
+            aux = ""
+            if acc.pids == 0:
                 # 系统内没有计算的证据值
-                for entity_pid in json_data:
-                    # 先加入到pids中，再分别计算witness，避免witness重复更新
-                    acc.add_member(entity_pid)
-                print(acc.pids)
-
-                # acc.add_member(entity_pid)
-                not_send_list = []
-                for entity_pid in json_data:
-                    temp_parcialkey: str = acc.witness_generate_by_pid(entity_pid)
-                    # 写入数据库保存
-                    entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
-                    entity_instance.entity_parcialkey = temp_parcialkey
-                    # 将部分私钥发送给要存储的ap
-                    payload = {
-                        "patcialkey_data": {
-                            "entity_pid": entity_pid,
-                            "entity_parcialkey": temp_parcialkey,
-                            "acc_cur": utils.int2hex(acc.acc_cur),
+                for tmp_instance in entity_instance_list:
+                    acc.add_member(tmp_instance.entity_pid)
+                for tmp_instance in entity_instance_list:
+                    tmp_instance.entity_parcialkey = acc.witness_generate_by_pid(
+                        tmp_instance.entity_pid
+                    )
+                    entity_pair.append(
+                        {
+                            "entity_pid": tmp_instance.entity_pid,
+                            "entity_parcialkey": tmp_instance.entity_parcialkey,
                         }
-                    }
-                    node_ip = entity_instance.node_id.node_ip
-                    node_port = entity_instance.node_id.node_port
-                    if not entity_instance.node_id.node_is_alive:
-                        not_send_list.append(entity_pid)
-                        continue
-
-                    response = post_to_ap(
-                        node_ip,
-                        node_port,
-                        "/entitymanage/getparcialkey/",
-                        payload=payload,
                     )
-
-                    # ap掉线情况,继续发送后面的数据，掉线信息记录
-                    if response == None:
-                        not_send_list.append(entity_pid)
-                        continue
-
-                    if response.json()["status"] != "success":
-                        acc.pids = []
-                        return JsonResponse(
-                            {"status": "error", "message": response.json()["message"]}
-                        )
-
-                    # 将信息保存到as本地数据库
-                    entity_instance.save()
-                # 将kgc的信息保存
-                kgc_paramter_save()
-                print("test")
-                if len(not_send_list) != 0:
-                    return JsonResponse(
-                        {"status": "sucess", "message": "{}".format(not_send_list)}
-                    )
-                return JsonResponse({"status": "success"})
-
             else:
-                for entity_pid in json_data:
-                    # 先加入到pids中，再分别计算witness，避免witness重复更新
-                    if entity_pid in acc.pids:
+                update_pid = []
+                for tmp_instance in entity_instance_list:
+                    if tmp_instance.entity_pid in acc.pids:
                         return JsonResponse(
                             {
                                 "status": "error",
                                 "message": "entity_pid is already exist",
                             }
                         )
-
-                    acc.add_member(entity_pid)
-
-                # acc.add_member(entity_pid)
-                print(acc.pids)
-                print(json_data)
-                # 计算聚合后的aux
-                aux = acc.get_new_aux(json_data)
-                print(aux)
-                # 向存活的ap发送aux
-                node_instance_all = NodeTable.objects.filter(node_is_alive=True)
-                for tmp_node in node_instance_all:
-                    node_ip = tmp_node.node_ip
-                    node_port = tmp_node.node_port
-                    payload = {
-                        "aux_data": {
-                            "aux": aux,
-                            "acc_cur": utils.int2hex(acc.acc_cur),
-                        }
-                    }
-                    response = post_to_ap(
-                        node_ip,
-                        node_port,
-                        "/entitymanage/getauxdata/",
-                        payload=payload,
+                    acc.add_member(tmp_instance.entity_pid)
+                    update_pid.append(tmp_instance.entity_pid)
+                for tmp_instance in entity_instance_list:
+                    tmp_instance.entity_parcialkey = acc.witness_generate_by_pid(
+                        tmp_instance.entity_pid
                     )
-                    if response.json()["status"] != "success":
-                        return JsonResponse(
-                            {
-                                "status": "error",
-                                "message": response.json()["message"],
-                            }
-                        )
-                # 更新本地现存的部分私钥
+                    entity_pair.append(
+                        {
+                            "entity_pid": tmp_instance.entity_pid,
+                            "entity_parcialkey": tmp_instance.entity_parcialkey,
+                        }
+                    )
+                # 计算更新凭证
+                aux = acc.get_new_aux(update_pid)
+                # 更新本地的部分私钥
                 entity_parcialkey_instance = EnityTable.objects.filter(
                     entity_parcialkey__isnull=False
                 )
@@ -341,54 +310,63 @@ def entity_calculate_parcialkey(request):
                         aux, tmp_instance.entity_parcialkey
                     )
                     tmp_instance.save()
-
-                # 计算新增的部分私钥
-                not_send_list = []
-                for entity_pid in json_data:
-                    temp_parcialkey: str = acc.witness_generate_by_pid(entity_pid)
-                    # 写入数据库保存
-                    entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
-                    entity_instance.entity_parcialkey = temp_parcialkey
-                    # 将部分私钥发送给要存储的ap
-                    payload_parcialkey = {
-                        "patcialkey_data": {
-                            "entity_pid": entity_pid,
-                            "entity_parcialkey": temp_parcialkey,
-                            "acc_cur": utils.int2hex(acc.acc_cur),
-                        }
+                print("aux:", aux)
+            # 向对应ap发送entity信息,发送成功则save
+            post_data = {
+                "software_id": entity_instance.software_id.software_id,
+                "user_id": entity_instance.user_id.user_id,
+                "entity_ip": entity_instance.entity_ip,
+                "software_hash": entity_instance.software_id.software_hash,
+                "acc_cur": utils.int2hex(acc.acc_cur),
+                "entity_pair": entity_pair,
+                "aux": aux,
+            }
+            node_ip = entity_instance.node_id.node_ip
+            node_port = entity_instance.node_id.node_port
+            response = post_to_ap(
+                node_ip,
+                node_port,
+                "/entitymanage/getentity/",
+                payload=post_data,
+            )
+            if response.json()["status"] != "success":
+                # 还原acc
+                acc = deepcopy(tmp_acc)
+                return JsonResponse(
+                    {"status": "error", "message": response.json()["message"]}
+                )
+            else:
+                for tmp_entity in entity_instance_list:
+                    tmp_entity.save()
+                    kgc_paramter_save()
+            # 如果aux不为空 向其他ap发送更新凭证
+            if aux != "":
+                post_data = {
+                    "aux_data": {
+                        "aux": aux,
+                        "acc_cur": utils.int2hex(acc.acc_cur),
                     }
-                    node_ip = entity_instance.node_id.node_ip
-                    node_port = entity_instance.node_id.node_port
-                    if not entity_instance.node_id.node_is_alive:
-                        not_send_list.append(entity_pid)
-                        continue
-
-                    response = post_to_ap(
-                        node_ip,
-                        node_port,
-                        "/entitymanage/getparcialkey/",
-                        payload=payload_parcialkey,
-                    )
-
-                    # ap掉线情况,继续发送后面的数据，掉线信息记录
-                    if response == None:
-                        not_send_list.append(entity_pid)
-                        continue
-
-                    if response.json()["status"] != "success":
-                        acc.pids = []
-                        return JsonResponse(
-                            {"status": "error", "message": response.json()["message"]}
+                }
+                node_instance_all = NodeTable.objects.filter(node_is_alive=True)
+                for node_instance in node_instance_all:
+                    if node_instance.node_id != entity_instance.node_id.node_id:
+                        response = post_to_ap(
+                            node_instance.node_ip,
+                            node_instance.node_port,
+                            "/entitymanage/getauxdata/",
+                            payload=post_data,
                         )
-                    entity_instance.save()
+                        if response == None:
+                            print(
+                                "can not send aux to node:",
+                                node_instance.node_id,
+                                ", node is not alive",
+                            )
 
-                kgc_paramter_save()
-                if len(not_send_list) != 0:
-                    return JsonResponse(
-                        {"status": "sucess", "message": "{}".format(not_send_list)}
-                    )
-                return JsonResponse({"status": "success"})
+            return JsonResponse({"status": "success"})
+
         except Exception as e:
+            acc = deepcopy(tmp_acc)
             return JsonResponse({"status": "error", "message": str(e)})
 
 
