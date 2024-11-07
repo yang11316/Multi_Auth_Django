@@ -2,15 +2,15 @@
 #ifndef CLS_LIB_H
 #define CLS_LIB_H
 
+#include "base_thread.h"
 #include "server_socket.h"
 #include "process_parifree.h"
 #include <unordered_map>
 #include "json/json.h"
 #include <fstream>
-#include <thread>
 #include <sys/select.h>
 
-class CLS_LIB
+class CLS_LIB : public BaseThread
 {
 private:
     uint16_t sending_port;
@@ -18,9 +18,10 @@ private:
     std::string ip;
     std::string ap_ip;
     uint16_t ap_port;
-    Process_manager *m_process_manager = nullptr;
+
     TcpServer *m_server = nullptr;
     TcpSocket *m_socket = nullptr;
+    Process_manager *m_process_manager = nullptr;
 
 public:
     CLS_LIB(std::string json_file);
@@ -31,7 +32,8 @@ public:
     ~CLS_LIB();
 
     // 启动服务器
-    void startListening();
+    // void startListening();
+    void run() override;
     bool init();
     std::string sign(const std::string &msg);
     bool verify(const std::string &sig);

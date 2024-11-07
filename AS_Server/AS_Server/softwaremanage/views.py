@@ -328,6 +328,8 @@ def approve_software_register(request):
                 )
                 software_instance.software_desc = rsoftware_instance.rsoftware_desc
                 software_instance.user_id = rsoftware_instance.user_id
+                software_instance.create_time = timezone.now()
+                software_instance.update_time = timezone.now()
 
                 """
                 将rsoftwarelocation表中的信息部署到entity表中            
@@ -354,32 +356,7 @@ def approve_software_register(request):
                     )
                     entity_instance.create_time = timezone.now()
                     entity_instance.update_time = timezone.now()
-                    # 发送对应的ap，如果部署ap围在线就退出
-                    """
-                    payload = {
-                        "add_data": {
-                            "entity_pid": entity_instance.entity_pid,
-                            "software_id": software_instance.software_id,
-                            "software_hash": software_instance.software_hash,
-                            "user_id": software_instance.user_id.user_id,
-                            "entity_ip": rlsoftwarelocation_instance.entity_ip,
-                        }
-                    }
-                    response = post_to_ap(
-                        node_instace.node_ip,
-                        node_instace.node_port,
-                        "/entitymanage/addentity/",
-                        payload=payload,
-                    )
-                    # print(response.json())
-                    if response.json()["status"] == "success":
-                        software_instance.save()
-                        entity_instance.save()
-                    else:
-                        return JsonResponse(
-                            {"status": "error", "message": response.json()["message"]}
-                        )
-                    """
+
                     software_instance.save()
                     entity_instance.save()
 

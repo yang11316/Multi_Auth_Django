@@ -58,7 +58,7 @@ int TcpServer::setListen()
     return ret;
 }
 
-int TcpServer::acceptConn(int wait_time = 10000)
+int TcpServer::acceptConn(int wait_time)
 {
 
     if (wait_time > 0)
@@ -85,10 +85,6 @@ int TcpServer::acceptConn(int wait_time = 10000)
     struct sockaddr_in addrCli;
     socklen_t addrlen = sizeof(struct sockaddr_in);
     int connfd = accept(m_lfd, (struct sockaddr *)&addrCli, &addrlen); // 返回已连接套接字
-    if (connfd == -1)
-    {
-        return NULL;
-    }
     return connfd;
 }
 

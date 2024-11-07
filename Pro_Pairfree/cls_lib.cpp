@@ -25,7 +25,6 @@ CLS_LIB::CLS_LIB(const std::string &ip, const uint16_t &listening_port, const ui
 
 bool CLS_LIB::init()
 {
-
     // 发送http请求
     std::cout << "connect to AP" << std::endl;
     this->m_socket = new TcpSocket();
@@ -75,14 +74,37 @@ bool CLS_LIB::init()
     }
 
     m_socket->disConnect();
+    this->start();
     return true;
+}
+
+void CLS_LIB::run()
+{
+    if (m_server != nullptr)
+    {
+        perror("server has been started");
+        return;
+    }
+    m_server = new TcpServer(ip, listening_port);
+    // 设置监听
+    int ret = m_server->setListen();
+    while (!should_stop())
+    {
+        int client_socket = m_server->acceptConn(5);
+        if (client_socket <= 0)
+        {
+            continue;
+        }
+        std::thread client_thread(&CLS_LIB::client_deal, this, client_socket);
+        client_thread.join();
+    }
 }
 
 std ::string CLS_LIB::sign(const std::string &msg)
 {
     if (this->m_process_manager->get_size() > 0)
     {
-        // std::cout << "====================Send Sign Message====================" << std::endl;
+        std::cout << "====================Send Sign Message====================" << std::endl;
         sign_payload payload = this->m_process_manager->get_process().sign(msg);
         // std::cout << payload.to_string() << std::endl;
         std::string msg_str = "pid=" + payload.pid + "&msg=" + payload.msg + "&sig1=" + payload.sig1 + "&sig2=" + payload.sig2 + "&time_stamp=" + payload.time_stamp + "&WIT=" + payload.WIT + "&wit_hex=" + payload.wit_hex + "&X=" + payload.X;
@@ -110,8 +132,8 @@ bool CLS_LIB::verify(const std::string &sig)
         recv_payload.WIT = payload_map["WIT"];
         recv_payload.wit_hex = payload_map["wit_hex"];
         recv_payload.X = payload_map["X"];
-
-        return tmp_process.verify_sign(recv_payload);
+        bool ret = tmp_process.verify_sign(recv_payload);
+        return ret;
     }
     else
     {
@@ -120,60 +142,41 @@ bool CLS_LIB::verify(const std::string &sig)
     }
 }
 
-void CLS_LIB::startListening()
-{
-
-    if (m_server != nullptr)
-    {
-        perror("server has been started");
-        return;
-    }
-    m_server = new TcpServer(ip, listening_port);
-    // 设置监听
-    int ret = m_server->setListen();
-    int m_fd = m_server->getSocket();
-    // 使用select监听
-    fd_set read_fd;
-    FD_ZERO(&read_fd);
-    fd_set tmp_set;
-    FD_ZERO(&tmp_set);
-    // 将套接字放入文件描述集合终
-    FD_SET(m_fd, &read_fd);
-    int max_sd = m_fd;
-    while (1)
-    {
-        int client_socket = m_server->acceptConn(0);
-        if (client_socket <= 0)
-        {
-            continue;
-        }
-        std::thread client_thread(&CLS_LIB::client_deal, this, client_socket);
-        client_thread.join();
-    }
-}
-
 void CLS_LIB::client_deal(int connfd)
 {
     int client_socket = connfd;
     TcpSocket *new_socket = new TcpSocket(client_socket);
-    // string tmp_flag = new_socket->recvmsg(4, 0);
-    // cout << "receive flag: " << tmp_flag << endl;
-    // if (tmp_flag == "POST")
-    // {
-    // cout << "receive http request" << endl;
-    std::string recv_msg = new_socket->recvmsg(0, 0);
+    std::string recv_msg = new_socket->recvHTTPmsg();
     std::cout << "receive http message:" << recv_msg << std::endl;
     std::unordered_map<std::string, std::string> tmp_params = parse_from_http(recv_msg);
-    // cout << tmp_params.size() << endl;
-
     // 更新消息
     if (tmp_params.size() == 1)
     {
         if (this->m_process_manager->get_size() > 0)
         {
+            std::cout << tmp_params["aux"] << std::endl;
+            this->m_process_manager->update_process(tmp_params["aux"]);
+            std::cout << "partical key update sucessfully!" << std::endl;
+            std::cout << "accumulator:" << m_process_manager->get_process().acc_cur.get_str(16) << std::endl;
+        }
+    }
+    else if (tmp_params.size() == 2)
+    {
+        if (this->m_process_manager->get_size() > 0)
+        {
+            std::string withdraw_pid = tmp_params["pid"];
+
+            if (this->m_process_manager->has_process(withdraw_pid))
+            {
+                std::cout << "withdraw pid:" << withdraw_pid << std::endl;
+                this->m_process_manager->delete_process(withdraw_pid);
+                std::cout << "delete pid: " << withdraw_pid << std::endl;
+            }
+            std::cout << "update" << std::endl;
             this->m_process_manager->update_process(tmp_params["aux"]);
             std::cout << "partical key update" << std::endl;
             std::cout << "accumulator:" << m_process_manager->get_process().acc_cur.get_str(16) << std::endl;
+            // std::cout << "acc public key:" << m_process_manager->get_process().acc_publickey.get_str(16) << std::endl;
         }
     }
     // 参数消息 暂时无用
@@ -191,6 +194,10 @@ void CLS_LIB::client_deal(int connfd)
             std::cout << "[Error] generate full key failed with parcialkey: " << tmp_params["entity_parcialkey"] << std::endl;
         }
     }
+    else
+    {
+        std::cout << "receve null" << std::endl;
+    }
     std::string response = "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n";
     new_socket->sendMsg(response);
     new_socket->disConnect();
@@ -199,11 +206,25 @@ void CLS_LIB::client_deal(int connfd)
 
 CLS_LIB::~CLS_LIB()
 {
+    stop();
+    join();
     if (m_server)
     {
         m_server->closefd();
         delete m_server;
         m_server = nullptr;
+    }
+    if (m_socket)
+    {
+        delete m_socket;
+        m_socket = nullptr;
+    }
+
+    // 释放 m_process_manager
+    if (m_process_manager)
+    {
+        delete m_process_manager;
+        m_process_manager = nullptr;
     }
 }
 
@@ -215,36 +236,22 @@ pid_t CLS_LIB::get_current_pid()
 std::unordered_map<std::string, std::string> CLS_LIB::parse_from_http(const std::string &http_data)
 {
     std::unordered_map<std::string, std::string> result;
-    size_t pos = http_data.find("\r\n\r\n");
-    std::cout << pos << std::endl;
-    if (pos != std::string::npos)
+    std::vector<std::string> pairs;
+    std::istringstream iss(http_data);
+    std::string pair;
+    // 读取每行数据
+    while (std::getline(iss, pair, '&'))
     {
-        // 获取json格式数据
-        std::string data = http_data.substr(pos + 4);
-        // 按 '&' 分割数据
-        pos = 0;
-        while (pos < data.size())
+        pairs.push_back(pair);
+    }
+    for (const auto &p : pairs)
+    {
+        size_t pos = p.find('=');
+        if (pos != std::string::npos)
         {
-            size_t end_pos = data.find('&', pos);
-            if (end_pos == std::string::npos)
-            {
-                end_pos = data.size();
-            }
-            std::string pair = data.substr(pos, end_pos - pos);
-
-            // 按 '=' 分割键值对
-            size_t equal_pos = pair.find('=');
-            if (equal_pos != std::string::npos)
-            {
-                std::string key = pair.substr(0, equal_pos);
-                std::string value = pair.substr(equal_pos + 1);
-
-                // URL 解码
-                // 这里省略了 URL 解码的步骤，
-                // 存储键值对
-                result[key] = value;
-            }
-            pos = end_pos + 1;
+            std::string key = p.substr(0, pos);
+            std::string value = p.substr(pos + 1);
+            result[key] = value;
         }
     }
     return result;

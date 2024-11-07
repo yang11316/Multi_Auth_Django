@@ -53,7 +53,9 @@ public:
     Process();
     Process(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid = NID_secp256k1);
     Process(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &entity_witness, const std::string &kgc_P, int nid = NID_secp256k1);
-
+    Process(const Process &other);
+    ~Process();
+    Process &operator=(const Process &other);
     void init(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &entity_witness, const std::string &kgc_P, int nid = NID_secp256k1);
     void init(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid = NID_secp256k1);
 
@@ -90,11 +92,13 @@ private:
 
 public:
     Process_manager() = default;
+    ~Process_manager();
     void push_back(Process &tmp_process);
     Process &get_process();
     Process &get_process(const std::string &pid);
     bool delete_process(const std::string &pid);
     bool update_process(const std::string &aux);
+    bool has_process(const std::string &pid);
     int get_size();
     Process_manager(const Process_manager &) = delete;
     Process_manager &operator=(const Process_manager &) = delete;

@@ -156,18 +156,23 @@ def get_entity(request):
             kgc.acc_cur = utils.hex2int(acc_cur)
             save_kgc_paramters()
             print("update now")
+            print(aux_data)
             # 更新现有的进程的部分私钥
             for entity_instance in EntityInfo.objects.filter(entity_parcialkey__isnull=False):
                 entity_instance.entity_parcialkey = kgc.update_witness(aux_data,entity_instance.entity_parcialkey)
                 entity_instance.save()
             # 将aux分别发送给alive进程    
+            sended_list=[]
             for entity in EntityInfo.objects.filter(is_alive=True): 
                 entity_ip = entity.entity_ip
                 entity_listening_port = str(entity.entity_listening_port)
+                if entity_listening_port in sended_list:
+                    continue
+                sended_list.append(entity_listening_port)
                 data={"aux":aux_data}
                 post_data_to_process(entity_ip,entity_listening_port,"",data)
             # 创建新的entity
-            print(entity_pair)
+            # print(entity_pair)
             for tmp_pair in entity_pair:
                 if(EntityInfo.objects.filter(entity_pid=tmp_pair["entity_pid"]).exists()):
                     entity_instance = EntityInfo.objects.get(entity_pid=tmp_pair["entity_pid"])
@@ -208,19 +213,7 @@ def get_parcial_key(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
-@csrf_exempt
-# 接收as发来的撤销信息 {"withdrew_data":{"entity_pid":""}}
-def get_withdraw_data(request):
-    if request.method == "POST":
-        try:
-            json_data = request.body.decode("utf-8")
-            json_data = json.loads(json_data).get("withdraw_data")
-            print("withdrew entity pid:"+json_data["entity_pid"])
-            entity_instance = EntityInfo.objects.get(entity_pid = json_data["entity_pid"])
-            entity_instance.delete()
-            return JsonResponse({"status": "success"})
-        except Exception as e:
-            return JsonResponse({"status": "error", "message": str(e)})
+
 # 接收as发来的更新凭证 {"aux_data":{"aux":""}}
 @csrf_exempt
 def get_aux_data(request):
@@ -229,21 +222,33 @@ def get_aux_data(request):
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("aux_data")
             aux_data = json_data["aux"]
+            if("withdraw_pid" in json_data):
+                withdraw_pid = json_data["withdraw_pid"]
+                # 首先查看本地是否存在要删除的pid
+                entity_instance = EntityInfo.objects.filter(entity_pid=withdraw_pid).exists()
+                if(entity_instance):
+                    entity_instance = EntityInfo.objects.get(entity_pid=withdraw_pid)
+                    entity_instance.delete()
+                    print("delete entity:"+withdraw_pid)
             print("get aux data:"+aux_data)
             # 更新本地acc_cur
             kgc.acc_cur=utils.hex2int(kgc.update_witness(aux_data,utils.int2hex(kgc.acc_cur)))
             save_kgc_paramters()
-
             # 更新进程的部分私钥
             for entity_instance in EntityInfo.objects.filter(entity_parcialkey__isnull=False):
                 entity_instance.entity_parcialkey = kgc.update_witness(aux_data,entity_instance.entity_parcialkey)
                 entity_instance.save()
             # 将aux分别发送给alive进程
+            sended_port=[]
             for entity in EntityInfo.objects.filter(is_alive=True): 
                 entity_ip = entity.entity_ip
                 entity_listening_port = str(entity.entity_listening_port)
-                data={"aux":aux_data}
+                if entity_listening_port in sended_port:
+                    continue
+                sended_port.append(entity_listening_port)
+                data={"aux":aux_data,"pid":withdraw_pid}
                 post_data_to_process(entity_ip,entity_listening_port,"",data)
+            sended_port.clear()
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})

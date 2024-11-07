@@ -228,7 +228,7 @@ def entity_calculate_parcialkey(request):
         try:
             json_data = json.loads(request.body.decode("utf-8"))
             entity_pid = json_data["entity_pid"]
-            count = json_data["count"]
+            count = int(json_data["count"])
             # print(entity_pid)
             # 判断json——data是否存在于数据库中，如果都存在就执行，否则返回错误
             if not EnityTable.objects.filter(entity_pid=entity_pid).exists():
@@ -375,78 +375,60 @@ def entity_calculate_parcialkey(request):
 def entity_withdraw(request):
     if request.method == "POST":
         try:
-            # json_data = request.POST.get("withdraw_pid")
-            # json_data = json.loads(json_data)
             json_data = json.loads(request.body.decode("utf-8"))
             entity_pid = json_data.get("entity_pid")
-            entity_instace = EnityTable.objects.get(entity_pid=entity_pid)
-            if entity_instace != None:
-                # 向对应的ap发送删除请求
-                # 判断ap是否alive
-                if not entity_instace.node_id.node_is_alive:
-                    return JsonResponse({"status": "error", "message": "ap not alive"})
-                node_ip = entity_instace.node_id.node_ip
-                node_port = entity_instace.node_id.node_port
-                payload = {"withdraw_data": {"entity_pid": entity_pid}}
+            entity_instance = EnityTable.objects.filter(entity_pid=entity_pid).exists()
+            if not entity_instance:
+                return JsonResponse({"status": "error", "message": "pid not exists"})
+            entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
+            if entity_instance.entity_parcialkey == None:
+                return JsonResponse(
+                    {"status": "error", "message": "entity doesn't have parcialkey"}
+                )
+            # 生成aux
+            aux = acc.remove_member(entity_pid)
+            node_instance_all = NodeTable.objects.filter(node_is_alive=True)
+            payload = {
+                "aux_data": {
+                    "aux": aux,
+                    "acc_cur": utils.int2hex(acc.acc_cur),
+                    "withdraw_pid": entity_pid,
+                }
+            }
+            # 发送更新凭证
+            for tmp_node in node_instance_all:
+                node_ip = tmp_node.node_ip
+                node_port = tmp_node.node_port
                 response = post_to_ap(
                     node_ip,
                     node_port,
-                    "/entitymanage/getwithdrawdata/",
+                    "/entitymanage/getauxdata/",
                     payload=payload,
                 )
-                # ap可能掉线，掉线返回错误，不保存数据
                 if response == None:
-                    return JsonResponse({"status": "error", "message": "ap not alive"})
-
+                    print(
+                        "can not send aux to node:",
+                        tmp_node.node_ip,
+                        ", node is not alive",
+                    )
+                    tmp_node.node_is_alive = False
+                    tmp_node.save()
+                    continue
                 if response.json()["status"] != "success":
                     return JsonResponse(
-                        {"status": "error", "message": response.json()["message"]}
-                    )
-
-                if entity_instace.entity_parcialkey != None:
-                    # 如果entity计算过部分私钥，更新accumulator，并且计算aux，并发送给全体节点
-                    aux = acc.remove_member(entity_pid)
-                    # 将aux发送给全部AP nodes
-                    node_instance_all = NodeTable.objects.filter(node_is_alive=True)
-                    for tmp_node in node_instance_all:
-                        node_ip = tmp_node.node_ip
-                        node_port = tmp_node.node_port
-                        payload = {
-                            "aux_data": {
-                                "aux": aux,
-                                "acc_cur": utils.int2hex(acc.acc_cur),
-                            }
+                        {
+                            "status": "error",
+                            "message": response.json()["message"],
                         }
-                        response = post_to_ap(
-                            node_ip,
-                            node_port,
-                            "/entitymanage/getauxdata/",
-                            payload=payload,
-                        )
-                        if response.json()["status"] != "success":
-                            return JsonResponse(
-                                {
-                                    "status": "error",
-                                    "message": response.json()["message"],
-                                }
-                            )
-
-                    # 更新AS上的部分私钥记录
-                    temp_pids = EnityTable.objects.filter(
-                        entity_parcialkey__isnull=False
                     )
-                    for tmp in temp_pids:
-                        tmp.entity_parcialkey = acc.update_witness(
-                            aux, tmp.entity_parcialkey
-                        )
-                        tmp.save()
-                # 撤销删除操作完成
-                entity_instace.delete()
-                kgc_paramter_save()
-                return JsonResponse({"status": "success"})
-            else:
-                return JsonResponse({"status": "error", "message": "pid not exists"})
-
+            # 更新AS上的部分私钥记录
+            temp_pids = EnityTable.objects.filter(entity_parcialkey__isnull=False)
+            for tmp in temp_pids:
+                tmp.entity_parcialkey = acc.update_witness(aux, tmp.entity_parcialkey)
+                tmp.save()
+            entity_instance.delete()
+            kgc_paramter_save()
+            return JsonResponse({"status": "success"})
         except Exception as e:
             print(e)
             return JsonResponse({"status": "error", "message": str(e)})

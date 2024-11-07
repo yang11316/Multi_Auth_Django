@@ -16,7 +16,7 @@ public:
     //    服务器设置监听
     int setListen();
     //    等待并接受客户端连接请求，默认连接时间为timeout，超时退出listening
-    int acceptConn(int timeout);
+    int acceptConn(int timeout = 1000);
     int getSocket() { return m_lfd; };
     void closefd();
 };

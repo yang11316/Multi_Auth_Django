@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Process)
+project(Process_entity2)
 
 set(CMAKE_CXX_STANDARD 11)
 set(OUT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/bin)
@@ -50,9 +50,9 @@ link_directories(/usr/local/lib/x86_64-linux-gnu)
 # link_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 
 file(GLOB SOURCE_CPP *.cpp)
-add_executable(Process ${SOURCE_CPP})
+add_executable(Process_entity2 ${SOURCE_CPP})
 # add_executable(Process open_port_test.cpp)
 
 
 # target_link_libraries(Process  ${CMAKE_CURRENT_SOURCE_DIR}/lib/libcls.so  ${Openssl_LIB_DIR}/libssl.a ${Openssl_LIB_DIR}/libcrypto.a pthread libjsoncpp.a dl gmp gmpxx)
-target_link_libraries(Process   ${Openssl_LIB_DIR}/libssl.a ${Openssl_LIB_DIR}/libcrypto.a pthread libjsoncpp.a dl gmp gmpxx)
+target_link_libraries(Process_entity2  ${Openssl_LIB_DIR}/libssl.a ${Openssl_LIB_DIR}/libcrypto.a pthread libjsoncpp.a dl gmp gmpxx)

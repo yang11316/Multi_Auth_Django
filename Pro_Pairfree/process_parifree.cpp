@@ -31,6 +31,122 @@ Process::Process(const std::string &entity_pid, const std::string &acc_publickey
     this->is_init = true;
 }
 
+Process::Process(const Process &other)
+    : acc_cur(other.acc_cur), acc_publickey(other.acc_publickey), acc_witness(other.acc_witness),
+      pid(other.pid), is_init(other.is_init), is_fullkey(other.is_fullkey)
+{
+
+    // 深拷贝 EC_GROUP
+    if (other.ec_group)
+    {
+        ec_group = EC_GROUP_dup(other.ec_group);
+    }
+    else
+    {
+        ec_group = nullptr;
+    }
+
+    // 深拷贝 BIGNUM 成员
+    q = other.q ? BN_dup(other.q) : nullptr;
+    wit_hash = other.wit_hash ? BN_dup(other.wit_hash) : nullptr;
+    x = other.x ? BN_dup(other.x) : nullptr;
+    wit = other.wit ? BN_dup(other.wit) : nullptr;
+
+    // 深拷贝 EC_POINT 成员
+    Pub = other.Pub ? EC_POINT_dup(other.Pub, ec_group) : nullptr;
+    X = other.X ? EC_POINT_dup(other.X, ec_group) : nullptr;
+    WIT = other.WIT ? EC_POINT_dup(other.WIT, ec_group) : nullptr;
+}
+
+Process &Process::operator=(const Process &other)
+{
+    if (this == &other)
+        return *this; // 自我赋值保护
+
+    // 释放旧资源
+    if (ec_group)
+        EC_GROUP_free(ec_group);
+    if (q)
+        BN_free(q);
+    if (wit_hash)
+        BN_free(wit_hash);
+    if (x)
+        BN_free(x);
+    if (wit)
+        BN_free(wit);
+    if (Pub)
+        EC_POINT_free(Pub);
+    if (X)
+        EC_POINT_free(X);
+    if (WIT)
+        EC_POINT_free(WIT);
+
+    // 拷贝非指针成员
+    acc_cur = other.acc_cur;
+    acc_publickey = other.acc_publickey;
+    acc_witness = other.acc_witness;
+    pid = other.pid;
+    is_init = other.is_init;
+    is_fullkey = other.is_fullkey;
+
+    // 深拷贝指针成员
+    ec_group = other.ec_group ? EC_GROUP_dup(other.ec_group) : nullptr;
+    q = other.q ? BN_dup(other.q) : nullptr;
+    wit_hash = other.wit_hash ? BN_dup(other.wit_hash) : nullptr;
+    x = other.x ? BN_dup(other.x) : nullptr;
+    wit = other.wit ? BN_dup(other.wit) : nullptr;
+    Pub = other.Pub ? EC_POINT_dup(other.Pub, ec_group) : nullptr;
+    X = other.X ? EC_POINT_dup(other.X, ec_group) : nullptr;
+    WIT = other.WIT ? EC_POINT_dup(other.WIT, ec_group) : nullptr;
+
+    return *this;
+}
+
+Process::~Process()
+{
+
+    if (ec_group)
+    {
+        EC_GROUP_free(ec_group);
+        ec_group = nullptr;
+    }
+    if (Pub)
+    {
+        EC_POINT_free(Pub);
+        Pub = nullptr;
+    }
+    if (X)
+    {
+        EC_POINT_free(X);
+        X = nullptr;
+    }
+    if (WIT)
+    {
+        EC_POINT_free(WIT);
+        WIT = nullptr;
+    }
+    if (q)
+    {
+        BN_free(q);
+        q = nullptr;
+    }
+    if (wit_hash)
+    {
+        BN_free(wit_hash);
+        wit_hash = nullptr;
+    }
+    if (x)
+    {
+        BN_free(x);
+        x = nullptr;
+    }
+    if (wit)
+    {
+        BN_free(wit);
+        wit = nullptr;
+    }
+}
+
 void Process::init(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid)
 {
     this->pid = entity_pid;
@@ -84,6 +200,7 @@ void Process::update_witness(const mpz_class &aux)
 }
 void Process::update_accumulator(const mpz_class &aux)
 {
+
     mpz_powm(acc_cur.get_mpz_t(), acc_cur.get_mpz_t(), aux.get_mpz_t(),
              acc_publickey.get_mpz_t());
 }
@@ -116,7 +233,7 @@ bool Process::generate_full_key()
         this->X = X;
         this->WIT = WIT;
         this->wit_hash = wit_hash;
-
+        std::cout << "generate wit_hash:" << crypto_utils::bn2hex(wit_hash) << std::endl;
         BN_free(h1_str);
         this->is_fullkey = true;
 
@@ -304,42 +421,56 @@ bool Process::verify_sign(const sign_payload &payload)
 
 void Process::update_key(const std::string &aux)
 {
-    mpz_class aux_mpz = mpz_class(aux, 16);
-    // update witness
-    this->update_witness(aux_mpz);
-    // update accumylator
-    this->update_accumulator(aux_mpz);
+    try
+    {
+        // std::cout << "update key" << std::endl;
+        mpz_class aux_mpz = mpz_class(aux, 16);
+        // update witness
+        this->update_witness(aux_mpz);
+        // update accumylator
+        this->update_accumulator(aux_mpz);
 
-    // update private key
-    // free the old key
-    BN_free(this->wit);
-    BIGNUM *wit_new = crypto_utils::hex2bn(this->acc_witness.get_str(16));
-    this->wit = wit_new;
+        // update private key
+        // free the old key
+        BN_free(this->wit);
+        BIGNUM *wit_new = crypto_utils::hex2bn(this->acc_witness.get_str(16));
+        this->wit = wit_new;
 
-    // update public key
-    // WIT = wip*P
-    EC_POINT *WIT_new = EC_POINT_new(this->ec_group);
-    EC_POINT_mul(this->ec_group, WIT_new, wit_new, nullptr, nullptr, nullptr);
+        // update public key
+        // WIT = wit*P
+        EC_POINT *WIT_new = EC_POINT_new(this->ec_group);
+        EC_POINT_mul(this->ec_group, WIT_new, wit_new, nullptr, nullptr, nullptr);
+        // h1(pid,WIT,X)
+        BIGNUM *h1_str = crypto_utils::string2hash2bn(this->pid + crypto_utils::point2hex(this->ec_group, WIT_new) + crypto_utils::point2hex(this->ec_group, this->X));
+        mpz_class mpz_h1 = mpz_class(crypto_utils::bn2hex(h1_str), 16);
+        mpz_class tmp = crypto_utils::quick_pow(this->acc_witness, mpz_h1, this->acc_publickey);
+        BIGNUM *wit_hash_new = crypto_utils::hex2bn(tmp.get_str(16));
+        BN_free(h1_str);
+        EC_POINT_free(this->WIT);
+        BN_free(this->wit_hash);
 
-    // h1(pid,WIT,X)
-    BIGNUM *h1_str = crypto_utils::string2hash2bn(this->pid + crypto_utils::point2hex(this->ec_group, WIT_new) + crypto_utils::point2hex(this->ec_group, this->X));
-    mpz_class mpz_h1 = mpz_class(crypto_utils::bn2hex(h1_str), 16);
-    mpz_class tmp = crypto_utils::quick_pow(this->acc_witness, mpz_h1, this->acc_publickey);
-    BIGNUM *wit_hash_new = crypto_utils::hex2bn(tmp.get_str(16));
-    BN_free(h1_str);
-    EC_POINT_free(this->WIT);
-    BN_free(this->wit_hash);
-    this->WIT = WIT_new;
-    this->wit_hash = wit_hash_new;
+        this->WIT = WIT_new;
+        this->wit_hash = wit_hash_new;
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "update key:" << e.what() << '\n';
+    }
 }
 /*
     class Process_manager
     将process进行封装
 */
+
+Process_manager::~Process_manager()
+{
+    process_vec.clear();
+}
+
 void Process_manager::push_back(Process &tmp_process)
 {
 
-    this->process_vec.push_back(tmp_process);
+    this->process_vec.push_back(std::move(tmp_process));
     this->size++;
 }
 
@@ -365,26 +496,34 @@ Process &Process_manager::get_process(const std::string &pid)
 
 bool Process_manager::delete_process(const std::string &pid)
 {
-    for (int i = 0; i < this->size; i++)
+    try
     {
-        if (this->process_vec[i].pid == pid)
+        for (int i = 0; i < this->size; i++)
         {
-            this->process_vec.erase(this->process_vec.begin() + i);
-            this->size--;
-            return true;
+            if (this->process_vec[i].pid == pid)
+            {
+                this->process_vec.erase(this->process_vec.begin() + i);
+                this->size--;
+                return true;
+            }
         }
+        std::cout << "delete process not find " << std::endl;
+        return false;
     }
-    std::cout << "delete process not find " << std::endl;
-    return false;
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        return false;
+    }
 }
 
 bool Process_manager::update_process(const std::string &aux)
 {
     try
     {
-        for (auto tmp_process : this->process_vec)
+        for (int i = 0; i < this->size; i++)
         {
-            tmp_process.update_key(aux);
+            this->process_vec[i].update_key(aux);
         }
         return true;
     }
@@ -398,4 +537,14 @@ bool Process_manager::update_process(const std::string &aux)
 int Process_manager::get_size()
 {
     return this->size;
+}
+
+bool Process_manager::has_process(const std::string &pid)
+{
+    for (int i = 0; i < this->size; i++)
+    {
+        if (this->process_vec[i].pid == pid)
+            return true;
+    }
+    return false;
 }
