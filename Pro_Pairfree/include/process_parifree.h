@@ -51,7 +51,7 @@ public:
 
     // 初始化，输入pid、acc公钥、acc目前值、自己证据值、椭圆曲线P、acc当前值所在椭圆曲线组
     Process();
-    Process(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid = NID_secp256k1);
+    Process(const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid = NID_secp256k1);
     Process(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &entity_witness, const std::string &kgc_P, int nid = NID_secp256k1);
     Process(const Process &other);
     ~Process();

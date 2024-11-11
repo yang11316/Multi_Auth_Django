@@ -6,5 +6,5 @@ urlpatterns = [
     path("getauxdata/",views.get_aux_data,name="get-aux-data"),
     path("sendparticalkeyandpid/",views.send_particalkey_and_pid,name="send-particalkey-and-pid"),
     path("getopenport/",views.get_open_port,name="get-open-port"),
-    
+    path("getdomainparameters/",views.get_domain_parameters,name="get-domain-parameters")
 ]

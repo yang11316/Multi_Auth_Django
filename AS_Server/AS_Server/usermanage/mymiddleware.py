@@ -17,6 +17,9 @@ class SimpleMiddleware(MiddlewareMixin):
             "/entitymanage/get-alive-entity/",
             "/entitymanage/get-down-entity/",
             "/entitymanage/calculate-particalkey/",
+            "/entitymanage/get-public-parameter/",
+            "/domainmanage/get-domain-key/",
+            "/domainmanage/send-domain-key/",
         ]
         if request.path not in path:
             try:

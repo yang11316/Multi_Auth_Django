@@ -5,8 +5,6 @@ void worker_thread(int fd, CLS_LIB *cls)
     TcpSocket tmp_sock(fd);
     string msg = tmp_sock.recvmsg(0, 0);
     cout << "recv msg: " << msg << endl;
-    cout << cls->sign("asdasdas") << endl;
-
     if (cls->verify(msg))
     {
         cout << "verify success" << endl;

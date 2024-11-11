@@ -1,42 +1,42 @@
 [
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/base_thread.cpp.o -c /home/default/Mycode/Pro_Pairfree/base_thread.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/base_thread.cpp.o -c /home/default/Mycode/Pro_Pairfree/base_thread.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/base_thread.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/cls_lib.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/crypto_utils.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/process_parifree.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/server_socket.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/tcp_socket.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/test.cpp.o -c /home/default/Mycode/Pro_Pairfree/test.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/test.cpp.o -c /home/default/Mycode/Pro_Pairfree/test.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/test.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity2.dir/utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/utils.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/Process_entity.dir/utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/utils.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/utils.cpp"
 }
 ]

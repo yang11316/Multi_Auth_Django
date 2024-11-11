@@ -23,6 +23,8 @@ private:
     TcpSocket *m_socket = nullptr;
     Process_manager *m_process_manager = nullptr;
 
+    std::string domain_id;
+
 public:
     CLS_LIB(std::string json_file);
     CLS_LIB(const std::string &ip, const uint16_t &listening_port, const uint16_t &sending_port, const std::string &ap_ip, const uint16_t &ap_port);

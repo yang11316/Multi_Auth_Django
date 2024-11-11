@@ -15,4 +15,9 @@ urlpatterns = [
     path("withdraw-entity/", views.entity_withdraw, name="withdraw-entity"),
     path("get-alive-entity/", views.get_alive_entity_pid, name="get-alive-entity"),
     path("get-down-entity/", views.get_down_entity_pid, name="get-down-entity"),
+    path(
+        "get-public-parameter/",
+        views.send_public_parameter,
+        name="get-public-parameter",
+    ),
 ]

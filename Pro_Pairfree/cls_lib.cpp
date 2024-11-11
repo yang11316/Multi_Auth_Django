@@ -52,14 +52,16 @@ bool CLS_LIB::init()
     // 使用jsoncpp解析json数据
     if (reader.parse(recv_msg, root))
     {
+        this->domain_id = root["domain_id"].asString();
+        std::cout << "domain_id:" << domain_id << std::endl;
         value = root["entity_data"];
         for (auto val : value)
         {
-            std::string pid = val["pid"].asCString();
-            std::string parcial_key = val["entity_parcialkey"].asCString();
-            std::string acc_publickey = val["acc_publickey"].asCString();
-            std::string acc_cur = val["acc_cur"].asCString();
-            std::string kgc_Ppub = val["kgc_Ppub"].asCString();
+            std::string pid = val["pid"].asString();
+            std::string parcial_key = val["entity_parcialkey"].asString();
+            std::string acc_publickey = val["acc_publickey"].asString();
+            std::string acc_cur = val["acc_cur"].asString();
+            std::string kgc_Ppub = val["kgc_Ppub"].asString();
             Process tmp_process(pid, acc_publickey, acc_cur, parcial_key, kgc_Ppub);
             if (tmp_process.generate_full_key())
             {
@@ -107,7 +109,7 @@ std ::string CLS_LIB::sign(const std::string &msg)
         std::cout << "====================Send Sign Message====================" << std::endl;
         sign_payload payload = this->m_process_manager->get_process().sign(msg);
         // std::cout << payload.to_string() << std::endl;
-        std::string msg_str = "pid=" + payload.pid + "&msg=" + payload.msg + "&sig1=" + payload.sig1 + "&sig2=" + payload.sig2 + "&time_stamp=" + payload.time_stamp + "&WIT=" + payload.WIT + "&wit_hex=" + payload.wit_hex + "&X=" + payload.X;
+        std::string msg_str = "pid=" + payload.pid + "&msg=" + payload.msg + "&sig1=" + payload.sig1 + "&sig2=" + payload.sig2 + "&time_stamp=" + payload.time_stamp + "&WIT=" + payload.WIT + "&wit_hex=" + payload.wit_hex + "&X=" + payload.X + "&domain_id=" + this->domain_id;
         return msg_str;
     }
     else
@@ -121,18 +123,72 @@ bool CLS_LIB::verify(const std::string &sig)
 {
     if (this->m_process_manager->get_size() > 0)
     {
-        Process tmp_process = this->m_process_manager->get_process();
+
         std::unordered_map<std::string, std::string> payload_map = parse_form_socket(sig);
-        sign_payload recv_payload;
-        recv_payload.pid = payload_map["pid"];
-        recv_payload.msg = payload_map["msg"];
-        recv_payload.sig1 = payload_map["sig1"];
-        recv_payload.sig2 = payload_map["sig2"];
-        recv_payload.time_stamp = payload_map["time_stamp"];
-        recv_payload.WIT = payload_map["WIT"];
-        recv_payload.wit_hex = payload_map["wit_hex"];
-        recv_payload.X = payload_map["X"];
-        bool ret = tmp_process.verify_sign(recv_payload);
+        bool ret = false;
+        // 首先判断域id是否相同
+        if (payload_map["domain_id"] != this->domain_id)
+        {
+            if (m_socket->connectToHost(ap_ip, ap_port, 0) < 0)
+            {
+                perror("connect to ap failed");
+                return false;
+            }
+            std::string tmp_domain_id = payload_map["domain_id"].substr(0, payload_map["domain_id"].size() - 1);
+            std::string post_data = "{\"domain_id\":\"" + tmp_domain_id + "\"}";
+            std::string path = "/entitymanage/getdomainparameters/";
+            m_socket->sendHttpmsg(post_data, path, ip);
+            std::string recv_msg = m_socket->recvHTTPmsg();
+            std::cout << recv_msg << std::endl;
+            if (recv_msg == "error")
+            {
+                m_socket->disConnect();
+                return false;
+            }
+            Json::Reader reader;
+            Json::Value root;
+            Json::Value value;
+            // 使用jsoncpp解析json数据
+            if (reader.parse(recv_msg, root))
+            {
+                if (root["status"].asString() != "success")
+                {
+                    std::cout << "domain_id not match" << std::endl;
+                    return false;
+                }
+                std::string kgc_Ppub = root["kgc_Ppub"].asString();
+                std::string acc_publickey = root["acc_pub"].asString();
+                std::string acc_cur = root["acc_cur"].asString();
+                Process new_process(acc_publickey, acc_cur, kgc_Ppub);
+                sign_payload recv_payload;
+                recv_payload.pid = payload_map["pid"];
+                recv_payload.msg = payload_map["msg"];
+                recv_payload.sig1 = payload_map["sig1"];
+                recv_payload.sig2 = payload_map["sig2"];
+                recv_payload.time_stamp = payload_map["time_stamp"];
+                recv_payload.WIT = payload_map["WIT"];
+                recv_payload.wit_hex = payload_map["wit_hex"];
+                recv_payload.X = payload_map["X"];
+                ret = new_process.verify_sign(recv_payload);
+                return ret;
+            }
+
+            return false;
+        }
+        else
+        {
+            Process tmp_process = this->m_process_manager->get_process();
+            sign_payload recv_payload;
+            recv_payload.pid = payload_map["pid"];
+            recv_payload.msg = payload_map["msg"];
+            recv_payload.sig1 = payload_map["sig1"];
+            recv_payload.sig2 = payload_map["sig2"];
+            recv_payload.time_stamp = payload_map["time_stamp"];
+            recv_payload.WIT = payload_map["WIT"];
+            recv_payload.wit_hex = payload_map["wit_hex"];
+            recv_payload.X = payload_map["X"];
+            ret = tmp_process.verify_sign(recv_payload);
+        }
         return ret;
     }
     else

@@ -14,6 +14,31 @@ from django_apscheduler.jobstores import DjangoJobStore,register_events,register
 
 # Create your views here.
 
+AS_ip = settings.AS_IP
+AS_port = settings.AS_PORT
+
+
+try:
+    header = {"content-type": "application/json","Connection":"close"}
+    url = "http://"+AS_ip+":"+str(AS_port)+"/entitymanage/get-public-parameter/"
+    res = requests.post(url, headers=header)
+    json_data = res.json()
+    
+    pubparamter_instance = PublicParamtersTable.objects.get(
+        kgc_id="kgc_id"
+    )
+    pubparamter_instance.acc_cur = json_data["message"]["acc_cur"]
+    pubparamter_instance.acc_publickey = json_data["message"]["acc_publickey"]
+    pubparamter_instance.kgc_q = json_data["message"]["kgc_q"]
+    pubparamter_instance.kgc_Ppub = json_data["message"]["kgc_Ppub"]
+    pubparamter_instance.domain_id = json_data["message"]["domain_id"]
+    pubparamter_instance.save()
+    print("get public parameters success")
+
+except Exception as e:
+    print("get public parameters failed")
+    print(e)
+
 
 kgc = KGC.KGC()
 paramters_instance = PublicParamtersTable.objects.get(kgc_id="kgc_id")
@@ -21,20 +46,13 @@ kgc.acc_cur = utils.hex2int(paramters_instance.acc_cur)
 kgc.acc_publickey = utils.hex2int(paramters_instance.acc_publickey)
 kgc.kgc_q = utils.hex2int(paramters_instance.kgc_q)
 kgc.kgc_Ppub = utils.hex2int(paramters_instance.kgc_Ppub)
+kgc.domain_id = paramters_instance.domain_id
 
 
-AS_ip = settings.AS_IP
-AS_port = settings.AS_PORT
+
 
 scheduler = BackgroundScheduler(timezone='Asia/Shanghai')
 scheduler.add_jobstore(DjangoJobStore(),"default")
-
-# def check_process_alive(processid:int):
-#     try:
-#         return psutil.pid_exists(processid)
-
-#     except Exception as e:
-#         return False
 
 # bug fix: 修复活跃实体同步不到的问题，在调用时强转
 def check_process_alive(processid):
@@ -49,9 +67,8 @@ def post_data(ip: str,port:int, path: str,payload: dict):
         header = {"content-type": "application/json","Connection":"close"}
         data = json.dumps(payload)
         url = "http://"+ip+":"+str(port)+path
-        print(url)
         res = requests.post(url, data=data, headers=header)
-        print(res.text)
+        return res
     except Exception as e:
         print(e)
 
@@ -104,6 +121,7 @@ def get_public_paramters(request):
             pubparamter_instance.acc_publickey = json_data.get("acc_publickey")
             pubparamter_instance.kgc_q = json_data.get("kgc_q")
             pubparamter_instance.kgc_Ppub = json_data.get("kgc_Ppub")
+            pubparamter_instance.domain_id = json_data.get("domain_id")
             pubparamter_instance.save()
             return JsonResponse({"status": "success"})
         except Exception as e:
@@ -222,14 +240,13 @@ def get_aux_data(request):
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("aux_data")
             aux_data = json_data["aux"]
-            if("withdraw_pid" in json_data):
-                withdraw_pid = json_data["withdraw_pid"]
-                # 首先查看本地是否存在要删除的pid
-                entity_instance = EntityInfo.objects.filter(entity_pid=withdraw_pid).exists()
-                if(entity_instance):
-                    entity_instance = EntityInfo.objects.get(entity_pid=withdraw_pid)
-                    entity_instance.delete()
-                    print("delete entity:"+withdraw_pid)
+            withdraw_pid = json_data["withdraw_pid"]
+            # 首先查看本地是否存在要删除的pid
+            entity_instance = EntityInfo.objects.filter(entity_pid=withdraw_pid).exists()
+            if(entity_instance):
+                entity_instance = EntityInfo.objects.get(entity_pid=withdraw_pid)
+                entity_instance.delete()
+                print("delete entity:"+withdraw_pid)
             print("get aux data:"+aux_data)
             # 更新本地acc_cur
             kgc.acc_cur=utils.hex2int(kgc.update_witness(aux_data,utils.int2hex(kgc.acc_cur)))
@@ -337,6 +354,20 @@ def get_open_port(request):
             # 进行打开端口的操作
             print(open_port)
             return HttpResponse("success")
+        except Exception as e:
+            print(e)
+            return HttpResponse("error")
+
+@csrf_exempt
+def get_domain_parameters(request):
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data)
+            domain_id = json_data["domain_id"]
+            payload = {"domain_id":domain_id}
+            ret = post_data(AS_ip,AS_port,"/domainmanage/get-domain-key/",payload)
+            return JsonResponse(ret.json())
         except Exception as e:
             print(e)
             return HttpResponse("error")

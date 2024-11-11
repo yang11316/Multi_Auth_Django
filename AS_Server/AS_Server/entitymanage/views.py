@@ -3,10 +3,12 @@ from django.middleware.csrf import get_token
 from commonutils import utils
 from commonutils import accumulator
 from commonutils import kgc
+
 from .models import *
 from usermanage.models import UserTable
 from softwaremanage.models import SoftwareTable
 from nodemanage.models import NodeTable
+from domainmanage.models import DomainTable
 import json, datetime, os
 from fastecdsa import keys
 import requests
@@ -151,7 +153,6 @@ def entity_add(request):
             entity_instance.entity_ip = entity_ip
             entity_instance.create_time = datetime.datetime.now()
             entity_instance.update_time = datetime.datetime.now()
-
             # 发送对应的ap，如果部署ap围在线就退出
             payload = {
                 "add_data": {
@@ -435,21 +436,31 @@ def entity_withdraw(request):
 
 
 # 发送公共参数
+@csrf_exempt
 def send_public_parameter(request):
     if request.method == "POST":
-        node_entity = NodeTable.objects.get(node_ip=request.META.get("REMOTE_ADDR"))
-        if node_entity == None:
-            return JsonResponse({"status": "error", "message": "node not exists"})
-        data = {
-            "kgc_id": "kgc_id",
-            "acc_publickey": acc.get_publickey(),
-            "acc_cur": acc.get_acc_cur(),
-            "kgc_q": kgc.get_q(),
-            "kgc_Ppub": kgc.get_Ppub(),
-        }
-        node_entity.node_is_alive = True
-        node_entity.save()
-        return JsonResponse({"status": "success", "message": data})
+        try:
+            node_ip = request.META.get("REMOTE_ADDR")
+            node_entity = NodeTable.objects.filter(node_ip=node_ip).exists()
+            if not node_entity:
+                return JsonResponse({"status": "error", "message": "node not exists"})
+            node_entity = NodeTable.objects.get(node_ip=node_ip)
+            domain_id = DomainTable.objects.get(domain_ip="0.0.0.0").domain_id
+            kgcinstance = KGCParamterTable.objects.get(kgc_id="kgc_id")
+            data = {
+                "kgc_id": "kgc_id",
+                "acc_publickey": kgcinstance.kgc_acc_publickey,
+                "acc_cur": kgcinstance.kgc_acc_cur,
+                "kgc_q": kgcinstance.kgc_q,
+                "kgc_Ppub": kgcinstance.kgc_Ppub,
+                "domain_id": domain_id,
+            }
+            node_entity.node_is_alive = True
+            node_entity.save()
+            return JsonResponse({"status": "success", "message": data})
+        except Exception as e:
+            print(e)
+            return JsonResponse({"status": "error", "message": str(e)})
 
 
 # 从ap获取存活实体的pid
@@ -502,7 +513,6 @@ def post_to_ap(node_ip: str, node_port: int, path: str, payload: dict):
     data = json.dumps(payload)
     try:
         res = requests.post(url, data=data, headers=header)
-        print(res.status_code)
         return res
     except Exception as e:
         node_instance = NodeTable.objects.get(node_ip=node_ip)

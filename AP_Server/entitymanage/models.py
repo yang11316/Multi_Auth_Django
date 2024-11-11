@@ -43,3 +43,4 @@ class PublicParamtersTable(models.Model):
     acc_cur = models.TextField(verbose_name="acc_cur")
     kgc_q = models.TextField(verbose_name="kgc_q")
     kgc_Ppub = models.TextField(verbose_name="kgc_PpublicKey")
+    domain_id= models.CharField(max_length=32, verbose_name="domain_id")

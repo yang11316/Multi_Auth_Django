@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "nodemanage.apps.NodemanageConfig",
     "softwaremanage.apps.SoftwaremanageConfig",
     "entitymanage.apps.EntitymanageConfig",
+    "domainmanage.apps.DomainmanageConfig",
     "corsheaders",
     "commonutils",
 ]

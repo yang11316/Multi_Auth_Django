@@ -4,9 +4,9 @@ Process::Process()
 {
 }
 
-Process::Process(const std::string &entity_pid, const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid)
+Process::Process(const std::string &acc_publickey, const std::string &acc_cur, const std::string &kgc_P, int nid)
 {
-    this->pid = entity_pid;
+
     this->acc_cur = mpz_class(acc_cur, 16);
     this->acc_publickey = mpz_class(acc_publickey, 16);
 
