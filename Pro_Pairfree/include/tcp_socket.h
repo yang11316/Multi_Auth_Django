@@ -34,7 +34,7 @@ public:
     ~TcpSocket();
 
     // 绑定发送端口
-    void bind();
+    void bindPort();
     // 链接服务器
     int connectToHost(std::string ip, uint16_t port, int timeout = TIMEOUT);
 

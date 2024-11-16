@@ -29,7 +29,7 @@ bool CLS_LIB::init()
     std::cout << "connect to AP" << std::endl;
     this->m_socket = new TcpSocket();
     m_socket->setSendingPort(sending_port);
-    m_socket->bind();
+    m_socket->bindPort();
 
     if (m_socket->connectToHost(ap_ip, ap_port, 0) < 0)
     {
@@ -347,9 +347,6 @@ bool CLS_LIB::open_port(std::vector<uint16_t> &port)
 {
     // 发送http请求
     std::cout << "connect to AP" << std::endl;
-    this->m_socket = new TcpSocket();
-    m_socket->setSendingPort(sending_port);
-    m_socket->bind();
     if (m_socket->connectToHost(ap_ip, ap_port, 0) < 0)
     {
         perror("connect to ap failed");
@@ -367,8 +364,10 @@ bool CLS_LIB::open_port(std::vector<uint16_t> &port)
     m_socket->sendHttpmsg(post_data, path, ip);
     if (m_socket->recvHTTPmsg(0) == "success")
     {
+        m_socket->disConnect();
         return true;
     }
+    m_socket->disConnect();
     return false;
 }
 

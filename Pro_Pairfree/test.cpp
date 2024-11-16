@@ -18,7 +18,7 @@ void server_listening(string ip, unsigned short port, CLS_LIB *cls)
 {
     TcpServer server(ip, port);
     int ret = server.setListen();
-    int count = 1;
+    int count = 50;
     while (count--)
     {
         int fd = server.acceptConn(0);
@@ -35,7 +35,7 @@ void server_listening(string ip, unsigned short port, CLS_LIB *cls)
 int main()
 {
     // 使用封装的库函数
-    CLS_LIB cls("0.0.0.0", 9929, 9928, "127.0.0.1", 9000);
+    CLS_LIB cls("0.0.0.0", 9989, 9988, "127.0.0.1", 9000);
     // 启动监听
 
     if (!cls.init())

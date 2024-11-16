@@ -6,12 +6,18 @@ selenium_test
 ├── admin_test.py 管理员侧操作测试
 ├── config.py 全局配置文件
 ├── editor_test.py 软件开发人员侧操作测试
+├── performance_test.py 2000条数据性能测试
 ├── README.md
 ├── requirements.txt 所需依赖
 ├── user_manage.py 用户管理功能测试
 ├── node_manage.py 节点管理功能测试
 ├── software_manage.py 软件管理功能测试
 └── entity_manage.py 实体管理功能测试
+
+performance_test
+├── run_admin 管理员侧操作测试函数
+├── run_editor 软件开发人员侧操作测试函数
+└── main
 
 其运行前需先启动整个项目，包含下述四部分：
 （1）AS_Server

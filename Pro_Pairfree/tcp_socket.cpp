@@ -5,6 +5,7 @@
 
 TcpSocket::TcpSocket()
 {
+    this->m_socket = socket(AF_INET, SOCK_STREAM, 0);
 }
 
 TcpSocket::TcpSocket(const int &connfd)
@@ -16,7 +17,7 @@ TcpSocket::~TcpSocket()
 {
 }
 
-void TcpSocket::bind()
+void TcpSocket::bindPort()
 {
     // 设置本地地址和端口号
     struct sockaddr_in local_addr;
@@ -24,6 +25,19 @@ void TcpSocket::bind()
     local_addr.sin_family = AF_INET;
     local_addr.sin_addr.s_addr = htonl(INADDR_ANY); // 本地地址
     local_addr.sin_port = htons(sending_port);      // 绑定的端口号
+    // 设置端口复用
+    int opt = 1;
+    int ret = setsockopt(this->m_socket, SOL_SOCKET, SO_REUSEADDR, (void *)&opt, sizeof(opt));
+    if (ret < 0)
+    {
+        std::cout << "reuseaddr error:" << errno << std::endl;
+    }
+    // bind
+    ret = bind(this->m_socket, (struct sockaddr *)&local_addr, sizeof(local_addr));
+    if (ret < 0)
+    {
+        std::cout << "bind error:" << errno << std::endl;
+    }
 }
 
 int TcpSocket::connectToHost(std::string ip, uint16_t port, int timeout)
@@ -34,7 +48,7 @@ int TcpSocket::connectToHost(std::string ip, uint16_t port, int timeout)
         ret = ParamError;
         return ret;
     }
-    this->m_socket = socket(AF_INET, SOCK_STREAM, 0);
+
     if (this->m_socket < 0)
     {
         ret = errno;

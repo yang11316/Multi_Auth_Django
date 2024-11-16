@@ -71,9 +71,9 @@ class AdminTest:
         entity_manage.test_info(self.driver, self.wait)
         print("=====结束 实体信息查询 测试=====")
 
-    def entity_distribute(self):
+    def entity_distribute(self, software_name, ppk_count):
         print(">>>>>开始 实体部分密钥下发 测试<<<<<")
-        entity_manage.test_distribute(self.driver, self.wait)
+        entity_manage.test_distribute(self.driver, self.wait, software_name, ppk_count)
         print("=====结束 实体部分密钥下发 测试=====")
 
     def entity_withdraw(self):
@@ -135,7 +135,9 @@ if __name__ == "__main__":
 
     # 实体管理
     test.entity_info()
-    test.entity_distribute()
+    software_name = "Process1"
+    ppk_count = 1
+    test.entity_distribute(software_name, ppk_count)
 
     # 此时可将对应软件放到file_upload，测试互认证
     time.sleep(60)

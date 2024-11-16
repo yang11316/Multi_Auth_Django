@@ -145,7 +145,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Process_entity
+CMAKE_PROJECT_NAME:STATIC=Process_entity8
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -244,6 +244,51 @@ Process_entity3_IS_TOP_LEVEL:STATIC=ON
 
 //Value Computed by CMake
 Process_entity3_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity4_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity4_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Process_entity4_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity5_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity5_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Process_entity5_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity6_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity6_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Process_entity6_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity7_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity7_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Process_entity7_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity8_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
+//Value Computed by CMake
+Process_entity8_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+Process_entity8_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
 
 //Value Computed by CMake
 Process_entity_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
