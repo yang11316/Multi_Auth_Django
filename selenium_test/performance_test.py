@@ -26,8 +26,8 @@ def run_admin(admin_user, rsoftware_name, rsoftware_total, ppk_count):
     for i in range(1, rsoftware_total + 1):
         admin.software_approve(True)
 
-    time.sleep(5)
     for i in range(1, rsoftware_total + 1):
+        time.sleep(10)
         admin.entity_distribute(f"{rsoftware_name}{i}", ppk_count)
 
     admin.close_browser()
@@ -69,11 +69,11 @@ if __name__ == "__main__":
     editor_user = ["Test_Operator", "user_pwd"]
     # 指定需要注册的软件总数
     rsoftware_name = "性能测试软件"
-    rsoftware_total = 4
+    rsoftware_total = 5
     # 指定部署AP的IP
     entity_ip = "192.168.3.17"
     # 指定需下发的部分密钥数目
-    ppk_count = 500
+    ppk_count = 1
 
     admin_thread = threading.Thread(
         target=run_admin, args=(admin_user, rsoftware_name, rsoftware_total, ppk_count)

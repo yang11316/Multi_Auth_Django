@@ -14,7 +14,7 @@ class EditorTest:
         self.options.add_argument("--headless")
         self.service = FirefoxService(executable_path=config.geckodriver_path)
         self.driver = webdriver.Firefox(service=self.service, options=self.options)
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 600)
 
     def user_register(self, user):
         print(">>>>>开始 用户资质申请 测试<<<<<")

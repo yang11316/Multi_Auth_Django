@@ -14,7 +14,7 @@ class AdminTest:
         self.options.add_argument("--headless")
         self.service = FirefoxService(executable_path=config.geckodriver_path)
         self.driver = webdriver.Firefox(service=self.service, options=self.options)
-        self.wait = WebDriverWait(self.driver, 10)
+        self.wait = WebDriverWait(self.driver, 600)
 
     def user_login(self, user):
         print(">>>>>开始 用户登录 测试<<<<<")
@@ -136,7 +136,7 @@ if __name__ == "__main__":
     # 实体管理
     test.entity_info()
     software_name = "Process1"
-    ppk_count = 1
+    ppk_count = 10
     test.entity_distribute(software_name, ppk_count)
 
     # 此时可将对应软件放到file_upload，测试互认证

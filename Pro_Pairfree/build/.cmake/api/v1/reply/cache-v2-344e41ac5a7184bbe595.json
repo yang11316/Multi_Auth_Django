@@ -835,7 +835,7 @@
 				}
 			],
 			"type" : "STATIC",
-			"value" : "Process_entity8"
+			"value" : "Process_entity"
 		},
 		{
 			"name" : "CMAKE_RANLIB",

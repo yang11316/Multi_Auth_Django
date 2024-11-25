@@ -9,6 +9,8 @@
 #include <iostream>
 #include <sys/time.h>
 #include <memory>
+#include <unordered_map>
+#include <vector>
 struct sign_payload
 {
     std::string pid;
@@ -87,18 +89,21 @@ class Process_manager
 {
 private:
     int size = 0;
-    int used_index = 0;
-    std::vector<Process> process_vec;
+    int used_index = -1;
+    std::vector<std::pair<std::string, bool>> process_vec;
+    std::unordered_map<std::string, Process> process_unmap;
 
 public:
     Process_manager() = default;
     ~Process_manager();
     void push_back(Process &tmp_process);
-    Process &get_process();
-    Process &get_process(const std::string &pid);
+    std::string get_alivable_process();
+    sign_payload sign(const std::string &pid, const std::string &msg);
+    bool verify_sign(const std::string &pid, const sign_payload &payload);
     bool delete_process(const std::string &pid);
     bool update_process(const std::string &aux);
     bool has_process(const std::string &pid);
+    int get_available_size();
     int get_size();
     Process_manager(const Process_manager &) = delete;
     Process_manager &operator=(const Process_manager &) = delete;

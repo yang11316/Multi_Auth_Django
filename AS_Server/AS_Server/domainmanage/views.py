@@ -71,6 +71,7 @@ def send_domain_key(request):
             return JsonResponse({"status": "error", "message": str(e)})
 
 
+# 向其他AS发送http请求
 def post_to_domain_as(node_ip: str, node_port: int, path: str, payload: dict):
     header = {"content-type": "application/json", "Connection": "close"}
     url = "http://" + node_ip + ":" + str(node_port) + path

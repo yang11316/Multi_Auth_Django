@@ -38,12 +38,17 @@ int main()
     CLS_LIB cls("0.0.0.0", 9989, 9988, "127.0.0.1", 9000);
     // 启动监听
 
+    struct timeval begtime, endtime;
+    gettimeofday(&begtime, NULL);
     if (!cls.init())
     {
         cout << "init failed" << endl;
         return -1;
     }
     cout << "start listening" << endl;
+    gettimeofday(&endtime, NULL);
+    long timeuse = 1000000 * (endtime.tv_sec - begtime.tv_sec) + endtime.tv_usec - begtime.tv_usec;
+    printf("一个进程启动到生成完整密钥的时间: %ld us\n", timeuse);
     // cls.start();
 
     // 启动socket(测试用例)

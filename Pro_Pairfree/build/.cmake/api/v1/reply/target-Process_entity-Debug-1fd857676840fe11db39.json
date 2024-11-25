@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/home/default/Mycode/Pro_Pairfree/bin/Process_entity8"
+			"path" : "/home/default/Mycode/Pro_Pairfree/bin/Process_entity"
 		}
 	],
 	"backtrace" : 1,
@@ -117,7 +117,7 @@
 			]
 		}
 	],
-	"id" : "Process_entity8::@6890427a1f51a3e7e1df",
+	"id" : "Process_entity::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -190,8 +190,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "Process_entity8",
-	"nameOnDisk" : "Process_entity8",
+	"name" : "Process_entity",
+	"nameOnDisk" : "Process_entity",
 	"paths" : 
 	{
 		"build" : ".",

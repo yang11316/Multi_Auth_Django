@@ -18,11 +18,9 @@ private:
     std::string ip;
     std::string ap_ip;
     uint16_t ap_port;
-
     TcpServer *m_server = nullptr;
     TcpSocket *m_socket = nullptr;
     Process_manager *m_process_manager = nullptr;
-
     std::string domain_id;
 
 public:
@@ -32,16 +30,23 @@ public:
     CLS_LIB(const CLS_LIB &) = delete;
     CLS_LIB &operator=(const CLS_LIB &) = delete;
     ~CLS_LIB();
-
-    // 启动服务器
-    // void startListening();
     void run() override;
+
+    // 初始化认证库
     bool init();
-    std::string sign(const std::string &msg);
-    bool verify(const std::string &sig);
-    bool open_port(std::vector<uint16_t> &port);
+    // 获取一个可用的认证库句柄pid
+    std::string get_process_id();
+    // 签名
+    std::string sign(const std::string &pid, const std::string &msg);
+    // 验签
+    bool verify(const std::string &pid, const std::string &sig);
+    // 发送DDS要订阅或发布的ip等数据,dds_type 0:发布，1:订阅
+    bool send_DDS_info(const std::string &pid, int dds_type, const std::string &source_ip, uint16_t &source_port, const std::string &destnation_ip, uint16_t &destination_port);
+
+    // 查看当前系统有多少可用的
+    int get_avaliable_process_size();
+
     bool delete_key(const std::string &pid);
-    int get_key_size();
 
 private:
     // 接收消息，并放入不同的缓冲区

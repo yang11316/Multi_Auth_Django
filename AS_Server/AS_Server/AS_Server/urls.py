@@ -25,4 +25,5 @@ urlpatterns = [
     path("entitymanage/", include("entitymanage.urls")),
     path("admin/", admin.site.urls),
     path("domainmanage/", include("domainmanage.urls")),
+    path("ddsmanage/", include("ddsmanage.urls")),
 ]

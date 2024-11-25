@@ -1,5 +1,8 @@
 #include "process_parifree.h"
 
+/*
+    class Process
+*/
 Process::Process()
 {
 }
@@ -423,6 +426,8 @@ void Process::update_key(const std::string &aux)
 {
     try
     {
+        struct timeval begtime, endtime;
+        gettimeofday(&begtime, NULL);
         // std::cout << "update key" << std::endl;
         mpz_class aux_mpz = mpz_class(aux, 16);
         // update witness
@@ -448,15 +453,19 @@ void Process::update_key(const std::string &aux)
         BN_free(h1_str);
         EC_POINT_free(this->WIT);
         BN_free(this->wit_hash);
-
         this->WIT = WIT_new;
         this->wit_hash = wit_hash_new;
+        gettimeofday(&endtime, NULL);
+        long update_timeuse = 1000000 * (begtime.tv_sec - endtime.tv_sec) + begtime.tv_usec - endtime.tv_usec;
+
+        printf("update time: %ld us\n", update_timeuse);
     }
     catch (const std::exception &e)
     {
         std::cerr << "update key:" << e.what() << '\n';
     }
 }
+
 /*
     class Process_manager
     将process进行封装
@@ -469,29 +478,46 @@ Process_manager::~Process_manager()
 
 void Process_manager::push_back(Process &tmp_process)
 {
-
-    this->process_vec.push_back(std::move(tmp_process));
+    this->process_vec.push_back({tmp_process.pid, false});
+    this->process_unmap.insert({tmp_process.pid, tmp_process});
     this->size++;
 }
 
-Process &Process_manager::get_process()
+std::string Process_manager::get_alivable_process()
 {
-    used_index = (used_index + 1) % this->size;
-    return this->process_vec[used_index];
-}
 
-Process &Process_manager::get_process(const std::string &pid)
-{
-    for (auto tmp : this->process_vec)
+    for (int i = 0; i < this->size; i++)
     {
-        if (tmp.pid == pid)
+        if (this->process_vec[i].second == false)
         {
-            return tmp;
+            std::string pid = this->process_vec[i].first;
+            this->process_vec[i].second = true;
+            this->used_index = i;
+            return pid;
         }
     }
-    std::cout << "[ERROR] no such process" << std::endl;
-    Process tmp = Process();
-    return tmp;
+
+    return std::string();
+}
+
+sign_payload Process_manager::sign(const std::string &pid, const std::string &msg)
+{
+    if (this->process_unmap.find(pid) != this->process_unmap.end())
+    {
+        return this->process_unmap[pid].sign(msg);
+    }
+    std::cout << "[ERROR] no such pid" << std::endl;
+    return sign_payload();
+}
+
+bool Process_manager::verify_sign(const std::string &pid, const sign_payload &payload)
+{
+    if (this->process_unmap.find(pid) != this->process_unmap.end())
+    {
+        return this->process_unmap[pid].verify_sign(payload);
+    }
+    std::cout << "[ERROR] no such pid" << std::endl;
+    return false;
 }
 
 bool Process_manager::delete_process(const std::string &pid)
@@ -500,9 +526,14 @@ bool Process_manager::delete_process(const std::string &pid)
     {
         for (int i = 0; i < this->size; i++)
         {
-            if (this->process_vec[i].pid == pid)
+            if (this->process_vec[i].first == pid)
             {
+                if (i <= this->used_index)
+                {
+                    this->used_index--;
+                }
                 this->process_vec.erase(this->process_vec.begin() + i);
+                this->process_unmap.erase(pid);
                 this->size--;
                 return true;
             }
@@ -521,9 +552,9 @@ bool Process_manager::update_process(const std::string &aux)
 {
     try
     {
-        for (int i = 0; i < this->size; i++)
+        for (auto tmp_pair : this->process_vec)
         {
-            this->process_vec[i].update_key(aux);
+            this->process_unmap[tmp_pair.first].update_key(aux);
         }
         return true;
     }
@@ -534,6 +565,11 @@ bool Process_manager::update_process(const std::string &aux)
     }
 }
 
+int Process_manager::get_available_size()
+{
+    return this->size - this->used_index - 1;
+}
+
 int Process_manager::get_size()
 {
     return this->size;
@@ -541,10 +577,10 @@ int Process_manager::get_size()
 
 bool Process_manager::has_process(const std::string &pid)
 {
-    for (int i = 0; i < this->size; i++)
+    if (this->process_unmap.find(pid) != this->process_unmap.end())
     {
-        if (this->process_vec[i].pid == pid)
-            return true;
+        return true;
     }
+
     return false;
 }

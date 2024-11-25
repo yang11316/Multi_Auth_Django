@@ -82,6 +82,7 @@ bool CLS_LIB::init()
 
 void CLS_LIB::run()
 {
+    std::cout << "start run()" << std::endl;
     if (m_server != nullptr)
     {
         perror("server has been started");
@@ -102,13 +103,21 @@ void CLS_LIB::run()
     }
 }
 
-std ::string CLS_LIB::sign(const std::string &msg)
+std::string CLS_LIB::get_process_id()
+{
+    return this->m_process_manager->get_alivable_process();
+}
+
+std ::string CLS_LIB::sign(const std::string &pid, const std::string &msg)
 {
     if (this->m_process_manager->get_size() > 0)
     {
         std::cout << "====================Send Sign Message====================" << std::endl;
-        sign_payload payload = this->m_process_manager->get_process().sign(msg);
-        // std::cout << payload.to_string() << std::endl;
+        sign_payload payload = this->m_process_manager->sign(pid, msg);
+        if (payload.pid == "")
+        {
+            return std::string();
+        }
         std::string msg_str = "pid=" + payload.pid + "&msg=" + payload.msg + "&sig1=" + payload.sig1 + "&sig2=" + payload.sig2 + "&time_stamp=" + payload.time_stamp + "&WIT=" + payload.WIT + "&wit_hex=" + payload.wit_hex + "&X=" + payload.X + "&domain_id=" + this->domain_id;
         return msg_str;
     }
@@ -119,7 +128,7 @@ std ::string CLS_LIB::sign(const std::string &msg)
     }
 }
 
-bool CLS_LIB::verify(const std::string &sig)
+bool CLS_LIB::verify(const std::string &pid, const std::string &sig)
 {
     if (this->m_process_manager->get_size() > 0)
     {
@@ -170,14 +179,11 @@ bool CLS_LIB::verify(const std::string &sig)
                 recv_payload.wit_hex = payload_map["wit_hex"];
                 recv_payload.X = payload_map["X"];
                 ret = new_process.verify_sign(recv_payload);
-                return ret;
             }
-
-            return false;
         }
         else
         {
-            Process tmp_process = this->m_process_manager->get_process();
+
             sign_payload recv_payload;
             recv_payload.pid = payload_map["pid"];
             recv_payload.msg = payload_map["msg"];
@@ -187,7 +193,7 @@ bool CLS_LIB::verify(const std::string &sig)
             recv_payload.WIT = payload_map["WIT"];
             recv_payload.wit_hex = payload_map["wit_hex"];
             recv_payload.X = payload_map["X"];
-            ret = tmp_process.verify_sign(recv_payload);
+            ret = this->m_process_manager->verify_sign(pid, recv_payload);
         }
         return ret;
     }
@@ -213,7 +219,6 @@ void CLS_LIB::client_deal(int connfd)
             std::cout << tmp_params["aux"] << std::endl;
             this->m_process_manager->update_process(tmp_params["aux"]);
             std::cout << "partical key update sucessfully!" << std::endl;
-            std::cout << "accumulator:" << m_process_manager->get_process().acc_cur.get_str(16) << std::endl;
         }
     }
     else if (tmp_params.size() == 2)
@@ -231,7 +236,6 @@ void CLS_LIB::client_deal(int connfd)
             std::cout << "update" << std::endl;
             this->m_process_manager->update_process(tmp_params["aux"]);
             std::cout << "partical key update" << std::endl;
-            std::cout << "accumulator:" << m_process_manager->get_process().acc_cur.get_str(16) << std::endl;
             // std::cout << "acc public key:" << m_process_manager->get_process().acc_publickey.get_str(16) << std::endl;
         }
     }
@@ -343,7 +347,7 @@ std::unordered_map<std::string, std::string> CLS_LIB::parse_form_socket(const st
     return result;
 }
 
-bool CLS_LIB::open_port(std::vector<uint16_t> &port)
+bool CLS_LIB::send_DDS_info(const std::string &pid, int dds_type, const std::string &source_ip, uint16_t &source_port, const std::string &destnation_ip, uint16_t &destination_port)
 {
     // 发送http请求
     std::cout << "connect to AP" << std::endl;
@@ -353,14 +357,8 @@ bool CLS_LIB::open_port(std::vector<uint16_t> &port)
         return false;
     }
     int processid = this->get_current_pid();
-    std::string post_data = "{\"process_id\":" + std::to_string(get_current_pid()) + ",\"open_port\":[";
-    for (auto i : port)
-    {
-        post_data += std::to_string(i) + ",";
-    }
-    post_data.pop_back();
-    post_data += "]}";
-    std::string path = "/entitymanage/getopenport/";
+    std::string post_data = "{\"entity_pid\":" + pid + ",\"dds_type\":" + std::to_string(dds_type) + ",\"source_ip\":" + source_ip + ",\"source_port\":" + std::to_string(source_port) + ",\"destination_ip\":" + destnation_ip + ",\"destination_port\":" + std::to_string(destination_port) + "}";
+    std::string path = "/entitymanage/getddsinfo/";
     m_socket->sendHttpmsg(post_data, path, ip);
     if (m_socket->recvHTTPmsg(0) == "success")
     {
@@ -380,7 +378,7 @@ bool CLS_LIB::delete_key(const std::string &pid)
     return false;
 }
 
-int CLS_LIB::get_key_size()
+int CLS_LIB::get_avaliable_process_size()
 {
-    return this->m_process_manager->get_size();
+    return this->m_process_manager->get_available_size();
 }

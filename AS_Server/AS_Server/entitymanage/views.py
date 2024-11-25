@@ -14,6 +14,8 @@ from fastecdsa import keys
 import requests
 from django.views.decorators.csrf import csrf_exempt
 from copy import deepcopy
+import time
+
 
 # Create your views here.
 acc = accumulator.Accumulator()
@@ -106,7 +108,8 @@ def entity_query_alive(request):
             else:
                 send_instance = query_instance[(page - 1) * limit : page * limit]
             data = {
-                "num": send_instance.count(),
+                # "num": send_instance.count(),
+                "num": length,
                 "data": [temp.get_data() for temp in send_instance],
             }
             return JsonResponse({"status": "success", "message": data})
@@ -211,7 +214,8 @@ def entity_query_all(request):
             else:
                 send_instance = query_instance[(page - 1) * limit : page * limit]
             data = {
-                "num": send_instance.count(),
+                # "num": send_instance.count(),
+                "num": length,
                 "data": [temp.get_data() for temp in send_instance],
             }
             return JsonResponse({"status": "success", "message": data})
@@ -224,8 +228,9 @@ def entity_calculate_parcialkey(request):
     if request.method == "POST":
         # 深拷贝一份acc，以便还原
         global acc
-        print(acc.pids)
+        # print(acc.pids)
         tmp_acc = deepcopy(acc)
+        t1 = time.time()
         try:
             json_data = json.loads(request.body.decode("utf-8"))
             entity_pid = json_data["entity_pid"]
@@ -264,7 +269,7 @@ def entity_calculate_parcialkey(request):
             # 计算parcialkey
             entity_pair = []
             aux = ""
-            if acc.pids == 0:
+            if len(acc.pids) == 0:
                 # 系统内没有计算的证据值
                 for tmp_instance in entity_instance_list:
                     acc.add_member(tmp_instance.entity_pid)
@@ -363,7 +368,8 @@ def entity_calculate_parcialkey(request):
                                 node_instance.node_id,
                                 ", node is not alive",
                             )
-
+            t2 = time.time()
+            print(f"coast:{t2 - t1:.4f}s")
             return JsonResponse({"status": "success"})
 
         except Exception as e:

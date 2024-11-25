@@ -331,33 +331,8 @@ def send_particalkey_and_pid(request):
             print(e)
             return HttpResponse("error")
         
-@csrf_exempt
-def get_open_port(request):
-    if request.method == "POST":
-        try:
-            json_data = request.body.decode("utf-8")
-            json_data = json.loads(json_data)
-            print(json_data)
-            open_port = json_data["open_port"]
-            process_id = json_data["process_id"]
-            
-            # 判断数据库中是否存在这个进程
-            entity_path = utils.get_process_path(int(process_id))
-            print(entity_path)
-            entity_hash = utils.calculate_file_hash(entity_path)
-            print(entity_hash)
-            entity_instance = EntityInfo.objects.filter(software_hash=entity_hash).exists()
-            # 不存在注册的进程就返回空的http请求
-            if not entity_instance :    
-                print("not such entity")            
-                return HttpResponse("error")
-            # 进行打开端口的操作
-            print(open_port)
-            return HttpResponse("success")
-        except Exception as e:
-            print(e)
-            return HttpResponse("error")
 
+# 接收进程发来的domian_id，并向as发送询问
 @csrf_exempt
 def get_domain_parameters(request):
     if request.method == "POST":
@@ -371,3 +346,36 @@ def get_domain_parameters(request):
         except Exception as e:
             print(e)
             return HttpResponse("error")
+        
+def get_dds_info(request):
+    if request.method == "POST":
+        try:
+            json_data =  request.body.decode("utf-8")
+            json_data = json.loads(json_data)
+            entity_pid = json_data["entity_pid"]
+            if not EntityInfo.objects.filter(entity_pid=entity_pid).exists():
+                return JsonResponse({"status":"error","message":"no such entity"})
+            dds_type = json_data["dds_type"]
+            source_ip = json_data["source_ip"]
+            source_port = json_data["source_port"]
+            destination_ip = json_data["destination_ip"]
+            destination_port = json_data["destination_port"]
+            payload = {
+                "entity_pid":entity_pid,
+                "dds_type":dds_type,
+                "source_ip":source_ip,
+                "source_port":source_port,
+                "destination_ip":destination_ip,
+                "destination_port":destination_port
+            }
+            ret = post_data(AS_ip,AS_port,"/ddsmanage/get-dds-info/",payload)
+            return JsonResponse(ret.json())
+
+
+
+        
+
+        except Exception as e:
+            return JsonResponse({"status":"error","message":str(e)})
+
+

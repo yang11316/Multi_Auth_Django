@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     "softwaremanage.apps.SoftwaremanageConfig",
     "entitymanage.apps.EntitymanageConfig",
     "domainmanage.apps.DomainmanageConfig",
+    "ddsmanage.apps.DdsmanageConfig",
     "corsheaders",
     "commonutils",
 ]

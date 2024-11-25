@@ -107,14 +107,14 @@ def test_distribute(driver, wait, software_name, ppk_count):
             start_time = time.time()
             # 提交
             confirm_button.click()
-            end_time = time.time()
-            response_time = end_time - start_time
-            print(f"实体部分密钥下发API - 响应时间: {response_time:.2f} 秒")
-
             try:
                 config.getMsg(wait)
             except Exception as e:
                 print("消息加载失败:", e)
+                
+            end_time = time.time()
+            response_time = end_time - start_time
+            print(f"实体部分密钥下发API - 响应时间: {response_time:.2f} 秒")
         else:
             print(f"未找到匹配的软件名：{software_name}")
 

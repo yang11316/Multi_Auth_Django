@@ -92,7 +92,8 @@ def registsoftware_query_all(request):
                 send_instance = query_instance[(page - 1) * limit : page * limit]
 
             data = {
-                "num": send_instance.count(),
+                # "num": send_instance.count(),
+                "num": length,
                 "data": [temp.get_data() for temp in send_instance],
             }
             return JsonResponse({"status": "success", "message": data})
@@ -257,7 +258,8 @@ def software_query_all(request):
             else:
                 send_instance = query_instance[(page - 1) * limit : page * limit]
             data = {
-                "num": send_instance.count(),
+                # "num": send_instance.count(),
+                "num": length,
                 "data": [temp.get_data() for temp in send_instance],
             }
             return JsonResponse({"status": "success", "message": data})
