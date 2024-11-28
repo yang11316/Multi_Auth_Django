@@ -62,6 +62,12 @@ bool CLS_LIB::init()
             std::string acc_publickey = val["acc_publickey"].asString();
             std::string acc_cur = val["acc_cur"].asString();
             std::string kgc_Ppub = val["kgc_Ppub"].asString();
+
+            // std::cout << "[init] parcial_key: " << parcial_key << std::endl;
+            // std::cout << "[init] parcial_key:" << parcial_key.size() << std::endl;
+            // std::cout << "[init] acc:" << acc_cur << std::endl;
+            // std::cout << "[init] acc_len:" << acc_cur.size() << std::endl;
+
             Process tmp_process(pid, acc_publickey, acc_cur, parcial_key, kgc_Ppub);
             if (tmp_process.generate_full_key())
             {
@@ -76,13 +82,14 @@ bool CLS_LIB::init()
     }
 
     m_socket->disConnect();
+    delete m_socket;
+    m_socket = nullptr;
     this->start();
     return true;
 }
 
 void CLS_LIB::run()
 {
-    std::cout << "start run()" << std::endl;
     if (m_server != nullptr)
     {
         perror("server has been started");
@@ -103,7 +110,7 @@ void CLS_LIB::run()
     }
 }
 
-std::string CLS_LIB::get_process_id()
+std::string CLS_LIB::get_process_pid()
 {
     return this->m_process_manager->get_alivable_process();
 }
@@ -134,13 +141,14 @@ bool CLS_LIB::verify(const std::string &pid, const std::string &sig)
     {
 
         std::unordered_map<std::string, std::string> payload_map = parse_form_socket(sig);
+
         bool ret = false;
         // 首先判断域id是否相同
         if (payload_map["domain_id"] != this->domain_id)
         {
             if (m_socket->connectToHost(ap_ip, ap_port, 0) < 0)
             {
-                perror("connect to ap failed");
+                std::cout << "[Error]connect to ap failed" << std::endl;
                 return false;
             }
             std::string tmp_domain_id = payload_map["domain_id"].substr(0, payload_map["domain_id"].size() - 1);
@@ -152,6 +160,7 @@ bool CLS_LIB::verify(const std::string &pid, const std::string &sig)
             if (recv_msg == "error")
             {
                 m_socket->disConnect();
+                std::cout << "[Error] get domain parameters failed" << std::endl;
                 return false;
             }
             Json::Reader reader;
@@ -193,6 +202,11 @@ bool CLS_LIB::verify(const std::string &pid, const std::string &sig)
             recv_payload.WIT = payload_map["WIT"];
             recv_payload.wit_hex = payload_map["wit_hex"];
             recv_payload.X = payload_map["X"];
+            // std::cout << "[verify] WIT:" << recv_payload.WIT << std::endl;
+            // std::cout << "[verify] WIT_len:" << recv_payload.WIT.size() << std::endl;
+
+            // std::cout << "[verify] wit_hex:" << recv_payload.wit_hex << std::endl;
+            // std::cout << "[verify] wit_hex_len:" << recv_payload.wit_hex.size() << std::endl;
             ret = this->m_process_manager->verify_sign(pid, recv_payload);
         }
         return ret;
@@ -211,7 +225,7 @@ void CLS_LIB::client_deal(int connfd)
     std::string recv_msg = new_socket->recvHTTPmsg();
     std::cout << "receive http message:" << recv_msg << std::endl;
     std::unordered_map<std::string, std::string> tmp_params = parse_from_http(recv_msg);
-    // 更新消息
+    // 增加成员的
     if (tmp_params.size() == 1)
     {
         if (this->m_process_manager->get_size() > 0)
@@ -221,6 +235,7 @@ void CLS_LIB::client_deal(int connfd)
             std::cout << "partical key update sucessfully!" << std::endl;
         }
     }
+    // 撤销成员的
     else if (tmp_params.size() == 2)
     {
         if (this->m_process_manager->get_size() > 0)
@@ -233,9 +248,9 @@ void CLS_LIB::client_deal(int connfd)
                 this->m_process_manager->delete_process(withdraw_pid);
                 std::cout << "delete pid: " << withdraw_pid << std::endl;
             }
-            std::cout << "update" << std::endl;
+            // std::cout << "update" << std::endl;
             this->m_process_manager->update_process(tmp_params["aux"]);
-            std::cout << "partical key update" << std::endl;
+            std::cout << "partical key update successfully" << std::endl;
             // std::cout << "acc public key:" << m_process_manager->get_process().acc_publickey.get_str(16) << std::endl;
         }
     }
@@ -347,20 +362,39 @@ std::unordered_map<std::string, std::string> CLS_LIB::parse_form_socket(const st
     return result;
 }
 
-bool CLS_LIB::send_DDS_info(const std::string &pid, int dds_type, const std::string &source_ip, uint16_t &source_port, const std::string &destnation_ip, uint16_t &destination_port)
+bool CLS_LIB::send_DDS_info(const std::string &pid, const dds_info &info)
 {
     // 发送http请求
     std::cout << "connect to AP" << std::endl;
+    this->m_socket = new TcpSocket();
+    m_socket->setSendingPort(sending_port);
+    m_socket->bindPort();
     if (m_socket->connectToHost(ap_ip, ap_port, 0) < 0)
     {
         perror("connect to ap failed");
         return false;
     }
     int processid = this->get_current_pid();
-    std::string post_data = "{\"entity_pid\":" + pid + ",\"dds_type\":" + std::to_string(dds_type) + ",\"source_ip\":" + source_ip + ",\"source_port\":" + std::to_string(source_port) + ",\"destination_ip\":" + destnation_ip + ",\"destination_port\":" + std::to_string(destination_port) + "}";
+    std::string post_data = "{\"entity_pid\":\"" + pid +
+                            "\",\"dds_type\":" + std::to_string(info.dds_type) +
+                            ",\"protocol_type\":" + std::to_string(info.protocol_type) +
+                            ",\"source_ip\":\"" + info.source_ip +
+                            "\",\"source_port\":" + std::to_string(info.source_port) +
+                            ",\"source_mask\":\"" + info.source_mask +
+                            "\",\"source_mac\":\"" + info.source_mac +
+                            "\",\"destination_ip\":\"" + info.destination_ip +
+                            "\",\"destination_port\":" + std::to_string(info.destination_port) +
+                            ",\"destination_mask\":\"" + info.destination_mask +
+                            "\",\"destination_mac\":\"" + info.destination_mac +
+                            "\"}";
     std::string path = "/entitymanage/getddsinfo/";
-    m_socket->sendHttpmsg(post_data, path, ip);
-    if (m_socket->recvHTTPmsg(0) == "success")
+    if (m_socket->sendHttpmsg(post_data, path, ip) < 0)
+    {
+        perror("send http msg failed");
+        return false;
+    }
+
+    if (m_socket->recvHTTPmsg() == "success")
     {
         m_socket->disConnect();
         return true;

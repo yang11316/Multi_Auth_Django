@@ -1,0 +1,8 @@
+{
+    "ip": "0.0.0.0",
+    "ap_ip": "127.0.0.1",
+    "listening_port": 9989,
+    "sending_port": 9988,
+    "ap_port": 9000,
+    "domain_id": "98657b1d3ea5b3d5266d6961d98c1152"
+}

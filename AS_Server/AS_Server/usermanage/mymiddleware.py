@@ -20,6 +20,7 @@ class SimpleMiddleware(MiddlewareMixin):
             "/entitymanage/get-public-parameter/",
             "/domainmanage/get-domain-key/",
             "/domainmanage/send-domain-key/",
+            "/ddsmanage/get-dds-info/",
         ]
         if request.path not in path:
             try:

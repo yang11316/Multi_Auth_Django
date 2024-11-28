@@ -144,7 +144,7 @@ CMAKE_PROJECT_DESCRIPTION:STATIC=
 CMAKE_PROJECT_HOMEPAGE_URL:STATIC=
 
 //Value Computed by CMake
-CMAKE_PROJECT_NAME:STATIC=Process_entity
+CMAKE_PROJECT_NAME:STATIC=dds_test
 
 //Path to a program.
 CMAKE_RANLIB:FILEPATH=/usr/bin/ranlib
@@ -207,6 +207,9 @@ CMAKE_STRIP:FILEPATH=/usr/bin/strip
 // during the make.  This is useful for debugging only. With Visual
 // Studio IDE projects all commands are done without /nologo.
 CMAKE_VERBOSE_MAKEFILE:BOOL=FALSE
+
+//The directory containing a CMake configuration file for GTest.
+GTest_DIR:PATH=/usr/lib/x86_64-linux-gnu/cmake/GTest
 
 //Value Computed by CMake
 Process_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree/build
@@ -298,6 +301,15 @@ Process_entity_IS_TOP_LEVEL:STATIC=ON
 //Value Computed by CMake
 Process_entity_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
 
+//Value Computed by CMake
+dds_test_BINARY_DIR:STATIC=/home/default/Mycode/Pro_Pairfree/build
+
+//Value Computed by CMake
+dds_test_IS_TOP_LEVEL:STATIC=ON
+
+//Value Computed by CMake
+dds_test_SOURCE_DIR:STATIC=/home/default/Mycode/Pro_Pairfree
+
 
 ########################
 # INTERNAL cache entries
@@ -379,6 +391,10 @@ CMAKE_GENERATOR_INSTANCE:INTERNAL=
 CMAKE_GENERATOR_PLATFORM:INTERNAL=
 //Name of generator toolset.
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
+//Test CMAKE_HAVE_LIBC_PTHREAD
+CMAKE_HAVE_LIBC_PTHREAD:INTERNAL=1
+//Have include pthread.h
+CMAKE_HAVE_PTHREAD_H:INTERNAL=1
 //Source directory with the top level CMakeLists.txt file for this
 // project
 CMAKE_HOME_DIRECTORY:INTERNAL=/home/default/Mycode/Pro_Pairfree
@@ -444,4 +460,6 @@ CMAKE_STRIP-ADVANCED:INTERNAL=1
 CMAKE_UNAME:INTERNAL=/usr/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
+//Details about finding GTest
+FIND_PACKAGE_MESSAGE_DETAILS_GTest:INTERNAL=[/usr/lib/x86_64-linux-gnu/cmake/GTest/GTestConfig.cmake][c ][v1.11.0()]
 

@@ -264,10 +264,7 @@ int TcpSocket::sendHttpmsg(std::string post_data, std::string path, const std::s
         int writed = 0;
         int dataLen = post_request.size();
         writed = writen(message, dataLen);
-        if (writed < dataLen)
-        {
-            return writed;
-        }
+        return writed;
     }
     else
     { // 失败返回-1，超时返回-1并且errno = ETIMEDOUT
@@ -474,6 +471,7 @@ std::string TcpSocket::recvHTTPmsg(int timeout)
             response += buffer;
         }
     }
+    std::cout << "recv http msg:" << response << std::endl;
     return response;
 }
 

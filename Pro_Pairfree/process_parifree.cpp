@@ -236,7 +236,7 @@ bool Process::generate_full_key()
         this->X = X;
         this->WIT = WIT;
         this->wit_hash = wit_hash;
-        std::cout << "generate wit_hash:" << crypto_utils::bn2hex(wit_hash) << std::endl;
+
         BN_free(h1_str);
         this->is_fullkey = true;
 

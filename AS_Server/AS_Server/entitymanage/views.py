@@ -435,6 +435,7 @@ def entity_withdraw(request):
                 tmp.save()
             entity_instance.delete()
             kgc_paramter_save()
+
             return JsonResponse({"status": "success"})
         except Exception as e:
             print(e)

@@ -10,6 +10,43 @@
 #include <fstream>
 #include <sys/select.h>
 
+/*
+dds_type:
+    1:publisher 发布消息
+    2:subscriber 订阅消息
+protocol_type:
+    1:tcp
+    2:udp
+*/
+struct dds_info
+{
+    int dds_type;
+    int protocol_type;
+    std::string source_ip;
+    int source_port;
+    std::string source_mask;
+    std::string source_mac;
+
+    std::string destination_ip;
+    int destination_port;
+    std::string destination_mask;
+    std::string destination_mac;
+
+    dds_info()
+    {
+        dds_type = -1;
+        protocol_type = -1;
+        source_ip = "0.0.0.0";
+        source_port = -1;
+        source_mask = "255.255.255.255";
+        source_mac = "00:00:00:00:00:00";
+        destination_ip = "0.0.0.0";
+        destination_port = -1;
+        destination_mask = "255.255.255.255";
+        destination_mac = "00:00:00:00:00:00";
+    }
+};
+
 class CLS_LIB : public BaseThread
 {
 private:
@@ -35,13 +72,13 @@ public:
     // 初始化认证库
     bool init();
     // 获取一个可用的认证库句柄pid
-    std::string get_process_id();
+    std::string get_process_pid();
     // 签名
     std::string sign(const std::string &pid, const std::string &msg);
     // 验签
     bool verify(const std::string &pid, const std::string &sig);
     // 发送DDS要订阅或发布的ip等数据,dds_type 0:发布，1:订阅
-    bool send_DDS_info(const std::string &pid, int dds_type, const std::string &source_ip, uint16_t &source_port, const std::string &destnation_ip, uint16_t &destination_port);
+    bool send_DDS_info(const std::string &pid, const dds_info &info);
 
     // 查看当前系统有多少可用的
     int get_avaliable_process_size();

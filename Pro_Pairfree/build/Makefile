@@ -65,6 +65,16 @@ CMAKE_BINARY_DIR = /home/default/Mycode/Pro_Pairfree/build
 #=============================================================================
 # Targets provided globally by CMake.
 
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+.PHONY : test/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -117,24 +127,38 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Process_entity
+# Target rules for targets named dds_test
 
 # Build rule for target.
-Process_entity: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 Process_entity
-.PHONY : Process_entity
+dds_test: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 dds_test
+.PHONY : dds_test
 
 # fast build rule for target.
-Process_entity/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/build
-.PHONY : Process_entity/fast
+dds_test/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/build
+.PHONY : dds_test/fast
+
+#=============================================================================
+# Target rules for targets named ClsLibTest
+
+# Build rule for target.
+ClsLibTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ClsLibTest
+.PHONY : ClsLibTest
+
+# fast build rule for target.
+ClsLibTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/build
+.PHONY : ClsLibTest/fast
 
 base_thread.o: base_thread.cpp.o
 .PHONY : base_thread.o
 
 # target to build an object file
 base_thread.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/base_thread.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/base_thread.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/base_thread.cpp.o
 .PHONY : base_thread.cpp.o
 
 base_thread.i: base_thread.cpp.i
@@ -142,7 +166,8 @@ base_thread.i: base_thread.cpp.i
 
 # target to preprocess a source file
 base_thread.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/base_thread.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/base_thread.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/base_thread.cpp.i
 .PHONY : base_thread.cpp.i
 
 base_thread.s: base_thread.cpp.s
@@ -150,7 +175,8 @@ base_thread.s: base_thread.cpp.s
 
 # target to generate assembly for a file
 base_thread.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/base_thread.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/base_thread.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/base_thread.cpp.s
 .PHONY : base_thread.cpp.s
 
 cls_lib.o: cls_lib.cpp.o
@@ -158,7 +184,8 @@ cls_lib.o: cls_lib.cpp.o
 
 # target to build an object file
 cls_lib.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/cls_lib.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/cls_lib.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.o
 .PHONY : cls_lib.cpp.o
 
 cls_lib.i: cls_lib.cpp.i
@@ -166,7 +193,8 @@ cls_lib.i: cls_lib.cpp.i
 
 # target to preprocess a source file
 cls_lib.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/cls_lib.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/cls_lib.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.i
 .PHONY : cls_lib.cpp.i
 
 cls_lib.s: cls_lib.cpp.s
@@ -174,7 +202,8 @@ cls_lib.s: cls_lib.cpp.s
 
 # target to generate assembly for a file
 cls_lib.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/cls_lib.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/cls_lib.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.s
 .PHONY : cls_lib.cpp.s
 
 crypto_utils.o: crypto_utils.cpp.o
@@ -182,7 +211,8 @@ crypto_utils.o: crypto_utils.cpp.o
 
 # target to build an object file
 crypto_utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/crypto_utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/crypto_utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.o
 .PHONY : crypto_utils.cpp.o
 
 crypto_utils.i: crypto_utils.cpp.i
@@ -190,7 +220,8 @@ crypto_utils.i: crypto_utils.cpp.i
 
 # target to preprocess a source file
 crypto_utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/crypto_utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/crypto_utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.i
 .PHONY : crypto_utils.cpp.i
 
 crypto_utils.s: crypto_utils.cpp.s
@@ -198,15 +229,41 @@ crypto_utils.s: crypto_utils.cpp.s
 
 # target to generate assembly for a file
 crypto_utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/crypto_utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/crypto_utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.s
 .PHONY : crypto_utils.cpp.s
+
+ddsinfo_test.o: ddsinfo_test.cpp.o
+.PHONY : ddsinfo_test.o
+
+# target to build an object file
+ddsinfo_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o
+.PHONY : ddsinfo_test.cpp.o
+
+ddsinfo_test.i: ddsinfo_test.cpp.i
+.PHONY : ddsinfo_test.i
+
+# target to preprocess a source file
+ddsinfo_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/ddsinfo_test.cpp.i
+.PHONY : ddsinfo_test.cpp.i
+
+ddsinfo_test.s: ddsinfo_test.cpp.s
+.PHONY : ddsinfo_test.s
+
+# target to generate assembly for a file
+ddsinfo_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/ddsinfo_test.cpp.s
+.PHONY : ddsinfo_test.cpp.s
 
 process_parifree.o: process_parifree.cpp.o
 .PHONY : process_parifree.o
 
 # target to build an object file
 process_parifree.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/process_parifree.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/process_parifree.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/process_parifree.cpp.o
 .PHONY : process_parifree.cpp.o
 
 process_parifree.i: process_parifree.cpp.i
@@ -214,7 +271,8 @@ process_parifree.i: process_parifree.cpp.i
 
 # target to preprocess a source file
 process_parifree.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/process_parifree.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/process_parifree.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/process_parifree.cpp.i
 .PHONY : process_parifree.cpp.i
 
 process_parifree.s: process_parifree.cpp.s
@@ -222,7 +280,8 @@ process_parifree.s: process_parifree.cpp.s
 
 # target to generate assembly for a file
 process_parifree.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/process_parifree.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/process_parifree.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/process_parifree.cpp.s
 .PHONY : process_parifree.cpp.s
 
 server_socket.o: server_socket.cpp.o
@@ -230,7 +289,8 @@ server_socket.o: server_socket.cpp.o
 
 # target to build an object file
 server_socket.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/server_socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/server_socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/server_socket.cpp.o
 .PHONY : server_socket.cpp.o
 
 server_socket.i: server_socket.cpp.i
@@ -238,7 +298,8 @@ server_socket.i: server_socket.cpp.i
 
 # target to preprocess a source file
 server_socket.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/server_socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/server_socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/server_socket.cpp.i
 .PHONY : server_socket.cpp.i
 
 server_socket.s: server_socket.cpp.s
@@ -246,7 +307,8 @@ server_socket.s: server_socket.cpp.s
 
 # target to generate assembly for a file
 server_socket.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/server_socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/server_socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/server_socket.cpp.s
 .PHONY : server_socket.cpp.s
 
 tcp_socket.o: tcp_socket.cpp.o
@@ -254,7 +316,8 @@ tcp_socket.o: tcp_socket.cpp.o
 
 # target to build an object file
 tcp_socket.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/tcp_socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/tcp_socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.o
 .PHONY : tcp_socket.cpp.o
 
 tcp_socket.i: tcp_socket.cpp.i
@@ -262,7 +325,8 @@ tcp_socket.i: tcp_socket.cpp.i
 
 # target to preprocess a source file
 tcp_socket.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/tcp_socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/tcp_socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.i
 .PHONY : tcp_socket.cpp.i
 
 tcp_socket.s: tcp_socket.cpp.s
@@ -270,39 +334,64 @@ tcp_socket.s: tcp_socket.cpp.s
 
 # target to generate assembly for a file
 tcp_socket.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/tcp_socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/tcp_socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.s
 .PHONY : tcp_socket.cpp.s
 
-test.o: test.cpp.o
-.PHONY : test.o
+test/cls_lib_test.o: test/cls_lib_test.cpp.o
+.PHONY : test/cls_lib_test.o
 
 # target to build an object file
-test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/test.cpp.o
-.PHONY : test.cpp.o
+test/cls_lib_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.o
+.PHONY : test/cls_lib_test.cpp.o
 
-test.i: test.cpp.i
-.PHONY : test.i
+test/cls_lib_test.i: test/cls_lib_test.cpp.i
+.PHONY : test/cls_lib_test.i
 
 # target to preprocess a source file
-test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/test.cpp.i
-.PHONY : test.cpp.i
+test/cls_lib_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.i
+.PHONY : test/cls_lib_test.cpp.i
 
-test.s: test.cpp.s
-.PHONY : test.s
+test/cls_lib_test.s: test/cls_lib_test.cpp.s
+.PHONY : test/cls_lib_test.s
 
 # target to generate assembly for a file
-test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/test.cpp.s
-.PHONY : test.cpp.s
+test/cls_lib_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.s
+.PHONY : test/cls_lib_test.cpp.s
+
+test/config.o: test/config.cpp.o
+.PHONY : test/config.o
+
+# target to build an object file
+test/config.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.o
+.PHONY : test/config.cpp.o
+
+test/config.i: test/config.cpp.i
+.PHONY : test/config.i
+
+# target to preprocess a source file
+test/config.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.i
+.PHONY : test/config.cpp.i
+
+test/config.s: test/config.cpp.s
+.PHONY : test/config.s
+
+# target to generate assembly for a file
+test/config.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.s
+.PHONY : test/config.cpp.s
 
 utils.o: utils.cpp.o
 .PHONY : utils.o
 
 # target to build an object file
 utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/utils.cpp.o
 .PHONY : utils.cpp.o
 
 utils.i: utils.cpp.i
@@ -310,7 +399,7 @@ utils.i: utils.cpp.i
 
 # target to preprocess a source file
 utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/utils.cpp.i
 .PHONY : utils.cpp.i
 
 utils.s: utils.cpp.s
@@ -318,7 +407,7 @@ utils.s: utils.cpp.s
 
 # target to generate assembly for a file
 utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Process_entity.dir/build.make CMakeFiles/Process_entity.dir/utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/utils.cpp.s
 .PHONY : utils.cpp.s
 
 # Help Target
@@ -329,7 +418,9 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
-	@echo "... Process_entity"
+	@echo "... test"
+	@echo "... ClsLibTest"
+	@echo "... dds_test"
 	@echo "... base_thread.o"
 	@echo "... base_thread.i"
 	@echo "... base_thread.s"
@@ -339,6 +430,9 @@ help:
 	@echo "... crypto_utils.o"
 	@echo "... crypto_utils.i"
 	@echo "... crypto_utils.s"
+	@echo "... ddsinfo_test.o"
+	@echo "... ddsinfo_test.i"
+	@echo "... ddsinfo_test.s"
 	@echo "... process_parifree.o"
 	@echo "... process_parifree.i"
 	@echo "... process_parifree.s"
@@ -348,9 +442,12 @@ help:
 	@echo "... tcp_socket.o"
 	@echo "... tcp_socket.i"
 	@echo "... tcp_socket.s"
-	@echo "... test.o"
-	@echo "... test.i"
-	@echo "... test.s"
+	@echo "... test/cls_lib_test.o"
+	@echo "... test/cls_lib_test.i"
+	@echo "... test/cls_lib_test.s"
+	@echo "... test/config.o"
+	@echo "... test/config.i"
+	@echo "... test/config.s"
 	@echo "... utils.o"
 	@echo "... utils.i"
 	@echo "... utils.s"

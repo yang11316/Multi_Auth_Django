@@ -8,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 import time
 from commonutils import KGC
 from commonutils import utils
+from commonutils import switch_interface
 import psutil
 from apscheduler.schedulers.background import BackgroundScheduler
 from django_apscheduler.jobstores import DjangoJobStore,register_events,register_job
@@ -17,7 +18,7 @@ from django_apscheduler.jobstores import DjangoJobStore,register_events,register
 AS_ip = settings.AS_IP
 AS_port = settings.AS_PORT
 
-
+# 与as同步最新数据
 try:
     header = {"content-type": "application/json","Connection":"close"}
     url = "http://"+AS_ip+":"+str(AS_port)+"/entitymanage/get-public-parameter/"
@@ -306,7 +307,8 @@ def send_particalkey_and_pid(request):
                         "pid":entity.entity_pid,
                         "acc_cur":utils.int2hex(kgc.acc_cur),
                         "kgc_Ppub":utils.int2hex(kgc.kgc_Ppub),
-                        "entity_parcialkey": entity.entity_parcialkey
+                        "entity_parcialkey": entity.entity_parcialkey,
+
                     })   
                     entity.is_alive = True
                     entity.entity_porecessid = entity_processid
@@ -323,9 +325,8 @@ def send_particalkey_and_pid(request):
                     }
                     post_data(AS_ip,AS_port,"/entitymanage/get-alive-entity/",post_as_data)
                     
-            # print("send parcialkey")
-            # post_data_to_process(process_ip,entity_listening_port,"",data)
-            response_data = {"entity_data":ret_data}
+            response_data = {"entity_data":ret_data,"domain_id":kgc.domain_id}
+            # print(response_data)
             return JsonResponse(response_data)
         except Exception as e:
             print(e)
@@ -346,36 +347,32 @@ def get_domain_parameters(request):
         except Exception as e:
             print(e)
             return HttpResponse("error")
-        
+@csrf_exempt        
 def get_dds_info(request):
     if request.method == "POST":
         try:
             json_data =  request.body.decode("utf-8")
+            # print(json_data)
             json_data = json.loads(json_data)
             entity_pid = json_data["entity_pid"]
             if not EntityInfo.objects.filter(entity_pid=entity_pid).exists():
                 return JsonResponse({"status":"error","message":"no such entity"})
-            dds_type = json_data["dds_type"]
-            source_ip = json_data["source_ip"]
-            source_port = json_data["source_port"]
-            destination_ip = json_data["destination_ip"]
-            destination_port = json_data["destination_port"]
-            payload = {
-                "entity_pid":entity_pid,
-                "dds_type":dds_type,
-                "source_ip":source_ip,
-                "source_port":source_port,
-                "destination_ip":destination_ip,
-                "destination_port":destination_port
-            }
-            ret = post_data(AS_ip,AS_port,"/ddsmanage/get-dds-info/",payload)
-            return JsonResponse(ret.json())
-
-
-
-        
-
+            validator = switch_interface.RequestDataValidator(json_data)
+            validation_errors = validator.validate()
+            if validation_errors:
+                return JsonResponse(
+                    {"status": "error", "message": ", ".join(validation_errors)}
+                )
+            ret = post_data(AS_ip,AS_port,"/ddsmanage/get-dds-info/",json_data)
+            print(ret)
+            ret_data = ret.json()
+            if ret_data["status"]=="success":
+                return HttpResponse("success")
+            else:
+                print(ret)
+                return HttpResponse("error")
         except Exception as e:
-            return JsonResponse({"status":"error","message":str(e)})
+            print(e)
+            return HttpResponse("error")
 
 

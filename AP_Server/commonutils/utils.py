@@ -1,9 +1,11 @@
+import socket
 from cryptography.hazmat.primitives import hashes
 # from fastecdsa import point
 from gmpy2 import next_prime
 import secrets
 import time
 import os
+
 def calculate_pid(file_hash: str, pc_ip: str) -> str:
     """calculate pid"""
     tmp_hash = hashes.Hash(hashes.MD5())
@@ -102,6 +104,10 @@ def get_process_path(pid:int):
     except Exception as e:
         print(e)
         return None
+
+
+
+
 if __name__ == "__main__":
     import os
 
