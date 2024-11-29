@@ -71,6 +71,7 @@ set(gtest_headers
         include/process_parifree.h
         include/tcp_socket.h
         include/crypto_utils.h
+        include/common_utils.h
     )
 set(gtest_cpps
         cls_lib.cpp
@@ -79,6 +80,7 @@ set(gtest_cpps
         process_parifree.cpp
         tcp_socket.cpp
         crypto_utils.cpp
+        common_utils.cpp
         test/config.cpp
     )
 

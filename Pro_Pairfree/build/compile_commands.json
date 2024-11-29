@@ -11,6 +11,11 @@
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/dds_test.dir/common_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/common_utils.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/common_utils.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
   "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/dds_test.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/crypto_utils.cpp"
 },
@@ -33,11 +38,6 @@
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
   "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/dds_test.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/tcp_socket.cpp"
-},
-{
-  "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -std=gnu++11 -o CMakeFiles/dds_test.dir/utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/utils.cpp",
-  "file": "/home/default/Mycode/Pro_Pairfree/utils.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
@@ -73,6 +73,11 @@
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
   "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/crypto_utils.cpp"
+},
+{
+  "directory": "/home/default/Mycode/Pro_Pairfree/build",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/common_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/common_utils.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/common_utils.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",

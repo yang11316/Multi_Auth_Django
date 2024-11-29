@@ -374,6 +374,7 @@ bool CLS_LIB::send_DDS_info(const std::string &pid, const dds_info &info)
         perror("connect to ap failed");
         return false;
     }
+    std::string source_mac = common_utils::getMacAddress(info.source_interface);
     int processid = this->get_current_pid();
     std::string post_data = "{\"entity_pid\":\"" + pid +
                             "\",\"dds_type\":" + std::to_string(info.dds_type) +
@@ -381,7 +382,7 @@ bool CLS_LIB::send_DDS_info(const std::string &pid, const dds_info &info)
                             ",\"source_ip\":\"" + info.source_ip +
                             "\",\"source_port\":" + std::to_string(info.source_port) +
                             ",\"source_mask\":\"" + info.source_mask +
-                            "\",\"source_mac\":\"" + info.source_mac +
+                            "\",\"source_mac\":\"" + source_mac +
                             "\",\"destination_ip\":\"" + info.destination_ip +
                             "\",\"destination_port\":" + std::to_string(info.destination_port) +
                             ",\"destination_mask\":\"" + info.destination_mask +

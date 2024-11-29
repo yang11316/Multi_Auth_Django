@@ -5,6 +5,7 @@
 #include "base_thread.h"
 #include "server_socket.h"
 #include "process_parifree.h"
+#include "common_utils.h"
 #include <unordered_map>
 #include "json/json.h"
 #include <fstream>
@@ -18,6 +19,7 @@ protocol_type:
     1:tcp
     2:udp
 */
+
 struct dds_info
 {
     int dds_type;
@@ -25,7 +27,7 @@ struct dds_info
     std::string source_ip;
     int source_port;
     std::string source_mask;
-    std::string source_mac;
+    std::string source_interface;
 
     std::string destination_ip;
     int destination_port;
@@ -39,7 +41,7 @@ struct dds_info
         source_ip = "0.0.0.0";
         source_port = -1;
         source_mask = "255.255.255.255";
-        source_mac = "00:00:00:00:00:00";
+        source_interface = "";
         destination_ip = "0.0.0.0";
         destination_port = -1;
         destination_mask = "255.255.255.255";

@@ -364,12 +364,10 @@ def get_dds_info(request):
                     {"status": "error", "message": ", ".join(validation_errors)}
                 )
             ret = post_data(AS_ip,AS_port,"/ddsmanage/get-dds-info/",json_data)
-            print(ret)
             ret_data = ret.json()
             if ret_data["status"]=="success":
                 return HttpResponse("success")
             else:
-                print(ret)
                 return HttpResponse("error")
         except Exception as e:
             print(e)

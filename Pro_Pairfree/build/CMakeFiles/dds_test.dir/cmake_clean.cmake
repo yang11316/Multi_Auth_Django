@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/dds_test.dir/base_thread.cpp.o.d"
   "CMakeFiles/dds_test.dir/cls_lib.cpp.o"
   "CMakeFiles/dds_test.dir/cls_lib.cpp.o.d"
+  "CMakeFiles/dds_test.dir/common_utils.cpp.o"
+  "CMakeFiles/dds_test.dir/common_utils.cpp.o.d"
   "CMakeFiles/dds_test.dir/crypto_utils.cpp.o"
   "CMakeFiles/dds_test.dir/crypto_utils.cpp.o.d"
   "CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o"
@@ -15,8 +17,6 @@ file(REMOVE_RECURSE
   "CMakeFiles/dds_test.dir/server_socket.cpp.o.d"
   "CMakeFiles/dds_test.dir/tcp_socket.cpp.o"
   "CMakeFiles/dds_test.dir/tcp_socket.cpp.o.d"
-  "CMakeFiles/dds_test.dir/utils.cpp.o"
-  "CMakeFiles/dds_test.dir/utils.cpp.o.d"
 )
 
 # Per-language clean rules from dependency scanning.

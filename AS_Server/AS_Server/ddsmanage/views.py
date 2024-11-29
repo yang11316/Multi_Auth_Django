@@ -38,7 +38,26 @@ def get_dds_info(request):
                 return JsonResponse(
                     {"status": "error", "message": ", ".join(validation_errors)}
                 )
+            # 先检查是否已有相同的 dds 信息存在（避免重复保存）
+            existing_dds = DDSInfoTable.objects.filter(
+                entity_pid=entity_pid,
+                dds_type=json_data.get("dds_type"),
+                protocol_type=json_data.get("protocol_type"),
+                source_ip=json_data.get("source_ip"),
+                source_port=json_data.get("source_port"),
+                source_mac=json_data.get("source_mac"),
+                destination_ip=json_data.get("destination_ip"),
+                destination_port=json_data.get("destination_port"),
+                destination_mac=json_data.get("destination_mac"),
+            ).exists()
 
+            if existing_dds:
+                return JsonResponse(
+                    {
+                        "status": "error",
+                        "message": "DDS info with this entity_pid already exists",
+                    }
+                )
             # 数据校验完毕，保存到数据库中
             dds_info_instance = DDSInfoTable()
             dds_info_instance.entity_pid = entity_pid
@@ -95,19 +114,3 @@ def get_dds_info(request):
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
-
-
-# 接收撤销的消息，删除并发送给交换机
-def get_dds_info_delete(request):
-    if request.method == "POST":
-        json_data = request.body.decode("utf-8")
-        json_data = json.loads(json_data)
-        entity_pid = json_data.get("entity_pid")
-        if not entity_pid:
-            return JsonResponse(
-                {"status": "error", "message": "entity_pid is required"}
-            )
-        if not EnityTable.objects.filter(entity_pid=entity_pid).exists():
-            return JsonResponse(
-                {"status": "error", "message": "entity_pid does not exist"}
-            )

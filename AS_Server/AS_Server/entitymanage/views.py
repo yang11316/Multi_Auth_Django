@@ -1,14 +1,17 @@
 from django.http import HttpResponse, JsonResponse
 from django.middleware.csrf import get_token
+from django.conf import settings
 from commonutils import utils
 from commonutils import accumulator
 from commonutils import kgc
-
+from commonutils import switch_interface
 from .models import *
 from usermanage.models import UserTable
 from softwaremanage.models import SoftwareTable
 from nodemanage.models import NodeTable
 from domainmanage.models import DomainTable
+from ddsmanage.models import DDSInfoTable, PacketID
+
 import json, datetime, os
 from fastecdsa import keys
 import requests
@@ -436,6 +439,46 @@ def entity_withdraw(request):
             entity_instance.delete()
             kgc_paramter_save()
 
+            # 组成rfac报文并发送
+            # dds type指定信息的类型
+            # 1、publisher 1:向组ip发送消息
+            # 2、subscriber 2:接收组ip的消息
+
+            # protocol type指定信息的传输协议
+            # 1、tcp :1
+            # 2、udp :2
+            if DDSInfoTable.objects.filter(entity_pid=entity_pid).exists():
+                dds_instance = DDSInfoTable.objects.filter(entity_pid=entity_pid)
+                for ddsinstance in dds_instance:
+                    dds_type = ddsinstance.dds_type
+                    protocol_type = ddsinstance.protocol_type
+                    # 生成RFAC包，默认code为2，表示deny
+                    rfac_packet = switch_interface.RFACPacket(
+                        2, PacketID.get_next_id(), 1
+                    )
+                    # 根据dds_type和protocol_type设置协议
+                    if dds_type == 1:
+                        if protocol_type == 1:
+                            rfac_packet.set_protocol(6)
+                        elif protocol_type == 2:
+                            rfac_packet.set_protocol(17)
+                    else:
+                        rfac_packet.set_protocol(2)
+                    # 设置IP、端口、掩码和MAC地址
+                    rfac_packet.set_ip(1, ddsinstance.source_ip)
+                    rfac_packet.set_port(2, ddsinstance.source_port)
+                    rfac_packet.set_mask(3, ddsinstance.source_mask)
+                    rfac_packet.set_ip(4, ddsinstance.destination_ip)
+                    rfac_packet.set_port(5, ddsinstance.destination_port)
+                    rfac_packet.set_mask(6, ddsinstance.destination_mask)
+                    rfac_packet.set_mac(8, ddsinstance.source_mac)
+                    rfac_packet.set_mac(9, ddsinstance.destination_mac)
+                    # 构建包数据并发送
+                    pack_data = rfac_packet.build()
+                    switch_interface.send_raw_packet(pack_data, settings.SWITHCH_MAC)
+                    # 删除该记录
+                    ddsinstance.delete()
+
             return JsonResponse({"status": "success"})
         except Exception as e:
             print(e)
@@ -509,6 +552,136 @@ def get_down_entity_pid(request):
                 entity_instance.entity_porecessid = ""
                 entity_instance.save()
             return JsonResponse({"status": "success"})
+        except Exception as e:
+            print(e)
+            return JsonResponse({"status": "error", "message": str(e)})
+
+
+# 接收其他子课题传来的流数据
+"""
+{"revoke_data":
+    {
+        "source_ip":"xxxxxx",
+        "source_port":"xxxxx",
+        "source_mac":"xxxxxx",
+        "destination_ip":"xxxxxx",
+        "destination_port":"xxxxxx",
+        "destination_mac":"xxxxxx",
+        "protocol_type":"xxxxxx"
+    }
+}
+"""
+
+
+def get_revoke_data(request):
+    if request.method == "POST":
+        try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data).get("revoke_data")
+            source_ip = json_data["source_ip"]
+            source_port = json_data["source_port"]
+            source_mac = json_data["source_mac"]
+            destination_ip = json_data["destination_ip"]
+            destination_port = json_data["destination_port"]
+            destination_mac = json_data["destination_mac"]
+            protocol_type = json_data["protocol_type"]
+            ddsinstance = DDSInfoTable.objects.filter(
+                source_ip=source_ip,
+                source_port=source_port,
+                source_mac=source_mac,
+                destination_ip=destination_ip,
+                destination_port=destination_port,
+                destination_mac=destination_mac,
+                protocol_type=protocol_type,
+            ).first()
+            if not ddsinstance:
+                return JsonResponse({"status": "error", "message": "not find entity"})
+            entity_pid = ddsinstance.entity_pid
+
+            """向交换机发送rfac报文 """
+            # 根据entity_pid循环删除ddsinfotable中的记录，并构造rfac包发出去
+            pid_records = DDSInfoTable.objects.filter(entity_pid=entity_pid)
+            for pid_instance in pid_records:
+                dds_type = pid_instance.dds_type
+                protocol_type = pid_instance.protocol_type
+                # 生成RFAC包，默认code为2，表示deny
+                rfac_packet = switch_interface.RFACPacket(2, PacketID.get_next_id(), 1)
+                # 根据dds_type和protocol_type设置协议
+                if dds_type == 1:
+                    if protocol_type == 1:
+                        rfac_packet.set_protocol(6)
+                    elif protocol_type == 2:
+                        rfac_packet.set_protocol(17)
+                else:
+                    rfac_packet.set_protocol(2)
+                # 设置IP、端口、掩码和MAC地址
+                rfac_packet.set_ip(1, pid_instance.source_ip)
+                rfac_packet.set_port(2, pid_instance.source_port)
+                rfac_packet.set_mask(3, pid_instance.source_mask)
+                rfac_packet.set_ip(4, pid_instance.destination_ip)
+                rfac_packet.set_port(5, pid_instance.destination_port)
+                rfac_packet.set_mask(6, pid_instance.destination_mask)
+                rfac_packet.set_mac(8, pid_instance.source_mac)
+                rfac_packet.set_mac(9, pid_instance.destination_mac)
+                # 构建包数据并发送
+                pack_data = rfac_packet.build()
+                switch_interface.send_raw_packet(pack_data, settings.SWITHCH_MAC)
+                # 删除该记录
+                pid_instance.delete()
+
+            """执行身份撤销"""
+            entity_instance = EnityTable.objects.filter(entity_pid=entity_pid).exists()
+            if not entity_instance:
+                return JsonResponse({"status": "error", "message": "pid not exists"})
+            entity_instance = EnityTable.objects.get(entity_pid=entity_pid)
+            if entity_instance.entity_parcialkey == None:
+                return JsonResponse(
+                    {"status": "error", "message": "entity doesn't have parcialkey"}
+                )
+            # 生成aux
+            aux = acc.remove_member(entity_pid)
+            node_instance_all = NodeTable.objects.filter(node_is_alive=True)
+            payload = {
+                "aux_data": {
+                    "aux": aux,
+                    "acc_cur": utils.int2hex(acc.acc_cur),
+                    "withdraw_pid": entity_pid,
+                }
+            }
+            # 发送更新凭证
+            for tmp_node in node_instance_all:
+                node_ip = tmp_node.node_ip
+                node_port = tmp_node.node_port
+                response = post_to_ap(
+                    node_ip,
+                    node_port,
+                    "/entitymanage/getauxdata/",
+                    payload=payload,
+                )
+                if response == None:
+                    print(
+                        "can not send aux to node:",
+                        tmp_node.node_ip,
+                        ", node is not alive",
+                    )
+                    tmp_node.node_is_alive = False
+                    tmp_node.save()
+                    continue
+                if response.json()["status"] != "success":
+                    return JsonResponse(
+                        {
+                            "status": "error",
+                            "message": response.json()["message"],
+                        }
+                    )
+            # 更新AS上的部分私钥记录
+            temp_pids = EnityTable.objects.filter(entity_parcialkey__isnull=False)
+            for tmp in temp_pids:
+                tmp.entity_parcialkey = acc.update_witness(aux, tmp.entity_parcialkey)
+                tmp.save()
+            entity_instance.delete()
+            kgc_paramter_save()
+
         except Exception as e:
             print(e)
             return JsonResponse({"status": "error", "message": str(e)})

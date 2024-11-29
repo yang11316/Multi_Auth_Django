@@ -1,11 +1,8 @@
 from django.db import models, transaction
 
 # Create your models here.
-
-
 """
 存储实体发送的dds会话信息 
-
 dds type指定信息的类型
 1、publisher 1:向组ip发送消息
 2、subscriber 2:接收组ip的消息
@@ -13,14 +10,12 @@ dds type指定信息的类型
 protocol type指定信息的传输协议
 1、tcp :1
 2、udp :2
-
 """
 
 
 class DDSInfoTable(models.Model):
-    entity_pid = models.CharField(
-        primary_key=True, max_length=32, verbose_name="entity pid"
-    )
+    id = models.AutoField(primary_key=True)
+    entity_pid = models.CharField(max_length=32, verbose_name="entity pid")
     dds_type = models.IntegerField(verbose_name="dds type")
     protocol_type = models.IntegerField(verbose_name="protocol type")
     source_ip = models.GenericIPAddressField(verbose_name="source ip")
@@ -39,7 +34,6 @@ class DDSInfoTable(models.Model):
     destination_mac = models.CharField(
         max_length=17, verbose_name="destination mac", default="00:00:00:00:00:00"
     )
-
     create_time = models.DateTimeField(auto_now_add=True, verbose_name="create time")
     update_time = models.DateTimeField(auto_now=True, verbose_name="update time")
 

@@ -97,10 +97,24 @@ CMakeFiles/dds_test.dir/cls_lib.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/dds_test.dir/cls_lib.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/cls_lib.cpp -o CMakeFiles/dds_test.dir/cls_lib.cpp.s
 
+CMakeFiles/dds_test.dir/common_utils.cpp.o: CMakeFiles/dds_test.dir/flags.make
+CMakeFiles/dds_test.dir/common_utils.cpp.o: ../common_utils.cpp
+CMakeFiles/dds_test.dir/common_utils.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/dds_test.dir/common_utils.cpp.o"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/common_utils.cpp.o -MF CMakeFiles/dds_test.dir/common_utils.cpp.o.d -o CMakeFiles/dds_test.dir/common_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/common_utils.cpp
+
+CMakeFiles/dds_test.dir/common_utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/dds_test.dir/common_utils.cpp.i"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/common_utils.cpp > CMakeFiles/dds_test.dir/common_utils.cpp.i
+
+CMakeFiles/dds_test.dir/common_utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/dds_test.dir/common_utils.cpp.s"
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/common_utils.cpp -o CMakeFiles/dds_test.dir/common_utils.cpp.s
+
 CMakeFiles/dds_test.dir/crypto_utils.cpp.o: CMakeFiles/dds_test.dir/flags.make
 CMakeFiles/dds_test.dir/crypto_utils.cpp.o: ../crypto_utils.cpp
 CMakeFiles/dds_test.dir/crypto_utils.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/dds_test.dir/crypto_utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/dds_test.dir/crypto_utils.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/crypto_utils.cpp.o -MF CMakeFiles/dds_test.dir/crypto_utils.cpp.o.d -o CMakeFiles/dds_test.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp
 
 CMakeFiles/dds_test.dir/crypto_utils.cpp.i: cmake_force
@@ -114,7 +128,7 @@ CMakeFiles/dds_test.dir/crypto_utils.cpp.s: cmake_force
 CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o: CMakeFiles/dds_test.dir/flags.make
 CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o: ../ddsinfo_test.cpp
 CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o -MF CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o.d -o CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o -c /home/default/Mycode/Pro_Pairfree/ddsinfo_test.cpp
 
 CMakeFiles/dds_test.dir/ddsinfo_test.cpp.i: cmake_force
@@ -128,7 +142,7 @@ CMakeFiles/dds_test.dir/ddsinfo_test.cpp.s: cmake_force
 CMakeFiles/dds_test.dir/process_parifree.cpp.o: CMakeFiles/dds_test.dir/flags.make
 CMakeFiles/dds_test.dir/process_parifree.cpp.o: ../process_parifree.cpp
 CMakeFiles/dds_test.dir/process_parifree.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/dds_test.dir/process_parifree.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/dds_test.dir/process_parifree.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/process_parifree.cpp.o -MF CMakeFiles/dds_test.dir/process_parifree.cpp.o.d -o CMakeFiles/dds_test.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp
 
 CMakeFiles/dds_test.dir/process_parifree.cpp.i: cmake_force
@@ -142,7 +156,7 @@ CMakeFiles/dds_test.dir/process_parifree.cpp.s: cmake_force
 CMakeFiles/dds_test.dir/server_socket.cpp.o: CMakeFiles/dds_test.dir/flags.make
 CMakeFiles/dds_test.dir/server_socket.cpp.o: ../server_socket.cpp
 CMakeFiles/dds_test.dir/server_socket.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/dds_test.dir/server_socket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/dds_test.dir/server_socket.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/server_socket.cpp.o -MF CMakeFiles/dds_test.dir/server_socket.cpp.o.d -o CMakeFiles/dds_test.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp
 
 CMakeFiles/dds_test.dir/server_socket.cpp.i: cmake_force
@@ -156,7 +170,7 @@ CMakeFiles/dds_test.dir/server_socket.cpp.s: cmake_force
 CMakeFiles/dds_test.dir/tcp_socket.cpp.o: CMakeFiles/dds_test.dir/flags.make
 CMakeFiles/dds_test.dir/tcp_socket.cpp.o: ../tcp_socket.cpp
 CMakeFiles/dds_test.dir/tcp_socket.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/dds_test.dir/tcp_socket.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/dds_test.dir/tcp_socket.cpp.o"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/tcp_socket.cpp.o -MF CMakeFiles/dds_test.dir/tcp_socket.cpp.o.d -o CMakeFiles/dds_test.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp
 
 CMakeFiles/dds_test.dir/tcp_socket.cpp.i: cmake_force
@@ -167,42 +181,28 @@ CMakeFiles/dds_test.dir/tcp_socket.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/dds_test.dir/tcp_socket.cpp.s"
 	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp -o CMakeFiles/dds_test.dir/tcp_socket.cpp.s
 
-CMakeFiles/dds_test.dir/utils.cpp.o: CMakeFiles/dds_test.dir/flags.make
-CMakeFiles/dds_test.dir/utils.cpp.o: ../utils.cpp
-CMakeFiles/dds_test.dir/utils.cpp.o: CMakeFiles/dds_test.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/dds_test.dir/utils.cpp.o"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/dds_test.dir/utils.cpp.o -MF CMakeFiles/dds_test.dir/utils.cpp.o.d -o CMakeFiles/dds_test.dir/utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/utils.cpp
-
-CMakeFiles/dds_test.dir/utils.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/dds_test.dir/utils.cpp.i"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/utils.cpp > CMakeFiles/dds_test.dir/utils.cpp.i
-
-CMakeFiles/dds_test.dir/utils.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/dds_test.dir/utils.cpp.s"
-	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/utils.cpp -o CMakeFiles/dds_test.dir/utils.cpp.s
-
 # Object files for target dds_test
 dds_test_OBJECTS = \
 "CMakeFiles/dds_test.dir/base_thread.cpp.o" \
 "CMakeFiles/dds_test.dir/cls_lib.cpp.o" \
+"CMakeFiles/dds_test.dir/common_utils.cpp.o" \
 "CMakeFiles/dds_test.dir/crypto_utils.cpp.o" \
 "CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o" \
 "CMakeFiles/dds_test.dir/process_parifree.cpp.o" \
 "CMakeFiles/dds_test.dir/server_socket.cpp.o" \
-"CMakeFiles/dds_test.dir/tcp_socket.cpp.o" \
-"CMakeFiles/dds_test.dir/utils.cpp.o"
+"CMakeFiles/dds_test.dir/tcp_socket.cpp.o"
 
 # External object files for target dds_test
 dds_test_EXTERNAL_OBJECTS =
 
 ../bin/dds_test: CMakeFiles/dds_test.dir/base_thread.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/cls_lib.cpp.o
+../bin/dds_test: CMakeFiles/dds_test.dir/common_utils.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/crypto_utils.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/ddsinfo_test.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/process_parifree.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/server_socket.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/tcp_socket.cpp.o
-../bin/dds_test: CMakeFiles/dds_test.dir/utils.cpp.o
 ../bin/dds_test: CMakeFiles/dds_test.dir/build.make
 ../bin/dds_test: /usr/local/openssl/lib64/libssl.a
 ../bin/dds_test: /usr/local/openssl/lib64/libcrypto.a

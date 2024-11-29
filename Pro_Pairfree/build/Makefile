@@ -206,6 +206,33 @@ cls_lib.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.s
 .PHONY : cls_lib.cpp.s
 
+common_utils.o: common_utils.cpp.o
+.PHONY : common_utils.o
+
+# target to build an object file
+common_utils.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/common_utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/common_utils.cpp.o
+.PHONY : common_utils.cpp.o
+
+common_utils.i: common_utils.cpp.i
+.PHONY : common_utils.i
+
+# target to preprocess a source file
+common_utils.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/common_utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/common_utils.cpp.i
+.PHONY : common_utils.cpp.i
+
+common_utils.s: common_utils.cpp.s
+.PHONY : common_utils.s
+
+# target to generate assembly for a file
+common_utils.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/common_utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/common_utils.cpp.s
+.PHONY : common_utils.cpp.s
+
 crypto_utils.o: crypto_utils.cpp.o
 .PHONY : crypto_utils.o
 
@@ -386,30 +413,6 @@ test/config.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.s
 .PHONY : test/config.cpp.s
 
-utils.o: utils.cpp.o
-.PHONY : utils.o
-
-# target to build an object file
-utils.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/utils.cpp.o
-.PHONY : utils.cpp.o
-
-utils.i: utils.cpp.i
-.PHONY : utils.i
-
-# target to preprocess a source file
-utils.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/utils.cpp.i
-.PHONY : utils.cpp.i
-
-utils.s: utils.cpp.s
-.PHONY : utils.s
-
-# target to generate assembly for a file
-utils.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/utils.cpp.s
-.PHONY : utils.cpp.s
-
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -427,6 +430,9 @@ help:
 	@echo "... cls_lib.o"
 	@echo "... cls_lib.i"
 	@echo "... cls_lib.s"
+	@echo "... common_utils.o"
+	@echo "... common_utils.i"
+	@echo "... common_utils.s"
 	@echo "... crypto_utils.o"
 	@echo "... crypto_utils.i"
 	@echo "... crypto_utils.s"
@@ -448,9 +454,6 @@ help:
 	@echo "... test/config.o"
 	@echo "... test/config.i"
 	@echo "... test/config.s"
-	@echo "... utils.o"
-	@echo "... utils.i"
-	@echo "... utils.s"
 .PHONY : help
 
 

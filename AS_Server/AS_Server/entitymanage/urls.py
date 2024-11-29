@@ -20,4 +20,5 @@ urlpatterns = [
         views.send_public_parameter,
         name="get-public-parameter",
     ),
+    path("revoke-interface/", views.get_revoke_data, name="revoke-interface"),
 ]
