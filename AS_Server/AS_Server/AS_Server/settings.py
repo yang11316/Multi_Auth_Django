@@ -192,3 +192,4 @@ CORS_ALLOW_HEADERS = (
 
 # 交换机mac地址
 SWITHCH_MAC = "01:80:c2:00:00:0f"
+FILE_UPLOAD_PATH = "/home/default/file_upload/"

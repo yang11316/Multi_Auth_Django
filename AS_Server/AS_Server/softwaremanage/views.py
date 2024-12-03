@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render
+from django.conf import settings
 from commonutils.utils import *
 from usermanage.models import *
 from .models import *
@@ -42,7 +43,7 @@ def registsoftware_add(request):
             )
             rsoftware_instace.rsoftware_name = json_data["rsoftware_name"]
             rsoftware_instace.rsoftware_path = (
-                "/home/default/file_upload/" + json_data["rsoftware_name"]
+                settings.FILE_UPLOAD_PATH + json_data["rsoftware_name"]
             )
             rsoftware_instace.rsoftware_version = json_data["rsoftware_version"]
             rsoftware_instace.rsoftware_desc = json_data["rsoftware_desc"]
