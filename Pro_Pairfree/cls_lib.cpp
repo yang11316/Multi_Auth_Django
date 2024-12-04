@@ -394,8 +394,9 @@ bool CLS_LIB::send_DDS_info(const std::string &pid, const dds_info &info)
         perror("send http msg failed");
         return false;
     }
-
-    if (m_socket->recvHTTPmsg() == "success")
+    std::string ret = m_socket->recvHTTPmsg();
+    std::cout << "ret:" << ret << std::endl;
+    if (ret == "success")
     {
         m_socket->disConnect();
         return true;

@@ -471,7 +471,7 @@ std::string TcpSocket::recvHTTPmsg(int timeout)
             response += buffer;
         }
     }
-    std::cout << "recv http msg:" << response << std::endl;
+    // std::cout << "recv http msg:" << response << std::endl;
     return response;
 }
 

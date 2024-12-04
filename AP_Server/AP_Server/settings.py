@@ -139,3 +139,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AS_IP="192.168.3.17"
 AS_PORT=8000
+
+SWITHCH_MAC = "01:80:c2:00:00:0f"

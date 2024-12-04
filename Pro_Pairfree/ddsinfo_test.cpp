@@ -6,7 +6,7 @@ int main()
     CLS_LIB cls("0.0.0.0", 9989, 9988, "127.0.0.1", 9000);
     cls.init();
     string pid = cls.get_process_pid();
-    // string pid = "123456";
+
     dds_info info;
     info.dds_type = 1;
     info.protocol_type = 1;
