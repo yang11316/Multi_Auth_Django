@@ -456,7 +456,7 @@ void Process::update_key(const std::string &aux)
         this->WIT = WIT_new;
         this->wit_hash = wit_hash_new;
         gettimeofday(&endtime, NULL);
-        long update_timeuse = 1000000 * (begtime.tv_sec - endtime.tv_sec) + begtime.tv_usec - endtime.tv_usec;
+        long update_timeuse = 1000000 * (endtime.tv_sec - begtime.tv_sec) + endtime.tv_usec - begtime.tv_usec;
 
         printf("update time: %ld us\n", update_timeuse);
     }

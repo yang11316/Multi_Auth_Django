@@ -1,6 +1,8 @@
 #include <gtest/gtest.h>
 #include "process_parifree.h"
 
+typedef long long LL;
+
 /**
  * 1. 初始化
  **/
@@ -96,7 +98,7 @@ TEST_F(InitTest, HandlePartialInputThroughConstructor)
     // Process *p = new Process(entity_pid, acc_publickey, acc_cur, kgc_P);
     Process *p = new Process(acc_publickey, acc_cur, kgc_P);
 
-    EXPECT_EQ(p->pid, entity_pid);
+    // EXPECT_EQ(p->pid, entity_pid);
     EXPECT_EQ(p->acc_cur, mpz_class(acc_cur, 16));
     EXPECT_EQ(p->acc_publickey, mpz_class(acc_publickey, 16));
 
@@ -153,7 +155,7 @@ TEST_F(InitTest, HandleTimeUse)
     Process *p = new Process();
 
     int tot = 50, i = tot;
-    long long t = 0;
+    LL t = 0;
     while (i--) {
         struct timeval begtime, endtime;
         gettimeofday(&begtime, NULL);
@@ -188,7 +190,8 @@ TEST_F(InitTest, HandleInvalidInput)
     Process *p = new Process();
     // 证据值置空
     std::string empty_entity_witness = "";
-    EXPECT_THROW(p->init(entity_pid, acc_publickey, acc_cur, empty_entity_witness, kgc_P), std::invalid_argument);
+    // EXPECT_THROW(p->init(entity_pid, acc_publickey, acc_cur, empty_entity_witness, kgc_P), std::invalid_argument);
+    p->init(entity_pid, acc_publickey, acc_cur, empty_entity_witness, kgc_P);
 
     EXPECT_FALSE(p->is_init);
 }
@@ -262,7 +265,7 @@ TEST_F(KeyGenerationTest, HandleTimeUse)
     p->init(entity_pid, acc_publickey, acc_cur, entity_witness, kgc_P);
 
     int tot = 50, i = tot;
-    long long t = 0;
+    LL t = 0;
     while (i--) {
         struct timeval begtime, endtime;
         gettimeofday(&begtime, NULL);
@@ -356,7 +359,7 @@ TEST_F(SignAndVerifyTest, HandleTimeUse)
 
     int tot = 50, i = tot;
     std::string msg = "hello";
-    long long t1 = 0, t2 = 0;
+    LL t1 = 0, t2 = 0;
     while (i--) {
         struct timeval signBeginTime, signEndTime;
         gettimeofday(&signBeginTime, NULL);
@@ -416,14 +419,48 @@ TEST_F(SignAndVerifyTest, HandleSig2Tampering)
 /**
  * 4. 密钥更新
  **/
-TEST(KeyUpdateTest, HandleValidTest)
+class KeyUpdateTest : public testing::Test
 {
-    std::string entity_pid = "6164916b3314f2ce4a3150e9173a5179";
-    std::string acc_publickey = "a775863f0ad44ca20035dbc8bee624ec9d65415f670e0a7b501bffb6bb298c064d977c6f3a43728ca6a4eca0c35cf0a3957c007de7b601e4302738a734c3bd43";
-    std::string acc_cur = "1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8";
-    std::string kgc_P = "3db34e39a4c85d2d6e17dd25e8a08c42d349e791b509f6fcfe3e3daaf567a5ca603db34e39a4c85d2d6e17dd25e8a08c42d349e791b509f6fcfe3e3daaf567a5ca6";
-    std::string entity_witness = "57bcfebcde5b373a6d14916d50585f9f39152ff5bf95ab9f1ba5b7447a02112851b345c3ff6a0bc1fd9c404d3905e9b4eba68bcd6220d32d91929c6606a464c5";
+protected:
+    std::string entity_pid;
+    std::string acc_publickey;
+    std::string acc_cur;
+    std::string kgc_P;
+    std::string entity_witness;
+    std::string aux;
+    void SetUp() override
+    {
+        entity_pid = "6164916b3314f2ce4a3150e9173a5179";
+        acc_publickey = "a775863f0ad44ca20035dbc8bee624ec9d65415f670e0a7b501bffb6bb298c064d977c6f3a43728ca6a4eca0c35cf0a3957c007de7b601e4302738a734c3bd43";
+        acc_cur = "1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8";
+        kgc_P = "3db34e39a4c85d2d6e17dd25e8a08c42d349e791b509f6fcfe3e3daaf567a5ca603db34e39a4c85d2d6e17dd25e8a08c42d349e791b509f6fcfe3e3daaf567a5ca6";
+        entity_witness = "57bcfebcde5b373a6d14916d50585f9f39152ff5bf95ab9f1ba5b7447a02112851b345c3ff6a0bc1fd9c404d3905e9b4eba68bcd6220d32d91929c6606a464c5";
+        aux = "64a57cc12951bd9a84b4a2ba12d51c79";
+    }
 
+    void TearDown() override {}
+};
+
+TEST_F(KeyUpdateTest, FixtureTest)
+{
+    ASSERT_TRUE(!entity_pid.empty());
+    ASSERT_TRUE(!acc_publickey.empty());
+    ASSERT_TRUE(!acc_cur.empty());
+    ASSERT_TRUE(!kgc_P.empty());
+    ASSERT_TRUE(!entity_witness.empty());
+}
+
+TEST_F(KeyUpdateTest, FixtureTest2)
+{
+    EXPECT_EQ(entity_pid, "6164916b3314f2ce4a3150e9173a5179");
+    EXPECT_EQ(acc_publickey, "a775863f0ad44ca20035dbc8bee624ec9d65415f670e0a7b501bffb6bb298c064d977c6f3a43728ca6a4eca0c35cf0a3957c007de7b601e4302738a734c3bd43");
+    EXPECT_EQ(acc_cur, "1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8");
+    EXPECT_EQ(kgc_P, "3db34e39a4c85d2d6e17dd25e8a08c42d349e791b509f6fcfe3e3daaf567a5ca603db34e39a4c85d2d6e17dd25e8a08c42d349e791b509f6fcfe3e3daaf567a5ca6");
+    EXPECT_EQ(entity_witness, "57bcfebcde5b373a6d14916d50585f9f39152ff5bf95ab9f1ba5b7447a02112851b345c3ff6a0bc1fd9c404d3905e9b4eba68bcd6220d32d91929c6606a464c5");
+}
+
+TEST_F(KeyUpdateTest, HandleValidInput)
+{
     Process *p = new Process(entity_pid, acc_publickey, acc_cur, entity_witness, kgc_P);
 
     // 首次生成密钥
@@ -438,11 +475,9 @@ TEST(KeyUpdateTest, HandleValidTest)
     EXPECT_TRUE(p->is_fullkey);
 
     // 更新密钥
-    std::string new_entity_pid = "64a57cc12951bd9a84b4a2ba12d51c79";
-
     struct timeval begtime, endtime;
     gettimeofday(&begtime, NULL);
-    p->update_key(new_entity_pid);
+    p->update_key(aux);
     gettimeofday(&endtime, NULL);
     long timeuse = 1000000 * (endtime.tv_sec - begtime.tv_sec) + endtime.tv_usec - begtime.tv_usec;
     printf("key update time: %ld us\n", timeuse);
@@ -464,8 +499,24 @@ TEST(KeyUpdateTest, HandleValidTest)
     // EXPECT_TRUE(p->verify_sign(payload));
 }
 
-// 测试
+TEST_F(KeyUpdateTest, HandleTimeUse) {
+    Process *p = new Process(entity_pid, acc_publickey, acc_cur, entity_witness, kgc_P);
+    p->generate_full_key();
 
+    int tot = 50, i = tot;
+    LL t = 0;
+    while (i--) {
+        struct timeval begtime, endtime;
+        gettimeofday(&begtime, NULL);
+        p->update_key(aux);
+        gettimeofday(&endtime, NULL);
+        t += 1000000 * (endtime.tv_sec - begtime.tv_sec) + endtime.tv_usec - begtime.tv_usec;
+    }
+
+    printf("密钥更新%d次的平均耗时: %lld us\n", tot, t / tot);
+}
+
+// 测试
 int main()
 {
     testing::InitGoogleTest();

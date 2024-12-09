@@ -39,11 +39,11 @@ struct dds_info
         dds_type = -1;
         protocol_type = -1;
         source_ip = "0.0.0.0";
-        source_port = -1;
+        source_port = 0;
         source_mask = "255.255.255.255";
         source_interface = "";
         destination_ip = "0.0.0.0";
-        destination_port = -1;
+        destination_port = 0;
         destination_mask = "255.255.255.255";
         destination_mac = "00:00:00:00:00:00";
     }

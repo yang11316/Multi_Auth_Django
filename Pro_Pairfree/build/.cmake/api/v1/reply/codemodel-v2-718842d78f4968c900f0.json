@@ -40,9 +40,9 @@
 			[
 				{
 					"directoryIndex" : 0,
-					"id" : "ClsLibTest::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ClsLibTest-Debug-5b7209729303a5cd0d5b.json",
-					"name" : "ClsLibTest",
+					"id" : "CryptoTest::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CryptoTest-Debug-55386a3ba2c69133264a.json",
+					"name" : "CryptoTest",
 					"projectIndex" : 0
 				},
 				{

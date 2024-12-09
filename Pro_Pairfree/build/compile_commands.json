@@ -41,47 +41,47 @@
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.o -c /home/default/Mycode/Pro_Pairfree/test/cls_lib_test.cpp",
-  "file": "/home/default/Mycode/Pro_Pairfree/test/cls_lib_test.cpp"
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.o -c /home/default/Mycode/Pro_Pairfree/test/crypto_test.cpp",
+  "file": "/home/default/Mycode/Pro_Pairfree/test/crypto_test.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/cls_lib.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/base_thread.cpp.o -c /home/default/Mycode/Pro_Pairfree/base_thread.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/base_thread.cpp.o -c /home/default/Mycode/Pro_Pairfree/base_thread.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/base_thread.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/server_socket.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/process_parifree.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/tcp_socket.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/crypto_utils.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/common_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/common_utils.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/common_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/common_utils.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/common_utils.cpp"
 },
 {
   "directory": "/home/default/Mycode/Pro_Pairfree/build",
-  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/ClsLibTest.dir/test/config.cpp.o -c /home/default/Mycode/Pro_Pairfree/test/config.cpp",
+  "command": "/usr/bin/g++  -I/home/default/Mycode/Pro_Pairfree/include -I/usr/local/openssl/include -I/usr/local/include/jsoncpp -g -DGTEST_HAS_PTHREAD=1 -std=gnu++11 -o CMakeFiles/CryptoTest.dir/test/config.cpp.o -c /home/default/Mycode/Pro_Pairfree/test/config.cpp",
   "file": "/home/default/Mycode/Pro_Pairfree/test/config.cpp"
 }
 ]

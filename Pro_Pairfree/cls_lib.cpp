@@ -84,6 +84,7 @@ bool CLS_LIB::init()
     m_socket->disConnect();
     delete m_socket;
     m_socket = nullptr;
+    // 测试时注释
     this->start();
     return true;
 }

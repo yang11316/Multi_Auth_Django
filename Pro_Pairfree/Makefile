@@ -140,17 +140,17 @@ dds_test/fast:
 .PHONY : dds_test/fast
 
 #=============================================================================
-# Target rules for targets named ClsLibTest
+# Target rules for targets named CryptoTest
 
 # Build rule for target.
-ClsLibTest: cmake_check_build_system
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 ClsLibTest
-.PHONY : ClsLibTest
+CryptoTest: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CryptoTest
+.PHONY : CryptoTest
 
 # fast build rule for target.
-ClsLibTest/fast:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/build
-.PHONY : ClsLibTest/fast
+CryptoTest/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/build
+.PHONY : CryptoTest/fast
 
 base_thread.o: base_thread.cpp.o
 .PHONY : base_thread.o
@@ -158,7 +158,7 @@ base_thread.o: base_thread.cpp.o
 # target to build an object file
 base_thread.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/base_thread.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/base_thread.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/base_thread.cpp.o
 .PHONY : base_thread.cpp.o
 
 base_thread.i: base_thread.cpp.i
@@ -167,7 +167,7 @@ base_thread.i: base_thread.cpp.i
 # target to preprocess a source file
 base_thread.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/base_thread.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/base_thread.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/base_thread.cpp.i
 .PHONY : base_thread.cpp.i
 
 base_thread.s: base_thread.cpp.s
@@ -176,7 +176,7 @@ base_thread.s: base_thread.cpp.s
 # target to generate assembly for a file
 base_thread.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/base_thread.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/base_thread.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/base_thread.cpp.s
 .PHONY : base_thread.cpp.s
 
 cls_lib.o: cls_lib.cpp.o
@@ -185,7 +185,7 @@ cls_lib.o: cls_lib.cpp.o
 # target to build an object file
 cls_lib.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/cls_lib.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/cls_lib.cpp.o
 .PHONY : cls_lib.cpp.o
 
 cls_lib.i: cls_lib.cpp.i
@@ -194,7 +194,7 @@ cls_lib.i: cls_lib.cpp.i
 # target to preprocess a source file
 cls_lib.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/cls_lib.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/cls_lib.cpp.i
 .PHONY : cls_lib.cpp.i
 
 cls_lib.s: cls_lib.cpp.s
@@ -203,7 +203,7 @@ cls_lib.s: cls_lib.cpp.s
 # target to generate assembly for a file
 cls_lib.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/cls_lib.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/cls_lib.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/cls_lib.cpp.s
 .PHONY : cls_lib.cpp.s
 
 common_utils.o: common_utils.cpp.o
@@ -212,7 +212,7 @@ common_utils.o: common_utils.cpp.o
 # target to build an object file
 common_utils.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/common_utils.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/common_utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/common_utils.cpp.o
 .PHONY : common_utils.cpp.o
 
 common_utils.i: common_utils.cpp.i
@@ -221,7 +221,7 @@ common_utils.i: common_utils.cpp.i
 # target to preprocess a source file
 common_utils.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/common_utils.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/common_utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/common_utils.cpp.i
 .PHONY : common_utils.cpp.i
 
 common_utils.s: common_utils.cpp.s
@@ -230,7 +230,7 @@ common_utils.s: common_utils.cpp.s
 # target to generate assembly for a file
 common_utils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/common_utils.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/common_utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/common_utils.cpp.s
 .PHONY : common_utils.cpp.s
 
 crypto_utils.o: crypto_utils.cpp.o
@@ -239,7 +239,7 @@ crypto_utils.o: crypto_utils.cpp.o
 # target to build an object file
 crypto_utils.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/crypto_utils.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o
 .PHONY : crypto_utils.cpp.o
 
 crypto_utils.i: crypto_utils.cpp.i
@@ -248,7 +248,7 @@ crypto_utils.i: crypto_utils.cpp.i
 # target to preprocess a source file
 crypto_utils.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/crypto_utils.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/crypto_utils.cpp.i
 .PHONY : crypto_utils.cpp.i
 
 crypto_utils.s: crypto_utils.cpp.s
@@ -257,7 +257,7 @@ crypto_utils.s: crypto_utils.cpp.s
 # target to generate assembly for a file
 crypto_utils.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/crypto_utils.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/crypto_utils.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/crypto_utils.cpp.s
 .PHONY : crypto_utils.cpp.s
 
 ddsinfo_test.o: ddsinfo_test.cpp.o
@@ -290,7 +290,7 @@ process_parifree.o: process_parifree.cpp.o
 # target to build an object file
 process_parifree.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/process_parifree.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/process_parifree.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/process_parifree.cpp.o
 .PHONY : process_parifree.cpp.o
 
 process_parifree.i: process_parifree.cpp.i
@@ -299,7 +299,7 @@ process_parifree.i: process_parifree.cpp.i
 # target to preprocess a source file
 process_parifree.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/process_parifree.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/process_parifree.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/process_parifree.cpp.i
 .PHONY : process_parifree.cpp.i
 
 process_parifree.s: process_parifree.cpp.s
@@ -308,7 +308,7 @@ process_parifree.s: process_parifree.cpp.s
 # target to generate assembly for a file
 process_parifree.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/process_parifree.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/process_parifree.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/process_parifree.cpp.s
 .PHONY : process_parifree.cpp.s
 
 server_socket.o: server_socket.cpp.o
@@ -317,7 +317,7 @@ server_socket.o: server_socket.cpp.o
 # target to build an object file
 server_socket.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/server_socket.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/server_socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/server_socket.cpp.o
 .PHONY : server_socket.cpp.o
 
 server_socket.i: server_socket.cpp.i
@@ -326,7 +326,7 @@ server_socket.i: server_socket.cpp.i
 # target to preprocess a source file
 server_socket.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/server_socket.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/server_socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/server_socket.cpp.i
 .PHONY : server_socket.cpp.i
 
 server_socket.s: server_socket.cpp.s
@@ -335,7 +335,7 @@ server_socket.s: server_socket.cpp.s
 # target to generate assembly for a file
 server_socket.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/server_socket.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/server_socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/server_socket.cpp.s
 .PHONY : server_socket.cpp.s
 
 tcp_socket.o: tcp_socket.cpp.o
@@ -344,7 +344,7 @@ tcp_socket.o: tcp_socket.cpp.o
 # target to build an object file
 tcp_socket.cpp.o:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/tcp_socket.cpp.o
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o
 .PHONY : tcp_socket.cpp.o
 
 tcp_socket.i: tcp_socket.cpp.i
@@ -353,7 +353,7 @@ tcp_socket.i: tcp_socket.cpp.i
 # target to preprocess a source file
 tcp_socket.cpp.i:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/tcp_socket.cpp.i
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/tcp_socket.cpp.i
 .PHONY : tcp_socket.cpp.i
 
 tcp_socket.s: tcp_socket.cpp.s
@@ -362,39 +362,15 @@ tcp_socket.s: tcp_socket.cpp.s
 # target to generate assembly for a file
 tcp_socket.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/dds_test.dir/build.make CMakeFiles/dds_test.dir/tcp_socket.cpp.s
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/tcp_socket.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/tcp_socket.cpp.s
 .PHONY : tcp_socket.cpp.s
-
-test/cls_lib_test.o: test/cls_lib_test.cpp.o
-.PHONY : test/cls_lib_test.o
-
-# target to build an object file
-test/cls_lib_test.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.o
-.PHONY : test/cls_lib_test.cpp.o
-
-test/cls_lib_test.i: test/cls_lib_test.cpp.i
-.PHONY : test/cls_lib_test.i
-
-# target to preprocess a source file
-test/cls_lib_test.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.i
-.PHONY : test/cls_lib_test.cpp.i
-
-test/cls_lib_test.s: test/cls_lib_test.cpp.s
-.PHONY : test/cls_lib_test.s
-
-# target to generate assembly for a file
-test/cls_lib_test.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/cls_lib_test.cpp.s
-.PHONY : test/cls_lib_test.cpp.s
 
 test/config.o: test/config.cpp.o
 .PHONY : test/config.o
 
 # target to build an object file
 test/config.cpp.o:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.o
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/test/config.cpp.o
 .PHONY : test/config.cpp.o
 
 test/config.i: test/config.cpp.i
@@ -402,7 +378,7 @@ test/config.i: test/config.cpp.i
 
 # target to preprocess a source file
 test/config.cpp.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.i
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/test/config.cpp.i
 .PHONY : test/config.cpp.i
 
 test/config.s: test/config.cpp.s
@@ -410,8 +386,32 @@ test/config.s: test/config.cpp.s
 
 # target to generate assembly for a file
 test/config.cpp.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/test/config.cpp.s
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/test/config.cpp.s
 .PHONY : test/config.cpp.s
+
+test/crypto_test.o: test/crypto_test.cpp.o
+.PHONY : test/crypto_test.o
+
+# target to build an object file
+test/crypto_test.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.o
+.PHONY : test/crypto_test.cpp.o
+
+test/crypto_test.i: test/crypto_test.cpp.i
+.PHONY : test/crypto_test.i
+
+# target to preprocess a source file
+test/crypto_test.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.i
+.PHONY : test/crypto_test.cpp.i
+
+test/crypto_test.s: test/crypto_test.cpp.s
+.PHONY : test/crypto_test.s
+
+# target to generate assembly for a file
+test/crypto_test.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.s
+.PHONY : test/crypto_test.cpp.s
 
 # Help Target
 help:
@@ -422,7 +422,7 @@ help:
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
 	@echo "... test"
-	@echo "... ClsLibTest"
+	@echo "... CryptoTest"
 	@echo "... dds_test"
 	@echo "... base_thread.o"
 	@echo "... base_thread.i"
@@ -448,12 +448,12 @@ help:
 	@echo "... tcp_socket.o"
 	@echo "... tcp_socket.i"
 	@echo "... tcp_socket.s"
-	@echo "... test/cls_lib_test.o"
-	@echo "... test/cls_lib_test.i"
-	@echo "... test/cls_lib_test.s"
 	@echo "... test/config.o"
 	@echo "... test/config.i"
 	@echo "... test/config.s"
+	@echo "... test/crypto_test.o"
+	@echo "... test/crypto_test.i"
+	@echo "... test/crypto_test.s"
 .PHONY : help
 
 

@@ -8,7 +8,7 @@ int main()
     string pid = cls.get_process_pid();
 
     dds_info info;
-    info.dds_type = 1;
+    info.dds_type = 2;
     info.protocol_type = 1;
     info.source_ip = "192.168.1.1";
     info.source_interface = "ens34";
@@ -17,7 +17,7 @@ int main()
     info.destination_ip = "192.168.1.1";
     info.destination_mac = "00:10:00:00:00:a4";
     info.destination_mask = "255.255.255.255";
-    info.destination_port = 9120;
+    info.destination_port = 0;
     if (cls.send_DDS_info(pid, info))
     {
         cout << "send success" << endl;

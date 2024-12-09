@@ -1,4 +1,7 @@
 #include <gtest/gtest.h>
+#include <chrono>
+#include <thread>
+#include <iostream>
 #include "config.cpp"
 #include "cls_lib.h"
 
@@ -23,17 +26,14 @@ protected:
     void TearDown() override {}
 };
 
-TEST_F(ClsLibTest, HandleKeyUpdate)
-{
-    CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
-}
-
 /**
- * 目前正常运行需要注释掉原init方法中启动子进程的run方法
+ * 目前正常运行需要注释掉原init方法中启动子进程的start方法
  * 否则报错，信息如下
  * pure virtual method called
  * terminate called without an active exception
  * Aborted (core dumped)
+ * 这是由于父进程的子进程无法被kill，导致无法释放资源
+ * 故在HandleKeyUpdate中手动start子线程
  */
 TEST_F(ClsLibTest, HandleInit)
 {
@@ -134,6 +134,44 @@ TEST_F(ClsLibTest, HandleSignAndVerifyWithTampering3)
     std::cout << "tampered_signed_msg: " + tampered_signed_msg << std::endl;
 
     ASSERT_FALSE(cls.verify(pid, tampered_signed_msg));
+}
+
+TEST_F(ClsLibTest, HandleWithdrawThenSign)
+{
+    CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
+    cls.init();
+    // 在这段时间内完成撤销本实体/其他实体操作
+    std::this_thread::sleep_for(std::chrono::seconds(60));
+
+    std::string pid = cls.get_process_pid(), msg = "Hello";
+    std::cout << "pid: " + pid << std::endl;
+    std::string signed_msg = cls.sign(pid, msg);
+    std::cout << "signed_msg: " + signed_msg << std::endl;
+    cls.verify(pid, signed_msg);
+}
+
+/**
+[ RUN      ] ClsLibTest.HandleKeyUpdate
+connect to AP
+domain_id:98657b1d3ea5b3d5266d6961d98c1152
+generate full key success with pid:7c779a567ec7d6b98cc71bab2f5c4d79
+receive http message:aux=d05fdb2625efe22f3925632709dbf7d9
+d05fdb2625efe22f3925632709dbf7d9
+update time: 1927 us
+partical key update sucessfully!
+receive http message:aux=77ce6e79b9bb4c588ddb36f578849e6a7389e8b61db413be801d6989cc4c2c4c78be304785ce4f8abd3f7c422ab109576a047533b69dffbacc88715dbef03869&pid=d05fdb2625efe22f3925632709dbf7d9
+update time: 2723 us
+partical key update successfully
+*/
+TEST_F(ClsLibTest, HandleKeyUpdate)
+{
+    CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
+    cls.init();
+    cls.start();
+    // 在这段时间内完成下发部分密钥（新增成员）/撤销实体（删除成员）操作
+    std::this_thread::sleep_for(std::chrono::seconds(60));
+    
+    cls.stop();
 }
 
 int main()

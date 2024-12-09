@@ -83,10 +83,52 @@ CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/test/crypto_test.cpp -o CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.s
 
+CMakeFiles/CryptoTest.dir/cls_lib.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
+CMakeFiles/CryptoTest.dir/cls_lib.cpp.o: cls_lib.cpp
+CMakeFiles/CryptoTest.dir/cls_lib.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CryptoTest.dir/cls_lib.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/cls_lib.cpp.o -MF CMakeFiles/CryptoTest.dir/cls_lib.cpp.o.d -o CMakeFiles/CryptoTest.dir/cls_lib.cpp.o -c /home/default/Mycode/Pro_Pairfree/cls_lib.cpp
+
+CMakeFiles/CryptoTest.dir/cls_lib.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CryptoTest.dir/cls_lib.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/cls_lib.cpp > CMakeFiles/CryptoTest.dir/cls_lib.cpp.i
+
+CMakeFiles/CryptoTest.dir/cls_lib.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/cls_lib.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/cls_lib.cpp -o CMakeFiles/CryptoTest.dir/cls_lib.cpp.s
+
+CMakeFiles/CryptoTest.dir/base_thread.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
+CMakeFiles/CryptoTest.dir/base_thread.cpp.o: base_thread.cpp
+CMakeFiles/CryptoTest.dir/base_thread.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CryptoTest.dir/base_thread.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/base_thread.cpp.o -MF CMakeFiles/CryptoTest.dir/base_thread.cpp.o.d -o CMakeFiles/CryptoTest.dir/base_thread.cpp.o -c /home/default/Mycode/Pro_Pairfree/base_thread.cpp
+
+CMakeFiles/CryptoTest.dir/base_thread.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CryptoTest.dir/base_thread.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/base_thread.cpp > CMakeFiles/CryptoTest.dir/base_thread.cpp.i
+
+CMakeFiles/CryptoTest.dir/base_thread.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/base_thread.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/base_thread.cpp -o CMakeFiles/CryptoTest.dir/base_thread.cpp.s
+
+CMakeFiles/CryptoTest.dir/server_socket.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
+CMakeFiles/CryptoTest.dir/server_socket.cpp.o: server_socket.cpp
+CMakeFiles/CryptoTest.dir/server_socket.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/CryptoTest.dir/server_socket.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/server_socket.cpp.o -MF CMakeFiles/CryptoTest.dir/server_socket.cpp.o.d -o CMakeFiles/CryptoTest.dir/server_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/server_socket.cpp
+
+CMakeFiles/CryptoTest.dir/server_socket.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CryptoTest.dir/server_socket.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/server_socket.cpp > CMakeFiles/CryptoTest.dir/server_socket.cpp.i
+
+CMakeFiles/CryptoTest.dir/server_socket.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/server_socket.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/server_socket.cpp -o CMakeFiles/CryptoTest.dir/server_socket.cpp.s
+
 CMakeFiles/CryptoTest.dir/process_parifree.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
 CMakeFiles/CryptoTest.dir/process_parifree.cpp.o: process_parifree.cpp
 CMakeFiles/CryptoTest.dir/process_parifree.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/CryptoTest.dir/process_parifree.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/CryptoTest.dir/process_parifree.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/process_parifree.cpp.o -MF CMakeFiles/CryptoTest.dir/process_parifree.cpp.o.d -o CMakeFiles/CryptoTest.dir/process_parifree.cpp.o -c /home/default/Mycode/Pro_Pairfree/process_parifree.cpp
 
 CMakeFiles/CryptoTest.dir/process_parifree.cpp.i: cmake_force
@@ -97,10 +139,24 @@ CMakeFiles/CryptoTest.dir/process_parifree.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/process_parifree.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/process_parifree.cpp -o CMakeFiles/CryptoTest.dir/process_parifree.cpp.s
 
+CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
+CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o: tcp_socket.cpp
+CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o -MF CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o.d -o CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o -c /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp
+
+CMakeFiles/CryptoTest.dir/tcp_socket.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CryptoTest.dir/tcp_socket.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp > CMakeFiles/CryptoTest.dir/tcp_socket.cpp.i
+
+CMakeFiles/CryptoTest.dir/tcp_socket.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/tcp_socket.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/tcp_socket.cpp -o CMakeFiles/CryptoTest.dir/tcp_socket.cpp.s
+
 CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
 CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o: crypto_utils.cpp
 CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o -MF CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o.d -o CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp
 
 CMakeFiles/CryptoTest.dir/crypto_utils.cpp.i: cmake_force
@@ -111,24 +167,64 @@ CMakeFiles/CryptoTest.dir/crypto_utils.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/crypto_utils.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/crypto_utils.cpp -o CMakeFiles/CryptoTest.dir/crypto_utils.cpp.s
 
+CMakeFiles/CryptoTest.dir/common_utils.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
+CMakeFiles/CryptoTest.dir/common_utils.cpp.o: common_utils.cpp
+CMakeFiles/CryptoTest.dir/common_utils.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/CryptoTest.dir/common_utils.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/common_utils.cpp.o -MF CMakeFiles/CryptoTest.dir/common_utils.cpp.o.d -o CMakeFiles/CryptoTest.dir/common_utils.cpp.o -c /home/default/Mycode/Pro_Pairfree/common_utils.cpp
+
+CMakeFiles/CryptoTest.dir/common_utils.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CryptoTest.dir/common_utils.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/common_utils.cpp > CMakeFiles/CryptoTest.dir/common_utils.cpp.i
+
+CMakeFiles/CryptoTest.dir/common_utils.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/common_utils.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/common_utils.cpp -o CMakeFiles/CryptoTest.dir/common_utils.cpp.s
+
+CMakeFiles/CryptoTest.dir/test/config.cpp.o: CMakeFiles/CryptoTest.dir/flags.make
+CMakeFiles/CryptoTest.dir/test/config.cpp.o: test/config.cpp
+CMakeFiles/CryptoTest.dir/test/config.cpp.o: CMakeFiles/CryptoTest.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/CryptoTest.dir/test/config.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/CryptoTest.dir/test/config.cpp.o -MF CMakeFiles/CryptoTest.dir/test/config.cpp.o.d -o CMakeFiles/CryptoTest.dir/test/config.cpp.o -c /home/default/Mycode/Pro_Pairfree/test/config.cpp
+
+CMakeFiles/CryptoTest.dir/test/config.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/CryptoTest.dir/test/config.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/default/Mycode/Pro_Pairfree/test/config.cpp > CMakeFiles/CryptoTest.dir/test/config.cpp.i
+
+CMakeFiles/CryptoTest.dir/test/config.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/CryptoTest.dir/test/config.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/default/Mycode/Pro_Pairfree/test/config.cpp -o CMakeFiles/CryptoTest.dir/test/config.cpp.s
+
 # Object files for target CryptoTest
 CryptoTest_OBJECTS = \
 "CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.o" \
+"CMakeFiles/CryptoTest.dir/cls_lib.cpp.o" \
+"CMakeFiles/CryptoTest.dir/base_thread.cpp.o" \
+"CMakeFiles/CryptoTest.dir/server_socket.cpp.o" \
 "CMakeFiles/CryptoTest.dir/process_parifree.cpp.o" \
-"CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o"
+"CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o" \
+"CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o" \
+"CMakeFiles/CryptoTest.dir/common_utils.cpp.o" \
+"CMakeFiles/CryptoTest.dir/test/config.cpp.o"
 
 # External object files for target CryptoTest
 CryptoTest_EXTERNAL_OBJECTS =
 
 bin/CryptoTest: CMakeFiles/CryptoTest.dir/test/crypto_test.cpp.o
+bin/CryptoTest: CMakeFiles/CryptoTest.dir/cls_lib.cpp.o
+bin/CryptoTest: CMakeFiles/CryptoTest.dir/base_thread.cpp.o
+bin/CryptoTest: CMakeFiles/CryptoTest.dir/server_socket.cpp.o
 bin/CryptoTest: CMakeFiles/CryptoTest.dir/process_parifree.cpp.o
+bin/CryptoTest: CMakeFiles/CryptoTest.dir/tcp_socket.cpp.o
 bin/CryptoTest: CMakeFiles/CryptoTest.dir/crypto_utils.cpp.o
+bin/CryptoTest: CMakeFiles/CryptoTest.dir/common_utils.cpp.o
+bin/CryptoTest: CMakeFiles/CryptoTest.dir/test/config.cpp.o
 bin/CryptoTest: CMakeFiles/CryptoTest.dir/build.make
 bin/CryptoTest: /usr/local/openssl/lib64/libssl.a
 bin/CryptoTest: /usr/local/openssl/lib64/libcrypto.a
 bin/CryptoTest: /usr/lib/x86_64-linux-gnu/libgtest.a
 bin/CryptoTest: CMakeFiles/CryptoTest.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Linking CXX executable bin/CryptoTest"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Linking CXX executable bin/CryptoTest"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/CryptoTest.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

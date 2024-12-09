@@ -359,6 +359,7 @@ def get_dds_info(request):
             entity_pid = json_data["entity_pid"]
             if not EntityInfo.objects.filter(entity_pid=entity_pid).exists():
                 return JsonResponse({"status":"error","message":"no such entity"})
+            print(json_data)
             validator = switch_interface.RequestDataValidator(json_data)
             validation_errors = validator.validate()
             if validation_errors:

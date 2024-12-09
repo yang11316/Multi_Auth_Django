@@ -2,7 +2,7 @@
 	"artifacts" : 
 	[
 		{
-			"path" : "/home/default/Mycode/Pro_Pairfree/bin/ClsLibTest"
+			"path" : "/home/default/Mycode/Pro_Pairfree/bin/CryptoTest"
 		}
 	],
 	"backtrace" : 1,
@@ -27,7 +27,7 @@
 			{
 				"command" : 0,
 				"file" : 0,
-				"line" : 87,
+				"line" : 88,
 				"parent" : 0
 			},
 			{
@@ -45,7 +45,7 @@
 			{
 				"command" : 2,
 				"file" : 0,
-				"line" : 92,
+				"line" : 94,
 				"parent" : 0
 			},
 			{
@@ -122,7 +122,7 @@
 			]
 		}
 	],
-	"id" : "ClsLibTest::@6890427a1f51a3e7e1df",
+	"id" : "CryptoTest::@6890427a1f51a3e7e1df",
 	"link" : 
 	{
 		"commandFragments" : 
@@ -200,8 +200,8 @@
 		],
 		"language" : "CXX"
 	},
-	"name" : "ClsLibTest",
-	"nameOnDisk" : "ClsLibTest",
+	"name" : "CryptoTest",
+	"nameOnDisk" : "CryptoTest",
 	"paths" : 
 	{
 		"build" : ".",
@@ -243,7 +243,7 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "test/cls_lib_test.cpp",
+			"path" : "test/crypto_test.cpp",
 			"sourceGroupIndex" : 0
 		},
 		{

@@ -159,9 +159,9 @@ class RequestDataValidator:
 
     def check_field(self, field, required=True, validator=None, valid_values=None):
         value = self.data.get(field)
-        if required and not value:
+        if required and value is None:  # 检查是否为 None，而不是假值
             self.errors.append(f"{field} is required")
-        elif validator and value and not validator(value):
+        elif validator and value is not None and not validator(value):  # 仅在值非 None 时验证
             self.errors.append(f"Invalid {field} format")
         elif valid_values and value not in valid_values:
             self.errors.append(

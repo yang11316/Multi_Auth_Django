@@ -159,9 +159,11 @@ class RequestDataValidator:
 
     def check_field(self, field, required=True, validator=None, valid_values=None):
         value = self.data.get(field)
-        if required and not value:
+        if required and value is None:  # 检查是否为 None，而不是假值
             self.errors.append(f"{field} is required")
-        elif validator and value and not validator(value):
+        elif (
+            validator and value is not None and not validator(value)
+        ):  # 仅在值非 None 时验证
             self.errors.append(f"Invalid {field} format")
         elif valid_values and value not in valid_values:
             self.errors.append(
@@ -237,17 +239,18 @@ if __name__ == "__main__":
     errors = validator.validate()
     print(errors)
 
-    # rfac_packet = RFACPacket(code=1, packet_id=1, sid=1)
-    # rfac_packet.set_ip(1, "192.168.3.11")
-    # rfac_packet.set_port(2, 53805)
-    # rfac_packet.set_mask(3, "255.255.255.255")
-    # rfac_packet.set_ip(4, "239.255.0.1")
-    # rfac_packet.set_port(5, 7900)
-    # rfac_packet.set_mask(6, "255.255.255.255")
-    # rfac_packet.set_protocol(17)
-    # rfac_packet.set_mac(8, "00:1A:2B:3C:4D:5E")
-    # rfac_packet.set_mac(9, "00:1A:2B:3C:4D:5E")
-    # data = rfac_packet.build()
+    rfac_packet = RFACPacket(code=1, packet_id=1, sid=1)
+    rfac_packet.set_ip(1, "192.168.3.11")
+    rfac_packet.set_port(2, 53805)
+    rfac_packet.set_mask(3, "255.255.255.255")
+    rfac_packet.set_ip(4, "239.255.0.1")
+    rfac_packet.set_port(5, 0)
+    rfac_packet.set_mask(6, "255.255.255.255")
+    rfac_packet.set_protocol(17)
+    rfac_packet.set_mac(8, "00:1A:2B:3C:4D:5E")
+    rfac_packet.set_mac(9, "00:1A:2B:3C:4D:5E")
+    data = rfac_packet.build()
+    print(data)
 
     # interfaces = get_if_list()
     # # 筛选以 "ens" 开头的接口

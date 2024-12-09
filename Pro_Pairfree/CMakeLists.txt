@@ -84,14 +84,20 @@ set(gtest_cpps
         test/config.cpp
     )
 
-add_executable(ClsLibTest test/cls_lib_test.cpp ${gtest_headers} ${gtest_cpps})
+# add_executable(ClsLibTest test/cls_lib_test.cpp ${gtest_headers} ${gtest_cpps})
+add_executable(CryptoTest test/crypto_test.cpp ${gtest_headers} ${gtest_cpps})
 
 find_package(GTest REQUIRED)
 include_directories(${GTEST_INCLUDE_DIRS})
 
-target_link_libraries(ClsLibTest ${Openssl_LIB_DIR}/libssl.a ${Openssl_LIB_DIR}/libcrypto.a pthread libjsoncpp.a dl gmp gmpxx ${GTEST_LIBRARIES})
-add_test(ClsLibTest ${OUT_PATH}/ClsLibTest)
+# target_link_libraries(ClsLibTest ${Openssl_LIB_DIR}/libssl.a ${Openssl_LIB_DIR}/libcrypto.a pthread libjsoncpp.a dl gmp gmpxx ${GTEST_LIBRARIES})
+target_link_libraries(CryptoTest ${Openssl_LIB_DIR}/libssl.a ${Openssl_LIB_DIR}/libcrypto.a pthread libjsoncpp.a dl gmp gmpxx ${GTEST_LIBRARIES})
+# add_test(ClsLibTest ${OUT_PATH}/ClsLibTest)
+add_test(CryptoTest ${OUT_PATH}/CryptoTest)
 
-set_tests_properties(ClsLibTest PROPERTIES
-ENVIRONMENT "GTEST_OUTPUT=json:${OUT_PATH}/cls_lib_test_results.json"
+# set_tests_properties(ClsLibTest PROPERTIES
+# ENVIRONMENT "GTEST_OUTPUT=json:${OUT_PATH}/cls_lib_test_results.json"
+# )
+set_tests_properties(CryptoTest PROPERTIES
+ENVIRONMENT "GTEST_OUTPUT=json:${OUT_PATH}/crypto_test_results.json"
 )

@@ -1,0 +1,346 @@
+[==========] Running 26 tests from 4 test suites.
+[----------] Global test environment set-up.
+[----------] 11 tests from InitTest
+[ RUN      ] InitTest.FixtureTest
+[       OK ] InitTest.FixtureTest (0 ms)
+[ RUN      ] InitTest.FixtureTest2
+[       OK ] InitTest.FixtureTest2 (0 ms)
+[ RUN      ] InitTest.HandleInputThroughEmptyConstructor
+[       OK ] InitTest.HandleInputThroughEmptyConstructor (0 ms)
+[ RUN      ] InitTest.HandleValidInputThroughConstructor
+[       OK ] InitTest.HandleValidInputThroughConstructor (1 ms)
+[ RUN      ] InitTest.HandleFullInputThroughConstructor
+[       OK ] InitTest.HandleFullInputThroughConstructor (0 ms)
+[ RUN      ] InitTest.HandlePartialInputThroughConstructor
+[       OK ] InitTest.HandlePartialInputThroughConstructor (0 ms)
+[ RUN      ] InitTest.HandleValidInput
+[       OK ] InitTest.HandleValidInput (0 ms)
+[ RUN      ] InitTest.HandleFullInput
+[       OK ] InitTest.HandleFullInput (0 ms)
+[ RUN      ] InitTest.HandleTimeUse
+初始化50次的平均耗时: 54 us
+[       OK ] InitTest.HandleTimeUse (2 ms)
+[ RUN      ] InitTest.HandlePartialInput
+[       OK ] InitTest.HandlePartialInput (0 ms)
+[ RUN      ] InitTest.HandleInvalidInput
+mpz_set_str
+[       OK ] InitTest.HandleInvalidInput (0 ms)
+[----------] 11 tests from InitTest (6 ms total)
+
+[----------] 4 tests from KeyGenerationTest
+[ RUN      ] KeyGenerationTest.FixtureTest
+[       OK ] KeyGenerationTest.FixtureTest (0 ms)
+[ RUN      ] KeyGenerationTest.FixtureTest2
+[       OK ] KeyGenerationTest.FixtureTest2 (0 ms)
+[ RUN      ] KeyGenerationTest.HandleFullKeyGeneration
+[       OK ] KeyGenerationTest.HandleFullKeyGeneration (8 ms)
+[ RUN      ] KeyGenerationTest.HandleTimeUse
+生成50次密钥的平均耗时: 3141 us
+[       OK ] KeyGenerationTest.HandleTimeUse (157 ms)
+[----------] 4 tests from KeyGenerationTest (166 ms total)
+
+[----------] 7 tests from SignAndVerifyTest
+[ RUN      ] SignAndVerifyTest.FixtureTest
+[       OK ] SignAndVerifyTest.FixtureTest (0 ms)
+[ RUN      ] SignAndVerifyTest.FixtureTest2
+[       OK ] SignAndVerifyTest.FixtureTest2 (0 ms)
+[ RUN      ] SignAndVerifyTest.HandleValidInput
+密钥生成耗时: 3229 us
+sign time: 1613 us
+签名耗时: 1676 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6406 us
+[SUCESS]sign verify sucessfully
+验签耗时: 6589 us
+[       OK ] SignAndVerifyTest.HandleValidInput (11 ms)
+[ RUN      ] SignAndVerifyTest.HandleTimeUse
+sign time: 1584 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6519 us
+[SUCESS]sign verify sucessfully
+sign time: 1579 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6564 us
+[SUCESS]sign verify sucessfully
+sign time: 1650 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6427 us
+[SUCESS]sign verify sucessfully
+sign time: 1568 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6632 us
+[SUCESS]sign verify sucessfully
+sign time: 2016 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6308 us
+[SUCESS]sign verify sucessfully
+sign time: 1580 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6525 us
+[SUCESS]sign verify sucessfully
+sign time: 1548 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6538 us
+[SUCESS]sign verify sucessfully
+sign time: 1560 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6814 us
+[SUCESS]sign verify sucessfully
+sign time: 1588 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6519 us
+[SUCESS]sign verify sucessfully
+sign time: 1567 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6585 us
+[SUCESS]sign verify sucessfully
+sign time: 1579 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6627 us
+[SUCESS]sign verify sucessfully
+sign time: 1517 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6643 us
+[SUCESS]sign verify sucessfully
+sign time: 1616 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6441 us
+[SUCESS]sign verify sucessfully
+sign time: 1518 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6787 us
+[SUCESS]sign verify sucessfully
+sign time: 1561 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6319 us
+[SUCESS]sign verify sucessfully
+sign time: 1579 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6299 us
+[SUCESS]sign verify sucessfully
+sign time: 1531 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6349 us
+[SUCESS]sign verify sucessfully
+sign time: 1533 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6375 us
+[SUCESS]sign verify sucessfully
+sign time: 1536 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6447 us
+[SUCESS]sign verify sucessfully
+sign time: 1579 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6399 us
+[SUCESS]sign verify sucessfully
+sign time: 1554 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6384 us
+[SUCESS]sign verify sucessfully
+sign time: 1514 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6340 us
+[SUCESS]sign verify sucessfully
+sign time: 1553 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6484 us
+[SUCESS]sign verify sucessfully
+sign time: 1576 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6275 us
+[SUCESS]sign verify sucessfully
+sign time: 1573 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6284 us
+[SUCESS]sign verify sucessfully
+sign time: 1543 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6287 us
+[SUCESS]sign verify sucessfully
+sign time: 1603 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6351 us
+[SUCESS]sign verify sucessfully
+sign time: 1541 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6418 us
+[SUCESS]sign verify sucessfully
+sign time: 1552 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6274 us
+[SUCESS]sign verify sucessfully
+sign time: 1575 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6354 us
+[SUCESS]sign verify sucessfully
+sign time: 1516 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6356 us
+[SUCESS]sign verify sucessfully
+sign time: 1510 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6483 us
+[SUCESS]sign verify sucessfully
+sign time: 1602 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6358 us
+[SUCESS]sign verify sucessfully
+sign time: 1555 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6512 us
+[SUCESS]sign verify sucessfully
+sign time: 1637 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6392 us
+[SUCESS]sign verify sucessfully
+sign time: 1553 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6578 us
+[SUCESS]sign verify sucessfully
+sign time: 1525 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6431 us
+[SUCESS]sign verify sucessfully
+sign time: 1580 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6519 us
+[SUCESS]sign verify sucessfully
+sign time: 1576 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6376 us
+[SUCESS]sign verify sucessfully
+sign time: 1561 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6532 us
+[SUCESS]sign verify sucessfully
+sign time: 1592 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6735 us
+[SUCESS]sign verify sucessfully
+sign time: 1520 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6466 us
+[SUCESS]sign verify sucessfully
+sign time: 1693 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6377 us
+[SUCESS]sign verify sucessfully
+sign time: 1545 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6492 us
+[SUCESS]sign verify sucessfully
+sign time: 1570 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6423 us
+[SUCESS]sign verify sucessfully
+sign time: 1565 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6467 us
+[SUCESS]sign verify sucessfully
+sign time: 1772 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6510 us
+[SUCESS]sign verify sucessfully
+sign time: 1519 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6589 us
+[SUCESS]sign verify sucessfully
+sign time: 1602 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6475 us
+[SUCESS]sign verify sucessfully
+sign time: 1690 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6698 us
+[SUCESS]sign verify sucessfully
+签名50次的平均耗时: 1658 us
+验证50次的平均耗时: 6642 us
+[       OK ] SignAndVerifyTest.HandleTimeUse (418 ms)
+[ RUN      ] SignAndVerifyTest.HandleMsgTampering
+sign time: 1678 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6407 us
+[INVALID]signature wrong
+[       OK ] SignAndVerifyTest.HandleMsgTampering (11 ms)
+[ RUN      ] SignAndVerifyTest.HandleSig1Tampering
+sign time: 1694 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 4771 us
+[INVALID]signature wrong
+[       OK ] SignAndVerifyTest.HandleSig1Tampering (9 ms)
+[ RUN      ] SignAndVerifyTest.HandleSig2Tampering
+sign time: 1530 us
+acc:1ab142e1c8f405d4372da735ff0e3ff5b838e05bef312e46002778c6dc3a90ea05aac553711a2a3e5227eba760f530b8fa0aaa53f29208eb2b0caf82a37a53c8
+verify time: 6420 us
+[INVALID]signature wrong
+[       OK ] SignAndVerifyTest.HandleSig2Tampering (11 ms)
+[----------] 7 tests from SignAndVerifyTest (463 ms total)
+
+[----------] 4 tests from KeyUpdateTest
+[ RUN      ] KeyUpdateTest.FixtureTest
+[       OK ] KeyUpdateTest.FixtureTest (0 ms)
+[ RUN      ] KeyUpdateTest.FixtureTest2
+[       OK ] KeyUpdateTest.FixtureTest2 (0 ms)
+[ RUN      ] KeyUpdateTest.HandleValidInput
+update time: 1757 us
+key update time: 1840 us
+[       OK ] KeyUpdateTest.HandleValidInput (5 ms)
+[ RUN      ] KeyUpdateTest.HandleTimeUse
+update time: 1740 us
+update time: 1767 us
+update time: 1775 us
+update time: 1892 us
+update time: 1741 us
+update time: 1756 us
+update time: 1736 us
+update time: 1772 us
+update time: 1838 us
+update time: 1799 us
+update time: 1843 us
+update time: 1737 us
+update time: 1719 us
+update time: 1968 us
+update time: 1741 us
+update time: 1753 us
+update time: 1771 us
+update time: 1771 us
+update time: 1777 us
+update time: 1794 us
+update time: 1717 us
+update time: 1923 us
+update time: 1782 us
+update time: 1794 us
+update time: 1803 us
+update time: 1754 us
+update time: 1800 us
+update time: 1735 us
+update time: 1711 us
+update time: 1757 us
+update time: 2099 us
+update time: 2018 us
+update time: 1774 us
+update time: 1728 us
+update time: 1787 us
+update time: 1770 us
+update time: 1739 us
+update time: 1795 us
+update time: 1787 us
+update time: 1937 us
+update time: 1801 us
+update time: 1767 us
+update time: 1780 us
+update time: 1745 us
+update time: 1804 us
+update time: 1740 us
+update time: 1734 us
+update time: 1730 us
+update time: 1915 us
+update time: 1779 us
+密钥更新50次的平均耗时: 1866 us
+[       OK ] KeyUpdateTest.HandleTimeUse (96 ms)
+[----------] 4 tests from KeyUpdateTest (102 ms total)
+
+[----------] Global test environment tear-down
+[==========] 26 tests from 4 test suites ran. (740 ms total)
+[  PASSED  ] 26 tests.
