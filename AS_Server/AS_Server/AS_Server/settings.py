@@ -57,6 +57,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "usermanage.mymiddleware.SimpleMiddleware",
+    "AS_Server.timing_middleware.TimingMiddleware",
 ]
 
 ROOT_URLCONF = "AS_Server.urls"
@@ -193,3 +194,8 @@ CORS_ALLOW_HEADERS = (
 # 交换机mac地址
 SWITHCH_MAC = "01:80:c2:00:00:0f"
 FILE_UPLOAD_PATH = "/home/default/file_upload/"
+
+# 证书路径
+CA_CRT = "./cert/CA.crt"
+AS_CRT = "./cert/AS_PKI.crt"
+AS_KEY = "./cert/AS_PKI.key"

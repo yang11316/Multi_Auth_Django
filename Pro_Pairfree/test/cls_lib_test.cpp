@@ -14,7 +14,7 @@ protected:
     void SetUp() override
     {
         Config config;
-        config.loadFromFile("process_config.json");
+        config.loadFromFile("process_config6.json");
         ip = config.ip;
         listening_port = config.listening_port;
         sending_port = config.sending_port;
@@ -27,6 +27,7 @@ protected:
 };
 
 /**
+ * 【已修复】
  * 目前正常运行需要注释掉原init方法中启动子进程的start方法
  * 否则报错，信息如下
  * pure virtual method called
@@ -39,6 +40,8 @@ TEST_F(ClsLibTest, HandleInit)
 {
     CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
     ASSERT_TRUE(cls.init());
+
+    cls.stop();
 }
 
 TEST_F(ClsLibTest, HandleSignAndVerify)
@@ -50,6 +53,8 @@ TEST_F(ClsLibTest, HandleSignAndVerify)
     std::string signed_msg = cls.sign(pid, msg);
     std::cout << "signed_msg: " + signed_msg << std::endl;
     ASSERT_TRUE(cls.verify(pid, signed_msg));
+
+    cls.stop();
 }
 
 sign_payload parse_sign_payload(const std::string &signed_msg)
@@ -102,6 +107,8 @@ TEST_F(ClsLibTest, HandleSignAndVerifyWithTampering1)
     std::cout << "tampered_signed_msg: " + tampered_signed_msg << std::endl;
 
     ASSERT_FALSE(cls.verify(pid, tampered_signed_msg));
+
+    cls.stop();
 }
 
 TEST_F(ClsLibTest, HandleSignAndVerifyWithTampering2)
@@ -118,6 +125,8 @@ TEST_F(ClsLibTest, HandleSignAndVerifyWithTampering2)
     std::cout << "tampered_signed_msg: " + tampered_signed_msg << std::endl;
 
     ASSERT_FALSE(cls.verify(pid, tampered_signed_msg));
+
+    cls.stop();
 }
 
 TEST_F(ClsLibTest, HandleSignAndVerifyWithTampering3)
@@ -134,21 +143,25 @@ TEST_F(ClsLibTest, HandleSignAndVerifyWithTampering3)
     std::cout << "tampered_signed_msg: " + tampered_signed_msg << std::endl;
 
     ASSERT_FALSE(cls.verify(pid, tampered_signed_msg));
+
+    cls.stop();
 }
 
-TEST_F(ClsLibTest, HandleWithdrawThenSign)
-{
-    CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
-    cls.init();
-    // 在这段时间内完成撤销本实体/其他实体操作
-    std::this_thread::sleep_for(std::chrono::seconds(60));
+// TEST_F(ClsLibTest, HandleWithdrawThenSign)
+// {
+//     CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
+//     cls.init();
+//     // 在这段时间内完成撤销本实体/其他实体操作
+//     std::this_thread::sleep_for(std::chrono::seconds(60));
 
-    std::string pid = cls.get_process_pid(), msg = "Hello";
-    std::cout << "pid: " + pid << std::endl;
-    std::string signed_msg = cls.sign(pid, msg);
-    std::cout << "signed_msg: " + signed_msg << std::endl;
-    cls.verify(pid, signed_msg);
-}
+//     std::string pid = cls.get_process_pid(), msg = "Hello";
+//     std::cout << "pid: " + pid << std::endl;
+//     std::string signed_msg = cls.sign(pid, msg);
+//     std::cout << "signed_msg: " + signed_msg << std::endl;
+//     cls.verify(pid, signed_msg);
+
+//     cls.stop();
+// }
 
 /**
 [ RUN      ] ClsLibTest.HandleKeyUpdate
@@ -167,9 +180,8 @@ TEST_F(ClsLibTest, HandleKeyUpdate)
 {
     CLS_LIB cls(ip, listening_port, sending_port, ap_ip, ap_port);
     cls.init();
-    cls.start();
     // 在这段时间内完成下发部分密钥（新增成员）/撤销实体（删除成员）操作
-    std::this_thread::sleep_for(std::chrono::seconds(60));
+    std::this_thread::sleep_for(std::chrono::seconds(600));
     
     cls.stop();
 }

@@ -1,4 +1,4 @@
-from django.http import JsonResponse,HttpResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.conf import settings
 import json
@@ -9,36 +9,55 @@ import time
 from commonutils import KGC
 from commonutils import utils
 from commonutils import switch_interface
+from commonutils import PKI
 import psutil
 from apscheduler.schedulers.background import BackgroundScheduler
-from django_apscheduler.jobstores import DjangoJobStore,register_events,register_job
+from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
 
 # Create your views here.
 
 AS_ip = settings.AS_IP
 AS_port = settings.AS_PORT
 
-# 与as同步最新数据
+# 加载证书
+self_cert = PKI.load_cert_from_pem_file(settings.AP_CRT)
+ca_cert = PKI.load_cert_from_pem_file(settings.CA_CRT)
+self_private_key = PKI.load_key_from_pem_file(settings.AP_KEY)
+# 与as同步最新数据,并进行PKI验证
 try:
-    header = {"content-type": "application/json","Connection":"close"}
-    url = "http://"+AS_ip+":"+str(AS_port)+"/entitymanage/get-public-parameter/"
-    res = requests.post(url, headers=header)
+    # 构造请求消息
+    header = {"content-type": "application/json", "Connection": "close"}
+    url = "http://" + AS_ip + ":" + str(AS_port) + "/entitymanage/get-public-parameter/"
+    data = {"cert": PKI.load_cert_as_string(self_cert)}
+    res = requests.post(url, headers=header, data=json.dumps(data))
     json_data = res.json()
-    
-    pubparamter_instance = PublicParamtersTable.objects.get(
-        kgc_id="kgc_id"
-    )
-    pubparamter_instance.acc_cur = json_data["message"]["acc_cur"]
-    pubparamter_instance.acc_publickey = json_data["message"]["acc_publickey"]
-    pubparamter_instance.kgc_q = json_data["message"]["kgc_q"]
-    pubparamter_instance.kgc_Ppub = json_data["message"]["kgc_Ppub"]
-    pubparamter_instance.domain_id = json_data["message"]["domain_id"]
-    pubparamter_instance.save()
-    print("get public parameters success")
+
+    # 验证证书
+    if json_data["status"] == "success":
+        as_cert = PKI.load_cert_from_string(json_data["message"]["cert"])
+        if PKI.verify_certificate(as_cert, ca_cert):
+            # 获取公钥
+            pubparamter_instance = PublicParamtersTable.objects.get(kgc_id="kgc_id")
+            pubparamter_instance.acc_cur = json_data["message"]["acc_cur"]
+            pubparamter_instance.acc_publickey = json_data["message"]["acc_publickey"]
+            pubparamter_instance.kgc_q = json_data["message"]["kgc_q"]
+            pubparamter_instance.kgc_Ppub = json_data["message"]["kgc_Ppub"]
+            pubparamter_instance.domain_id = json_data["message"]["domain_id"]
+            pubparamter_instance.save()
+            print(
+                "--------------------------------verify PKI certificate success--------------------------------"
+            )
+        else:
+            print("verify PKI certificate failed")
+            exit(1)
+    else:
+        print("verify PKI certificate failed, from AS message:" + json_data["message"])
+        exit(1)
 
 except Exception as e:
     print("get public parameters failed")
     print(e)
+    exit(1)
 
 
 kgc = KGC.KGC()
@@ -50,10 +69,9 @@ kgc.kgc_Ppub = utils.hex2int(paramters_instance.kgc_Ppub)
 kgc.domain_id = paramters_instance.domain_id
 
 
+scheduler = BackgroundScheduler(timezone="Asia/Shanghai")
+scheduler.add_jobstore(DjangoJobStore(), "default")
 
-
-scheduler = BackgroundScheduler(timezone='Asia/Shanghai')
-scheduler.add_jobstore(DjangoJobStore(),"default")
 
 # bug fix: 修复活跃实体同步不到的问题，在调用时强转
 def check_process_alive(processid):
@@ -63,31 +81,37 @@ def check_process_alive(processid):
     except Exception as e:
         print(e)
         return False
-def post_data(ip: str,port:int, path: str,payload: dict):
+
+
+def post_data(ip: str, port: int, path: str, payload: dict):
     try:
-        header = {"content-type": "application/json","Connection":"close"}
+        header = {"content-type": "application/json", "Connection": "close"}
         data = json.dumps(payload)
-        url = "http://"+ip+":"+str(port)+path
+        url = "http://" + ip + ":" + str(port) + path
         res = requests.post(url, data=data, headers=header)
         return res
     except Exception as e:
         print(e)
 
-def post_data_to_process(ip: str,port:str, path: str,payload: dict):
+
+def post_data_to_process(ip: str, port: str, path: str, payload: dict):
     try:
-        header = {"Connection":"close"}
-        url = "http://"+ip+":"+port+path
+        header = {"Connection": "close"}
+        url = "http://" + ip + ":" + port + path
         print(url)
-        res=requests.post(url, data=payload,headers=header)
+        res = requests.post(url, data=payload, headers=header)
         print(res.text)
 
     except Exception as e:
-        print(e)   
+        print(e)
 
-@register_job(scheduler,'interval',seconds=60,id='check_entity_alive',replace_existing=True)
+
+@register_job(
+    scheduler, "interval", seconds=60, id="check_entity_alive", replace_existing=True
+)
 def schedluer_job():
     entity_instance = EntityInfo.objects.filter(is_alive=True)
-    entity_pid_list=[]
+    entity_pid_list = []
     for entity in entity_instance:
         if not check_process_alive(int(entity.entity_porecessid)):
             entity.is_alive = False
@@ -97,18 +121,17 @@ def schedluer_job():
             entity_pid_list.append(entity.entity_pid)
             entity.save()
     print(entity_pid_list)
-    if(len(entity_pid_list)!=0):
-        data={
-            "entity_data":{
-                "entity_pid":entity_pid_list
-            }  
-        }
-        post_data(AS_ip,AS_port,"/entitymanage/get-down-entity/",data)
+    if len(entity_pid_list) != 0:
+        data = {"entity_data": {"entity_pid": entity_pid_list}}
+        post_data(AS_ip, AS_port, "/entitymanage/get-down-entity/", data)
+
+
 scheduler.start()
 
 
-
 """与AS交互"""
+
+
 # 获取传来的公共参数
 def get_public_paramters(request):
     if request.method == "POST":
@@ -129,6 +152,7 @@ def get_public_paramters(request):
             print(e)
             return JsonResponse({"status": "error", "message": str(e)})
 
+
 def save_kgc_paramters():
     paramters_instance = PublicParamtersTable.objects.get(kgc_id="kgc_id")
     paramters_instance.acc_cur = utils.int2hex(kgc.acc_cur)
@@ -137,6 +161,7 @@ def save_kgc_paramters():
     paramters_instance.kgc_Ppub = utils.int2hex(kgc.kgc_Ppub)
     paramters_instance.save()
 
+
 # 注册实体时接收as发来信息，未授予部分密钥
 @csrf_exempt
 def get_entity_data(request):
@@ -144,7 +169,7 @@ def get_entity_data(request):
         try:
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("add_data")
-            print("get entity data:"+json_data["entity_pid"])
+            print("get entity data:" + json_data["entity_pid"])
             EntityInfo.objects.create(
                 entity_pid=json_data["entity_pid"],
                 software_id=json_data["software_id"],
@@ -152,7 +177,7 @@ def get_entity_data(request):
                 user_id=json_data["user_id"],
                 entity_ip=json_data["entity_ip"],
             )
-            
+
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
@@ -160,7 +185,7 @@ def get_entity_data(request):
 
 @csrf_exempt
 def get_entity(request):
-    if request.method=="POST":
+    if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
             # print(json_data)
@@ -171,30 +196,38 @@ def get_entity(request):
             entity_ipaddr = json_data["entity_ip"]
             acc_cur = json_data["acc_cur"]
             aux_data = json_data["aux"]
-            entity_pair=json_data["entity_pair"]
+            entity_pair = json_data["entity_pair"]
             kgc.acc_cur = utils.hex2int(acc_cur)
             save_kgc_paramters()
             print("update now")
-            print(aux_data)
+            # print(aux_data)
             # 更新现有的进程的部分私钥
-            for entity_instance in EntityInfo.objects.filter(entity_parcialkey__isnull=False):
-                entity_instance.entity_parcialkey = kgc.update_witness(aux_data,entity_instance.entity_parcialkey)
+            for entity_instance in EntityInfo.objects.filter(
+                entity_parcialkey__isnull=False
+            ):
+                entity_instance.entity_parcialkey = kgc.update_witness(
+                    aux_data, entity_instance.entity_parcialkey
+                )
                 entity_instance.save()
-            # 将aux分别发送给alive进程    
-            sended_list=[]
-            for entity in EntityInfo.objects.filter(is_alive=True): 
+            # 将aux分别发送给alive进程
+            sended_list = []
+            for entity in EntityInfo.objects.filter(is_alive=True):
                 entity_ip = entity.entity_ip
                 entity_listening_port = str(entity.entity_listening_port)
                 if entity_listening_port in sended_list:
                     continue
                 sended_list.append(entity_listening_port)
-                data={"aux":aux_data}
-                post_data_to_process(entity_ip,entity_listening_port,"",data)
+                data = {"aux": aux_data}
+                post_data_to_process(entity_ip, entity_listening_port, "", data)
             # 创建新的entity
             # print(entity_pair)
             for tmp_pair in entity_pair:
-                if(EntityInfo.objects.filter(entity_pid=tmp_pair["entity_pid"]).exists()):
-                    entity_instance = EntityInfo.objects.get(entity_pid=tmp_pair["entity_pid"])
+                if EntityInfo.objects.filter(
+                    entity_pid=tmp_pair["entity_pid"]
+                ).exists():
+                    entity_instance = EntityInfo.objects.get(
+                        entity_pid=tmp_pair["entity_pid"]
+                    )
                     entity_instance.entity_parcialkey = tmp_pair["entity_parcialkey"]
                     entity_instance.software_hash = software_hash
                     entity_instance.software_id = software_id
@@ -214,6 +247,7 @@ def get_entity(request):
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
 
+
 # 接收as发来的部分私钥{"patcialkey_data":{"entity_pid":"","entity_porecessid":""}}
 @csrf_exempt
 def get_parcial_key(request):
@@ -222,7 +256,7 @@ def get_parcial_key(request):
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data).get("patcialkey_data")
             # print(json_data)
-            entity_instance = EntityInfo.objects.get(entity_pid = json_data["entity_pid"])
+            entity_instance = EntityInfo.objects.get(entity_pid=json_data["entity_pid"])
             entity_instance.entity_parcialkey = json_data["entity_parcialkey"]
             acc_cur = json_data["acc_cur"]
             kgc.acc_cur = utils.hex2int(acc_cur)
@@ -239,99 +273,122 @@ def get_aux_data(request):
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
+            print(json_data)
             json_data = json.loads(json_data).get("aux_data")
             aux_data = json_data["aux"]
             withdraw_pid = json_data["withdraw_pid"]
             # 首先查看本地是否存在要删除的pid
-            entity_instance = EntityInfo.objects.filter(entity_pid=withdraw_pid).exists()
-            if(entity_instance):
+            entity_instance = EntityInfo.objects.filter(
+                entity_pid=withdraw_pid
+            ).exists()
+            if entity_instance:
                 entity_instance = EntityInfo.objects.get(entity_pid=withdraw_pid)
                 entity_instance.delete()
-                print("delete entity:"+withdraw_pid)
-            print("get aux data:"+aux_data)
+                print("delete entity:" + withdraw_pid)
+            print("get aux data:" + aux_data)
             # 更新本地acc_cur
-            kgc.acc_cur=utils.hex2int(kgc.update_witness(aux_data,utils.int2hex(kgc.acc_cur)))
+            kgc.acc_cur = utils.hex2int(
+                kgc.update_witness(aux_data, utils.int2hex(kgc.acc_cur))
+            )
             save_kgc_paramters()
             # 更新进程的部分私钥
-            for entity_instance in EntityInfo.objects.filter(entity_parcialkey__isnull=False):
-                entity_instance.entity_parcialkey = kgc.update_witness(aux_data,entity_instance.entity_parcialkey)
+            for entity_instance in EntityInfo.objects.filter(
+                entity_parcialkey__isnull=False
+            ):
+                entity_instance.entity_parcialkey = kgc.update_witness(
+                    aux_data, entity_instance.entity_parcialkey
+                )
                 entity_instance.save()
             # 将aux分别发送给alive进程
-            sended_port=[]
-            for entity in EntityInfo.objects.filter(is_alive=True): 
+            sended_port = []
+            for entity in EntityInfo.objects.filter(is_alive=True):
                 entity_ip = entity.entity_ip
                 entity_listening_port = str(entity.entity_listening_port)
                 if entity_listening_port in sended_port:
                     continue
                 sended_port.append(entity_listening_port)
-                data={"aux":aux_data,"pid":withdraw_pid}
-                post_data_to_process(entity_ip,entity_listening_port,"",data)
+                data = {"aux": aux_data, "pid": withdraw_pid}
+                post_data_to_process(entity_ip, entity_listening_port, "", data)
             sended_port.clear()
             return JsonResponse({"status": "success"})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
-        
 
-        
+
 """发送给process"""
+
+
 # 收到进程请求部分密钥或者pid请求，查看是否存在pid，发送部分密钥和公平参数，修改entity的alive状态，并上报as
 @csrf_exempt
 def send_particalkey_and_pid(request):
     if request.method == "POST":
         try:
             json_data = request.body.decode("utf-8")
-            json_data = json.loads(json_data)        
+            json_data = json.loads(json_data)
             entity_processid = json_data["process_id"]
             entity_listening_port = json_data["listening_port"]
-            entity_sending_port=json_data["sending_port"]
+            entity_sending_port = json_data["sending_port"]
             # json_data = json.loads(json_data)
-            process_ip:str = request.META.get("REMOTE_ADDR")
-            
+            process_ip: str = request.META.get("REMOTE_ADDR")
+
             entity_path = utils.get_process_path(int(entity_processid))
             entity_hash = utils.calculate_file_hash(entity_path)
-            print(process_ip,entity_listening_port,entity_sending_port,entity_processid,entity_path,entity_hash)
-            in_entityinfo = EntityInfo.objects.filter(software_hash=entity_hash).exists()
+            print(
+                process_ip,
+                entity_listening_port,
+                entity_sending_port,
+                entity_processid,
+                entity_path,
+                entity_hash,
+            )
+            in_entityinfo = EntityInfo.objects.filter(
+                software_hash=entity_hash
+            ).exists()
 
             # 不存在注册的进程就返回空的http请求
-            if not in_entityinfo :    
-                print("not entity")            
+            if not in_entityinfo:
+                print("not entity")
                 return HttpResponse("error")
             # 发送pid和公共参数
 
-            ret_data=[]
+            ret_data = []
             entity_instance = EntityInfo.objects.filter(software_hash=entity_hash)
             for entity in entity_instance:
                 if entity.entity_parcialkey != None:
-                    ret_data.append({
-                        "acc_publickey":utils.int2hex(kgc.acc_publickey),
-                        "pid":entity.entity_pid,
-                        "acc_cur":utils.int2hex(kgc.acc_cur),
-                        "kgc_Ppub":utils.int2hex(kgc.kgc_Ppub),
-                        "entity_parcialkey": entity.entity_parcialkey,
-
-                    })   
+                    ret_data.append(
+                        {
+                            "acc_publickey": utils.int2hex(kgc.acc_publickey),
+                            "pid": entity.entity_pid,
+                            "acc_cur": utils.int2hex(kgc.acc_cur),
+                            "kgc_Ppub": utils.int2hex(kgc.kgc_Ppub),
+                            "entity_parcialkey": entity.entity_parcialkey,
+                        }
+                    )
                     entity.is_alive = True
                     entity.entity_porecessid = entity_processid
                     entity.entity_listening_port = entity_listening_port
                     entity.entity_sending_port = entity_sending_port
-                    entity.save() 
+                    entity.save()
                     # 存活实体上报给as
-                    post_as_data = {"entity_data":{
-                        "entity_pid": entity.entity_pid,
-                        "entity_sending_port":entity_sending_port,
-                        "entity_listening_port":entity_listening_port,
-                        "entity_processid":entity.entity_porecessid
+                    post_as_data = {
+                        "entity_data": {
+                            "entity_pid": entity.entity_pid,
+                            "entity_sending_port": entity_sending_port,
+                            "entity_listening_port": entity_listening_port,
+                            "entity_processid": entity.entity_porecessid,
                         }
                     }
-                    post_data(AS_ip,AS_port,"/entitymanage/get-alive-entity/",post_as_data)
-                    
-            response_data = {"entity_data":ret_data,"domain_id":kgc.domain_id}
+                    post_data(
+                        AS_ip, AS_port, "/entitymanage/get-alive-entity/", post_as_data
+                    )
+
+            response_data = {"entity_data": ret_data, "domain_id": kgc.domain_id}
             # print(response_data)
             return JsonResponse(response_data)
         except Exception as e:
             print(e)
             return HttpResponse("error")
-        
+
 
 # 接收进程发来的domian_id，并向as发送询问
 @csrf_exempt
@@ -341,24 +398,25 @@ def get_domain_parameters(request):
             json_data = request.body.decode("utf-8")
             json_data = json.loads(json_data)
             domain_id = json_data["domain_id"]
-            payload = {"domain_id":domain_id}
-            ret = post_data(AS_ip,AS_port,"/domainmanage/get-domain-key/",payload)
+            payload = {"domain_id": domain_id}
+            ret = post_data(AS_ip, AS_port, "/domainmanage/get-domain-key/", payload)
             return JsonResponse(ret.json())
         except Exception as e:
             print(e)
             return HttpResponse("error")
-        
+
+
 # 接收进程发来的dds请求，首先将请求发送AS验证，随后发送RFAC报文
-@csrf_exempt        
+@csrf_exempt
 def get_dds_info(request):
     if request.method == "POST":
         try:
-            json_data =  request.body.decode("utf-8")
+            json_data = request.body.decode("utf-8")
             # print(json_data)
             json_data = json.loads(json_data)
             entity_pid = json_data["entity_pid"]
             if not EntityInfo.objects.filter(entity_pid=entity_pid).exists():
-                return JsonResponse({"status":"error","message":"no such entity"})
+                return JsonResponse({"status": "error", "message": "no such entity"})
             print(json_data)
             validator = switch_interface.RequestDataValidator(json_data)
             validation_errors = validator.validate()
@@ -366,13 +424,13 @@ def get_dds_info(request):
                 return JsonResponse(
                     {"status": "error", "message": ", ".join(validation_errors)}
                 )
-            ret = post_data(AS_ip,AS_port,"/ddsmanage/get-dds-info/",json_data)
+            ret = post_data(AS_ip, AS_port, "/ddsmanage/get-dds-info/", json_data)
             ret_data = ret.json()
             # AS返回error，则返回错误信息到进程
             print(ret_data)
-            if ret_data["status"]!="success":
+            if ret_data["status"] != "success":
                 return HttpResponse("error")
-            
+
             PacketID = ret_data["message"]
             # 发送rfac报文
             dds_type = json_data.get("dds_type")
@@ -415,5 +473,3 @@ def get_dds_info(request):
         except Exception as e:
             print(e)
             return HttpResponse("error")
-
-

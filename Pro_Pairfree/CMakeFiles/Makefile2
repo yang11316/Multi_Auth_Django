@@ -64,7 +64,7 @@ CMAKE_BINARY_DIR = /home/default/Mycode/Pro_Pairfree
 
 # The main recursive "all" target.
 all: CMakeFiles/dds_test.dir/all
-all: CMakeFiles/CryptoTest.dir/all
+all: CMakeFiles/ClsLibTest.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -73,7 +73,7 @@ preinstall:
 
 # The main recursive "clean" target.
 clean: CMakeFiles/dds_test.dir/clean
-clean: CMakeFiles/CryptoTest.dir/clean
+clean: CMakeFiles/ClsLibTest.dir/clean
 .PHONY : clean
 
 #=============================================================================
@@ -103,30 +103,30 @@ CMakeFiles/dds_test.dir/clean:
 .PHONY : CMakeFiles/dds_test.dir/clean
 
 #=============================================================================
-# Target rules for target CMakeFiles/CryptoTest.dir
+# Target rules for target CMakeFiles/ClsLibTest.dir
 
 # All Build rule for target.
-CMakeFiles/CryptoTest.dir/all:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/depend
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target CryptoTest"
-.PHONY : CMakeFiles/CryptoTest.dir/all
+CMakeFiles/ClsLibTest.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/default/Mycode/Pro_Pairfree/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9,10 "Built target ClsLibTest"
+.PHONY : CMakeFiles/ClsLibTest.dir/all
 
 # Build rule for subdir invocation for target.
-CMakeFiles/CryptoTest.dir/rule: cmake_check_build_system
+CMakeFiles/ClsLibTest.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/CMakeFiles 10
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/CryptoTest.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/ClsLibTest.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/default/Mycode/Pro_Pairfree/CMakeFiles 0
-.PHONY : CMakeFiles/CryptoTest.dir/rule
+.PHONY : CMakeFiles/ClsLibTest.dir/rule
 
 # Convenience name for target.
-CryptoTest: CMakeFiles/CryptoTest.dir/rule
-.PHONY : CryptoTest
+ClsLibTest: CMakeFiles/ClsLibTest.dir/rule
+.PHONY : ClsLibTest
 
 # clean rule for target.
-CMakeFiles/CryptoTest.dir/clean:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/CryptoTest.dir/build.make CMakeFiles/CryptoTest.dir/clean
-.PHONY : CMakeFiles/CryptoTest.dir/clean
+CMakeFiles/ClsLibTest.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ClsLibTest.dir/build.make CMakeFiles/ClsLibTest.dir/clean
+.PHONY : CMakeFiles/ClsLibTest.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

@@ -1,0 +1,155 @@
+update now
+[Test]: 到/entitymanage/getentity/的请求耗时92.95毫秒！
+[09/Dec/2024 11:46:44] "POST /entitymanage/getentity/ HTTP/1.1" 200 21
+[]
+update now
+[Test]: 到/entitymanage/getentity/的请求耗时68.07毫秒！
+[09/Dec/2024 11:46:57] "POST /entitymanage/getentity/ HTTP/1.1" 200 21
+update now
+[Test]: 到/entitymanage/getentity/的请求耗时88.57毫秒！
+[09/Dec/2024 11:47:10] "POST /entitymanage/getentity/ HTTP/1.1" 200 21
+update now
+[Test]: 到/entitymanage/getentity/的请求耗时99.66毫秒！
+[09/Dec/2024 11:47:23] "POST /entitymanage/getentity/ HTTP/1.1" 200 21
+update now
+[Test]: 到/entitymanage/getentity/的请求耗时85.51毫秒！
+[09/Dec/2024 11:47:36] "POST /entitymanage/getentity/ HTTP/1.1" 200 21
+[]
+[]
+[]
+[]
+127.0.0.1 9989 9988 308497 /home/default/file_upload/密钥更新测试软件1 628ba1bc8636e633fd358fd6b052f65d
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时137.74毫秒！
+[09/Dec/2024 11:51:42] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1387
+127.0.0.1 9989 9988 308497 /home/default/file_upload/密钥更新测试软件1 628ba1bc8636e633fd358fd6b052f65d
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时138.80毫秒！
+[09/Dec/2024 11:51:42] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1387
+[]
+127.0.0.1 9989 9988 308497 /home/default/file_upload/密钥更新测试软件1 628ba1bc8636e633fd358fd6b052f65d
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时136.69毫秒！
+[09/Dec/2024 11:51:47] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1387
+127.0.0.1 9989 9988 308497 /home/default/file_upload/密钥更新测试软件1 628ba1bc8636e633fd358fd6b052f65d
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时136.39毫秒！
+[09/Dec/2024 11:51:52] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1387
+127.0.0.1 9989 9988 308497 /home/default/file_upload/密钥更新测试软件1 628ba1bc8636e633fd358fd6b052f65d
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时138.49毫秒！
+[09/Dec/2024 11:51:57] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1387
+127.0.0.1 9989 9988 308497 /home/default/file_upload/密钥更新测试软件1 628ba1bc8636e633fd358fd6b052f65d
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时135.66毫秒！
+[09/Dec/2024 11:52:03] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1387
+127.0.0.1 9990 9987 308835 /home/default/file_upload/密钥更新测试软件2 c248dad22685ecf3644f5956854707ae
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时141.24毫秒！
+[09/Dec/2024 11:52:08] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9990 9987 308835 /home/default/file_upload/密钥更新测试软件2 c248dad22685ecf3644f5956854707ae
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时193.17毫秒！
+[09/Dec/2024 11:52:09] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9990 9987 308835 /home/default/file_upload/密钥更新测试软件2 c248dad22685ecf3644f5956854707ae
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时190.19毫秒！
+[09/Dec/2024 11:52:14] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9991 9986 308935 /home/default/file_upload/密钥更新测试软件3 918a8d57075186755d05164d2c28dfd2
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时138.63毫秒！
+[09/Dec/2024 11:52:17] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9991 9986 308935 /home/default/file_upload/密钥更新测试软件3 918a8d57075186755d05164d2c28dfd2
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时136.89毫秒！
+[09/Dec/2024 11:52:17] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9990 9987 308835 /home/default/file_upload/密钥更新测试软件2 c248dad22685ecf3644f5956854707ae
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时190.75毫秒！
+[09/Dec/2024 11:52:19] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9992 9985 308995 /home/default/file_upload/密钥更新测试软件4 d5573303cb61a74e00d9860b42e92c91
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时144.10毫秒！
+[09/Dec/2024 11:52:19] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9992 9985 308995 /home/default/file_upload/密钥更新测试软件4 d5573303cb61a74e00d9860b42e92c91
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时135.73毫秒！
+[09/Dec/2024 11:52:19] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9993 9984 309040 /home/default/file_upload/密钥更新测试软件5 884d55f65b487a7fd723a932a0a5d881
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时138.38毫秒！
+[09/Dec/2024 11:52:22] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9991 9986 308935 /home/default/file_upload/密钥更新测试软件3 918a8d57075186755d05164d2c28dfd2
+127.0.0.1 9993 9984 309040 /home/default/file_upload/密钥更新测试软件5 884d55f65b487a7fd723a932a0a5d881
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时368.80毫秒！
+[09/Dec/2024 11:52:22] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时370.74毫秒！
+[09/Dec/2024 11:52:22] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9990 9987 308835 /home/default/file_upload/密钥更新测试软件2 c248dad22685ecf3644f5956854707ae
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时150.36毫秒！
+[09/Dec/2024 11:52:24] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9992 9985 308995 /home/default/file_upload/密钥更新测试软件4 d5573303cb61a74e00d9860b42e92c91
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时138.05毫秒！
+[09/Dec/2024 11:52:24] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9993 9984 309040 /home/default/file_upload/密钥更新测试软件5 884d55f65b487a7fd723a932a0a5d881
+127.0.0.1 9991 9986 308935 /home/default/file_upload/密钥更新测试软件3 918a8d57075186755d05164d2c28dfd2
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时401.02毫秒！
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时386.47毫秒！
+[09/Dec/2024 11:52:28] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+[09/Dec/2024 11:52:28] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9990 9987 308835 /home/default/file_upload/密钥更新测试软件2 c248dad22685ecf3644f5956854707ae
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时133.41毫秒！
+[09/Dec/2024 11:52:29] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9992 9985 308995 /home/default/file_upload/密钥更新测试软件4 d5573303cb61a74e00d9860b42e92c91
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时138.95毫秒！
+[09/Dec/2024 11:52:30] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9991 9986 308935 /home/default/file_upload/密钥更新测试软件3 918a8d57075186755d05164d2c28dfd2
+127.0.0.1 9993 9984 309040 /home/default/file_upload/密钥更新测试软件5 884d55f65b487a7fd723a932a0a5d881
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时290.06毫秒！
+[09/Dec/2024 11:52:33] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时309.26毫秒！
+[09/Dec/2024 11:52:33] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9992 9985 308995 /home/default/file_upload/密钥更新测试软件4 d5573303cb61a74e00d9860b42e92c91
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时135.11毫秒！
+[09/Dec/2024 11:52:35] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9991 9986 308935 /home/default/file_upload/密钥更新测试软件3 918a8d57075186755d05164d2c28dfd2
+127.0.0.1 9993 9984 309040 /home/default/file_upload/密钥更新测试软件5 884d55f65b487a7fd723a932a0a5d881
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时273.61毫秒！
+[09/Dec/2024 11:52:38] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时291.68毫秒！
+[09/Dec/2024 11:52:38] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9992 9985 308995 /home/default/file_upload/密钥更新测试软件4 d5573303cb61a74e00d9860b42e92c91
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时131.85毫秒！
+[09/Dec/2024 11:52:40] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+127.0.0.1 9993 9984 309040 /home/default/file_upload/密钥更新测试软件5 884d55f65b487a7fd723a932a0a5d881
+[Test]: 到/entitymanage/sendparticalkeyandpid/的请求耗时135.54毫秒！
+[09/Dec/2024 11:52:43] "POST /entitymanage/sendparticalkeyandpid/ HTTP/1.1" 200 1388
+[]
+update now
+http://192.168.3.17:9989
+
+http://192.168.3.17:9990
+
+http://192.168.3.17:9991
+
+http://192.168.3.17:9992
+
+http://192.168.3.17:9993
+
+[Test]: 到/entitymanage/getentity/的请求耗时141.10毫秒！
+[09/Dec/2024 11:52:58] "POST /entitymanage/getentity/ HTTP/1.1" 200 21
+{"aux_data": {"aux": "3ca097b304786252aaaa983fdbc52cbe8e1a3daa3f2acc199783a3ca28f70bb43f6746f1c501cd409fe2dde38b6ad74403ec9c7d565fa74b880695922edbebdd", "acc_cur": "680fd28031e53ab686ccbd2b1c37e175c254ae4b26cb99772a114fa40eac08f9069c367be245844f73e8c345f5c573339592fc51490c72c7234a3b3c4ab92e8b", "withdraw_pid": "2ef29d1ebf28f3a0b1f5114e151105d5"}}
+delete entity:2ef29d1ebf28f3a0b1f5114e151105d5
+get aux data:3ca097b304786252aaaa983fdbc52cbe8e1a3daa3f2acc199783a3ca28f70bb43f6746f1c501cd409fe2dde38b6ad74403ec9c7d565fa74b880695922edbebdd
+http://192.168.3.17:9989
+
+http://192.168.3.17:9990
+
+http://192.168.3.17:9991
+
+http://192.168.3.17:9992
+
+http://192.168.3.17:9993
+
+[Test]: 到/entitymanage/getauxdata/的请求耗时156.27毫秒！
+[09/Dec/2024 11:53:10] "POST /entitymanage/getauxdata/ HTTP/1.1" 200 21
+{"aux_data": {"aux": "54b483e705c404579fd2714a3dd9791b36d4ba2266c773e1f12504f947758758d2ff026c62b71e6b813ffaa94cadc678c148f87d3cbba07ae6e96eb3c081d873", "acc_cur": "9a0ad7f30caedf1b55656c0ba76c8a3c3d6ae67131b2483e4b5696ceea6f02e15464cc14b6606f3e85904d4618bdde0724eb8b2d0b29a11601a72a61e051a06a", "withdraw_pid": "e474ef98437312057b7eb02340ec127b"}}
+delete entity:e474ef98437312057b7eb02340ec127b
+get aux data:54b483e705c404579fd2714a3dd9791b36d4ba2266c773e1f12504f947758758d2ff026c62b71e6b813ffaa94cadc678c148f87d3cbba07ae6e96eb3c081d873
+http://192.168.3.17:9989
+
+http://192.168.3.17:9990
+
+http://192.168.3.17:9991
+
+http://192.168.3.17:9992
+
+http://192.168.3.17:9993
+
+[Test]: 到/entitymanage/getauxdata/的请求耗时143.30毫秒！
+[09/Dec/2024 11:53:15] "POST /entitymanage/getauxdata/ HTTP/1.1" 200 21

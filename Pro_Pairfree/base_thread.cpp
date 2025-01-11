@@ -26,7 +26,14 @@ void BaseThread::start()
 
 void BaseThread::stop()
 {
+    // bug fix：子线程生命周期
+    // 通知线程停止
     m_stopflag.store(true);
+    // 等待线程退出
+    if (this->m_thread.joinable())
+    {
+        this->m_thread.join();
+    }
 }
 
 void BaseThread::join()

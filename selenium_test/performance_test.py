@@ -73,7 +73,7 @@ if __name__ == "__main__":
     # 指定部署AP的IP
     entity_ip = "192.168.3.17"
     # 指定需下发的部分密钥数目
-    ppk_count = 1
+    ppk_count = 400
 
     admin_thread = threading.Thread(
         target=run_admin, args=(admin_user, rsoftware_name, rsoftware_total, ppk_count)

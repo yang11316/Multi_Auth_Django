@@ -107,7 +107,7 @@ void CLS_LIB::run()
             continue;
         }
         std::thread client_thread(&CLS_LIB::client_deal, this, client_socket);
-        client_thread.join();
+        client_thread.detach();
     }
 }
 
@@ -283,7 +283,7 @@ void CLS_LIB::client_deal(int connfd)
 CLS_LIB::~CLS_LIB()
 {
     stop();
-    join();
+    // join();
     if (m_server)
     {
         m_server->closefd();

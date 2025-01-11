@@ -1,0 +1,361 @@
+[09/Dec/2024 11:46:43] "OPTIONS /entitymanage/query-entity-all/ HTTP/1.1" 200 0
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时26.02毫秒
+[09/Dec/2024 11:46:43] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 3232
+[09/Dec/2024 11:46:44] "OPTIONS /entitymanage/calculate-particalkey/ HTTP/1.1" 200 0
+/entitymanage/calculate-particalkey/
+aux: 1d54692ef907847da425d27b274d2bed6b6ac14b4fa07ead30a1b2e2de325e1
+{'software_id': 'b779eb0cb2179ac74c703cbfd7686dc1', 'user_id': '1710c9af93091c037e98074381b91f8d', 'entity_ip': '192.168.3.17', 'software_hash': '628ba1bc8636e633fd358fd6b052f65d', 'acc_cur': '822aa7f5c43140ad8d09ab7a834b9ac3966787e896125e1cfe2c083e07ea85742524d116909298b6a503d70f65c613373b737ae924c46fab9f82f63d750c2f19', 'entity_pair': [{'entity_pid': '2553b033f129e07a7e31ad2083f3b60d', 'entity_parcialkey': 'a47797448b598650e31d6fbfe1f22942785b18d6914b7a8337dd0118f99d7cc8c7596199cd25f3c5e1c33b2f5d1eb63466fedd46d00dd8d911814a4fe5163388'}, {'entity_pid': 'c9271c082f2b856a9269035a761ae25', 'entity_parcialkey': '23b2bbfbe7b67603bb2762231b541879056fa55a3a7cec9f3054347f9198290939a5a872066de2d18521aae3302cfc77a33c6e61005572f3098d7e58e5f80e54'}], 'aux': '1d54692ef907847da425d27b274d2bed6b6ac14b4fa07ead30a1b2e2de325e1'}
+<Response [200]>
+[Test]: 到/entitymanage/calculate-particalkey/的请求耗时184.24毫秒
+[09/Dec/2024 11:46:44] "POST /entitymanage/calculate-particalkey/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时78.05毫秒
+[09/Dec/2024 11:46:44] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 3912
+[09/Dec/2024 11:46:55] "OPTIONS /usermanage/user-info/ HTTP/1.1" 200 0
+/usermanage/user-info/
+0ad9e30ca539f968e662b6d505fcd276
+[Test]: 到/usermanage/user-info/的请求耗时1.82毫秒
+[09/Dec/2024 11:46:55] "POST /usermanage/user-info/ HTTP/1.1" 200 212
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时29.19毫秒
+[09/Dec/2024 11:46:55] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 3912
+/entitymanage/calculate-particalkey/
+aux: 614aadc120e4b953fa01188c18ed46c7517c95d1e4f827fcea8d9111e65eecf5
+{'software_id': '41841febdbdcdc83ba4175e5d39be085', 'user_id': '1710c9af93091c037e98074381b91f8d', 'entity_ip': '192.168.3.17', 'software_hash': 'c248dad22685ecf3644f5956854707ae', 'acc_cur': '22e43aea5b6dda5a38147438b399e47382e4921447bb13b39e2f7a6f6c9830e2336de31b2255c81b0f1cc3cd8530c237831beb100db983dcb538c9e6c9ab6d0d', 'entity_pair': [{'entity_pid': '7226d327f6100f3f14e1a9494c81f995', 'entity_parcialkey': '19e10225b5d51c5dde45cc013fb222bcb0d73d49e08837f6c71afb47a8a7e703f65e43c36258fc233dab27e0e771388f4533022c40b91d319968a9c40c8e1202'}, {'entity_pid': 'da307a96445dcf5b9da89b0ad31e0de1', 'entity_parcialkey': '8aa3943a0743643be23dd34e51a6a6f0293fbd044d97110a4b94b83beceed54f2138d927039971f92b76f11fa2c2b3ac729510bc43f429f4dbfd8ed2d7f3a7cd'}], 'aux': '614aadc120e4b953fa01188c18ed46c7517c95d1e4f827fcea8d9111e65eecf5'}
+<Response [200]>
+[Test]: 到/entitymanage/calculate-particalkey/的请求耗时168.14毫秒
+[09/Dec/2024 11:46:57] "POST /entitymanage/calculate-particalkey/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时94.14毫秒
+[09/Dec/2024 11:46:57] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 4595
+[09/Dec/2024 11:47:08] "OPTIONS /usermanage/user-info/ HTTP/1.1" 200 0
+/usermanage/user-info/
+0ad9e30ca539f968e662b6d505fcd276
+[Test]: 到/usermanage/user-info/的请求耗时1.71毫秒
+[09/Dec/2024 11:47:08] "POST /usermanage/user-info/ HTTP/1.1" 200 212
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时33.60毫秒
+[09/Dec/2024 11:47:09] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 4595
+/entitymanage/calculate-particalkey/
+aux: 5db9de643eec538a765b86e24bacb5d3e01c17bf7cf0731160134022629c25a9
+{'software_id': 'a940a5b65e2223b9855d493add1a0a8b', 'user_id': '1710c9af93091c037e98074381b91f8d', 'entity_ip': '192.168.3.17', 'software_hash': '918a8d57075186755d05164d2c28dfd2', 'acc_cur': 'db9df28167977b401d9ea9bf6984f00a332008f69ea25e6d313908c7cb251e5e9b2e746e1fc4c6f0cee4bca878c27e5f94ccde269b3e9145d0873b874cf2761', 'entity_pair': [{'entity_pid': '76cfe18ff7bc6e5c18064bca9087cb25', 'entity_parcialkey': '3fe1eb611fb22b5a3fdb67bff5a3ed6cb0c5bf16e732b07bae50f7c2e10debf9b33612087a93e63a4351eef31ce5cd605c62baec3f2f886bdc048e7c76758d2'}, {'entity_pid': 'c9f2b8d2397534852a97c475b0ca8b35', 'entity_parcialkey': '6417ef0eaa700355bd6911e33dd15ac712274678ccc8a82f8d7f2627ad8b140736b73ab7c77c98bb833e4b494eb74c49423206450babbae3158b0e0a773065fa'}], 'aux': '5db9de643eec538a765b86e24bacb5d3e01c17bf7cf0731160134022629c25a9'}
+<Response [200]>
+[Test]: 到/entitymanage/calculate-particalkey/的请求耗时201.20毫秒
+[09/Dec/2024 11:47:10] "POST /entitymanage/calculate-particalkey/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时109.76毫秒
+[09/Dec/2024 11:47:10] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5277
+[09/Dec/2024 11:47:21] "OPTIONS /usermanage/user-info/ HTTP/1.1" 200 0
+/usermanage/user-info/
+0ad9e30ca539f968e662b6d505fcd276
+[Test]: 到/usermanage/user-info/的请求耗时2.02毫秒
+[09/Dec/2024 11:47:21] "POST /usermanage/user-info/ HTTP/1.1" 200 212
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时37.31毫秒
+[09/Dec/2024 11:47:22] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5277
+/entitymanage/calculate-particalkey/
+aux: 5e5681f46ff9a70de65756d2ea8d3432e04483a16d5b02141ef4afc271019e9
+{'software_id': 'a84f007bae6e92b2342e90b8885681d9', 'user_id': '1710c9af93091c037e98074381b91f8d', 'entity_ip': '192.168.3.17', 'software_hash': 'd5573303cb61a74e00d9860b42e92c91', 'acc_cur': '183cf0e7deca00a6fbc7f4326ce82421e90a7c8d3c4607d7e3e1073da5cd898ff003b8dbab07471a6a2a19ccb5c1aa2867010802eac57dd4c4608a7c61d0143d', 'entity_pair': [{'entity_pid': '1e92e9eba962c057295004e827599c51', 'entity_parcialkey': '62512f3f835835da1234d01969702a26e78739e98c3cb457032fcf5cee0b679e91c92238e7f8ca634c07d700e28393307c46d93051dccc41f3347a4447fc24c8'}, {'entity_pid': '315e80f9b16946dcdbfeab5dccfaf619', 'entity_parcialkey': '8bd1ebbaad96dea96051ab2d26e55b38c1ac7ac94c6ea4a5f0484af7faeb529586ca79fc7965c4e3c72cd5d1ea141cc9f8e5dfa08fa61a0fd7738c142bc7a46e'}], 'aux': '5e5681f46ff9a70de65756d2ea8d3432e04483a16d5b02141ef4afc271019e9'}
+<Response [200]>
+[Test]: 到/entitymanage/calculate-particalkey/的请求耗时218.68毫秒
+[09/Dec/2024 11:47:23] "POST /entitymanage/calculate-particalkey/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时92.59毫秒
+[09/Dec/2024 11:47:23] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5403
+[09/Dec/2024 11:47:35] "OPTIONS /usermanage/user-info/ HTTP/1.1" 200 0
+/usermanage/user-info/
+0ad9e30ca539f968e662b6d505fcd276
+[Test]: 到/usermanage/user-info/的请求耗时1.73毫秒
+[09/Dec/2024 11:47:35] "POST /usermanage/user-info/ HTTP/1.1" 200 212
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时38.59毫秒
+[09/Dec/2024 11:47:35] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5403
+/entitymanage/calculate-particalkey/
+aux: 36974e329eeb10c50e02c9c34de0d8995eb58d32501164acfdd679bf3a80fd55
+{'software_id': '9d597404d054afdaf765ca99b07b1671', 'user_id': '1710c9af93091c037e98074381b91f8d', 'entity_ip': '192.168.3.17', 'software_hash': '884d55f65b487a7fd723a932a0a5d881', 'acc_cur': '9a0ad7f30caedf1b55656c0ba76c8a3c3d6ae67131b2483e4b5696ceea6f02e15464cc14b6606f3e85904d4618bdde0724eb8b2d0b29a11601a72a61e051a06a', 'entity_pair': [{'entity_pid': '3a0f3f17c2688343f84fcb68f93a64a5', 'entity_parcialkey': '31e0d45962bd57ae96aa9dabb5d29be5ed769e2971801675a286665041370fc5679a4362a7a6bb330316abb8eef21e4777c6e8aca49bfc6814a7c2f3ecf9980a'}, {'entity_pid': 'f0b4d5175cfd6c6f80f40a8d2cece6f1', 'entity_parcialkey': '2da072700f9bdfc0a1aaf58be86702e53529c6e5ad795465ac56f8d690d4913719ee6949249b445fec8164e9a7ea5b06a7db9aeea7d5e94c9b718ee289f9fa27'}], 'aux': '36974e329eeb10c50e02c9c34de0d8995eb58d32501164acfdd679bf3a80fd55'}
+<Response [200]>
+[Test]: 到/entitymanage/calculate-particalkey/的请求耗时192.52毫秒
+[09/Dec/2024 11:47:36] "POST /entitymanage/calculate-particalkey/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时110.55毫秒
+[09/Dec/2024 11:47:36] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5529
+/nodemanage/node-query-all/
+[Test]: 到/nodemanage/node-query-all/的请求耗时5.72毫秒
+[09/Dec/2024 11:48:21] "POST /nodemanage/node-query-all/ HTTP/1.1" 200 417
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时111.32毫秒
+[09/Dec/2024 11:48:22] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5529
+/usermanage/user-logout/
+[Test]: 到/usermanage/user-logout/的请求耗时0.42毫秒
+[09/Dec/2024 11:48:43] "POST /usermanage/user-logout/ HTTP/1.1" 200 21
+/usermanage/user-login/
+192.168.3.103
+Test_Operator
+[Test]: 到/usermanage/user-login/的请求耗时11.87毫秒
+[09/Dec/2024 11:50:43] "POST /usermanage/user-login/ HTTP/1.1" 200 76
+/usermanage/user-info/
+1710c9af93091c037e98074381b91f8d
+[Test]: 到/usermanage/user-info/的请求耗时4.50毫秒
+[09/Dec/2024 11:50:44] "POST /usermanage/user-info/ HTTP/1.1" 200 219
+/softwaremanage/registsoftware-add/
+[Test]: 到/softwaremanage/registsoftware-add/的请求耗时18.36毫秒
+[09/Dec/2024 11:51:03] "POST /softwaremanage/registsoftware-add/ HTTP/1.1" 200 21
+/usermanage/user-logout/
+[Test]: 到/usermanage/user-logout/的请求耗时0.44毫秒
+[09/Dec/2024 11:51:05] "POST /usermanage/user-logout/ HTTP/1.1" 200 21
+/usermanage/user-login/
+192.168.3.103
+Plant_Manager
+[Test]: 到/usermanage/user-login/的请求耗时10.76毫秒
+[09/Dec/2024 11:51:07] "POST /usermanage/user-login/ HTTP/1.1" 200 76
+/usermanage/user-info/
+0ad9e30ca539f968e662b6d505fcd276
+[Test]: 到/usermanage/user-info/的请求耗时4.66毫秒
+[09/Dec/2024 11:51:08] "POST /usermanage/user-info/ HTTP/1.1" 200 212
+/softwaremanage/registsoftware-query-all/
+[Test]: 到/softwaremanage/registsoftware-query-all/的请求耗时9.06毫秒
+[09/Dec/2024 11:51:09] "POST /softwaremanage/registsoftware-query-all/ HTTP/1.1" 200 452
+/softwaremanage/approve-software-register/
+[Test]: 到/softwaremanage/approve-software-register/的请求耗时107.94毫秒
+[09/Dec/2024 11:51:10] "POST /softwaremanage/approve-software-register/ HTTP/1.1" 200 21
+/softwaremanage/registsoftware-query-all/
+[Test]: 到/softwaremanage/registsoftware-query-all/的请求耗时2.71毫秒
+[09/Dec/2024 11:51:10] "POST /softwaremanage/registsoftware-query-all/ HTTP/1.1" 200 56
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时107.51毫秒
+[09/Dec/2024 11:51:11] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5529
+/nodemanage/node-query-all/
+[Test]: 到/nodemanage/node-query-all/的请求耗时5.96毫秒
+[09/Dec/2024 11:51:13] "POST /nodemanage/node-query-all/ HTTP/1.1" 200 417
+/softwaremanage/software-query-all/
+[Test]: 到/softwaremanage/software-query-all/的请求耗时33.21毫秒
+[09/Dec/2024 11:51:15] "POST /softwaremanage/software-query-all/ HTTP/1.1" 200 3541
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时97.07毫秒
+[09/Dec/2024 11:51:21] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5529
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时32.13毫秒
+[09/Dec/2024 11:51:23] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 1597
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.65毫秒
+[09/Dec/2024 11:51:42] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时14.98毫秒
+[09/Dec/2024 11:51:42] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.94毫秒
+[09/Dec/2024 11:51:42] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时20.75毫秒
+[09/Dec/2024 11:51:42] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.32毫秒
+[09/Dec/2024 11:51:47] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.90毫秒
+[09/Dec/2024 11:51:47] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.75毫秒
+[09/Dec/2024 11:51:52] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时14.79毫秒
+[09/Dec/2024 11:51:52] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.53毫秒
+[09/Dec/2024 11:51:57] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.24毫秒
+[09/Dec/2024 11:51:57] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.79毫秒
+[09/Dec/2024 11:52:03] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.71毫秒
+[09/Dec/2024 11:52:03] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.36毫秒
+[09/Dec/2024 11:52:08] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.18毫秒
+[09/Dec/2024 11:52:08] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.02毫秒
+[09/Dec/2024 11:52:08] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.47毫秒
+[09/Dec/2024 11:52:09] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.07毫秒
+[09/Dec/2024 11:52:14] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.01毫秒
+[09/Dec/2024 11:52:14] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.18毫秒
+[09/Dec/2024 11:52:17] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.76毫秒
+[09/Dec/2024 11:52:17] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.78毫秒
+[09/Dec/2024 11:52:17] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.49毫秒
+[09/Dec/2024 11:52:17] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.86毫秒
+[09/Dec/2024 11:52:19] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时14.43毫秒
+[09/Dec/2024 11:52:19] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时19.45毫秒
+[09/Dec/2024 11:52:19] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.53毫秒
+[09/Dec/2024 11:52:19] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.05毫秒
+[09/Dec/2024 11:52:19] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.49毫秒
+[09/Dec/2024 11:52:19] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/entity-query-alive/
+[Test]: 到/entitymanage/entity-query-alive/的请求耗时3.76毫秒
+[09/Dec/2024 11:52:21] "POST /entitymanage/entity-query-alive/ HTTP/1.1" 200 56
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.05毫秒
+[09/Dec/2024 11:52:22] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.25毫秒
+[09/Dec/2024 11:52:22] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.42毫秒
+[09/Dec/2024 11:52:22] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时20.66毫秒
+[09/Dec/2024 11:52:22] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时23.61毫秒
+/entitymanage/get-alive-entity/
+[09/Dec/2024 11:52:22] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.53毫秒
+[09/Dec/2024 11:52:22] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.75毫秒
+[09/Dec/2024 11:52:24] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.01毫秒
+[09/Dec/2024 11:52:24] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.24毫秒
+[09/Dec/2024 11:52:24] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.86毫秒
+[09/Dec/2024 11:52:24] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时25.13毫秒
+[09/Dec/2024 11:52:27] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时23.24毫秒
+[09/Dec/2024 11:52:27] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时22.04毫秒
+[09/Dec/2024 11:52:28] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时29.48毫秒
+[09/Dec/2024 11:52:28] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.10毫秒
+[09/Dec/2024 11:52:29] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.25毫秒
+[09/Dec/2024 11:52:29] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.47毫秒
+[09/Dec/2024 11:52:30] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.62毫秒
+[09/Dec/2024 11:52:30] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.99毫秒
+[09/Dec/2024 11:52:33] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时22.76毫秒
+[09/Dec/2024 11:52:33] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时20.68毫秒
+[09/Dec/2024 11:52:33] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.02毫秒
+[09/Dec/2024 11:52:33] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时14.90毫秒
+[09/Dec/2024 11:52:35] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.98毫秒
+[09/Dec/2024 11:52:35] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时17.19毫秒
+[09/Dec/2024 11:52:38] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时20.99毫秒
+[09/Dec/2024 11:52:38] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时25.32毫秒
+[09/Dec/2024 11:52:38] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.45毫秒
+[09/Dec/2024 11:52:38] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.03毫秒
+[09/Dec/2024 11:52:40] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时15.28毫秒
+[09/Dec/2024 11:52:40] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时16.47毫秒
+[09/Dec/2024 11:52:43] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/get-alive-entity/
+[Test]: 到/entitymanage/get-alive-entity/的请求耗时14.95毫秒
+[09/Dec/2024 11:52:43] "POST /entitymanage/get-alive-entity/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时94.41毫秒
+[09/Dec/2024 11:52:52] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5553
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时32.59毫秒
+[09/Dec/2024 11:52:55] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 1603
+/entitymanage/calculate-particalkey/
+aux: 29e585cf014aafabf059336a5193585f38194dc550d15c780062b744f1f2c757
+{'software_id': '3959ddb3a631d2db899c7715e75789b4', 'user_id': '1710c9af93091c037e98074381b91f8d', 'entity_ip': '192.168.3.17', 'software_hash': '0703e4037b3ec0980fcd8629f1784e89', 'acc_cur': '52f4c120fd4d82b00306b76a3e187625b09aec770d7ea9fdcc9bbfce10e5cec0007411d4be06a82b029e75106b6e745ba7068504e2e1414247e30bcdb6bdaa55', 'entity_pair': [{'entity_pid': '2ef29d1ebf28f3a0b1f5114e151105d5', 'entity_parcialkey': '680fd28031e53ab686ccbd2b1c37e175c254ae4b26cb99772a114fa40eac08f9069c367be245844f73e8c345f5c573339592fc51490c72c7234a3b3c4ab92e8b'}, {'entity_pid': 'e474ef98437312057b7eb02340ec127b', 'entity_parcialkey': '3a31f6028f6871f79692c71474ab45e5f2a4ae007d215bfd4a40ee680a8d60f11c911a02dbf345578994e8f21ac5ca0a7cebaefed250bdf8bb6687c9d8a32768'}], 'aux': '29e585cf014aafabf059336a5193585f38194dc550d15c780062b744f1f2c757'}
+<Response [200]>
+[Test]: 到/entitymanage/calculate-particalkey/的请求耗时275.00毫秒
+[09/Dec/2024 11:52:58] "POST /entitymanage/calculate-particalkey/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时39.34毫秒
+[09/Dec/2024 11:52:59] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 2284
+/entitymanage/withdraw-entity/
+[Test]: 到/entitymanage/withdraw-entity/的请求耗时266.98毫秒
+[09/Dec/2024 11:53:10] "POST /entitymanage/withdraw-entity/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时34.85毫秒
+[09/Dec/2024 11:53:10] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 1729
+/entitymanage/withdraw-entity/
+[Test]: 到/entitymanage/withdraw-entity/的请求耗时244.01毫秒
+[09/Dec/2024 11:53:15] "POST /entitymanage/withdraw-entity/ HTTP/1.1" 200 21
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时23.94毫秒
+[09/Dec/2024 11:53:15] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 1173
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时93.39毫秒
+[09/Dec/2024 11:53:34] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5553
+/entitymanage/entity-query-alive/
+[Test]: 到/entitymanage/entity-query-alive/的请求耗时94.68毫秒
+[09/Dec/2024 11:53:52] "POST /entitymanage/entity-query-alive/ HTTP/1.1" 200 5644
+/softwaremanage/software-query-all/
+[Test]: 到/softwaremanage/software-query-all/的请求耗时32.60毫秒
+[09/Dec/2024 11:54:26] "POST /softwaremanage/software-query-all/ HTTP/1.1" 200 3541
+/entitymanage/query-entity-all/
+[Test]: 到/entitymanage/query-entity-all/的请求耗时98.73毫秒
+[09/Dec/2024 11:54:26] "POST /entitymanage/query-entity-all/ HTTP/1.1" 200 5553

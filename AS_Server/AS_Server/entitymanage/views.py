@@ -5,6 +5,7 @@ from commonutils import utils
 from commonutils import accumulator
 from commonutils import kgc
 from commonutils import switch_interface
+from commonutils import PKI
 from .models import *
 from usermanage.models import UserTable
 from softwaremanage.models import SoftwareTable
@@ -21,13 +22,18 @@ import time
 
 
 # Create your views here.
+
+# 加载PKI证书
+self_cert = PKI.load_cert_from_pem_file(settings.AS_CRT)
+ca_cert = PKI.load_cert_from_pem_file(settings.CA_CRT)
+self_private_key = PKI.load_key_from_pem_file(settings.AS_KEY)
+
 acc = accumulator.Accumulator()
 kgc = kgc.KGC()
 # if os.path.exists("accumulator.json"):
 #     acc.setup_from_file("accumulator.json")
 # get calculated pids
 temp_params = KGCParamterTable.objects.get(kgc_id="kgc_id")
-
 acc.public_key = utils.hex2int(temp_params.kgc_acc_publickey)
 acc.G = utils.hex2int(temp_params.kgc_acc_G)
 acc.serect_key = (
@@ -216,11 +222,13 @@ def entity_query_all(request):
                 send_instance = query_instance[(page - 1) * limit : length]
             else:
                 send_instance = query_instance[(page - 1) * limit : page * limit]
+
             data = {
                 # "num": send_instance.count(),
                 "num": length,
                 "data": [temp.get_data() for temp in send_instance],
             }
+
             return JsonResponse({"status": "success", "message": data})
         except Exception as e:
             return JsonResponse({"status": "error", "message": str(e)})
@@ -233,7 +241,6 @@ def entity_calculate_parcialkey(request):
         global acc
         # print(acc.pids)
         tmp_acc = deepcopy(acc)
-        t1 = time.time()
         try:
             json_data = json.loads(request.body.decode("utf-8"))
             entity_pid = json_data["entity_pid"]
@@ -330,6 +337,7 @@ def entity_calculate_parcialkey(request):
                 "entity_pair": entity_pair,
                 "aux": aux,
             }
+            print(post_data)
             node_ip = entity_instance.node_id.node_ip
             node_port = entity_instance.node_id.node_port
             response = post_to_ap(
@@ -338,6 +346,7 @@ def entity_calculate_parcialkey(request):
                 "/entitymanage/getentity/",
                 payload=post_data,
             )
+            print(response)
             if response.json()["status"] != "success":
                 # 还原acc
                 acc = deepcopy(tmp_acc)
@@ -371,8 +380,6 @@ def entity_calculate_parcialkey(request):
                                 node_instance.node_id,
                                 ", node is not alive",
                             )
-            t2 = time.time()
-            print(f"coast:{t2 - t1:.4f}s")
             return JsonResponse({"status": "success"})
 
         except Exception as e:
@@ -490,14 +497,32 @@ def entity_withdraw(request):
 def send_public_parameter(request):
     if request.method == "POST":
         try:
+            json_data = request.body.decode("utf-8")
+            json_data = json.loads(json_data)
+
+            # 获取节点ip，进行ip校验
             node_ip = request.META.get("REMOTE_ADDR")
             node_entity = NodeTable.objects.filter(node_ip=node_ip).exists()
             if not node_entity:
                 return JsonResponse({"status": "error", "message": "node not exists"})
-            node_entity = NodeTable.objects.get(node_ip=node_ip)
+
+            # 校验AP的PKI证书是否正确
+            ap_cert_str = json_data["cert"]
+            ap_cert = PKI.load_cert_from_string(ap_cert_str)
+            # 如果不是CA签发的证书，返回错误
+            if not PKI.verify_certificate(ap_cert, ca_cert):
+                node_entity = NodeTable.objects.get(node_ip=node_ip)
+                node_entity.node_is_alive = False
+                node_entity.save()
+                return JsonResponse(
+                    {"status": "error", "message": "verify PKI certificate failed"}
+                )
+
+            # 构造返回报文
             domain_id = DomainTable.objects.get(domain_ip="0.0.0.0").domain_id
             kgcinstance = KGCParamterTable.objects.get(kgc_id="kgc_id")
             data = {
+                "cert": PKI.load_cert_as_string(self_cert),
                 "kgc_id": "kgc_id",
                 "acc_publickey": kgcinstance.kgc_acc_publickey,
                 "acc_cur": kgcinstance.kgc_acc_cur,
@@ -505,8 +530,12 @@ def send_public_parameter(request):
                 "kgc_Ppub": kgcinstance.kgc_Ppub,
                 "domain_id": domain_id,
             }
+
+            # 更新AP的存活状态
+            node_entity = NodeTable.objects.get(node_ip=node_ip)
             node_entity.node_is_alive = True
             node_entity.save()
+
             return JsonResponse({"status": "success", "message": data})
         except Exception as e:
             print(e)
